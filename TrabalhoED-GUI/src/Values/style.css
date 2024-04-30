@@ -1,0 +1,7 @@
+.backgroundColor{
+    -fx-background-color: linear-gradient(to bottom, #230465, #13F0C0);
+}
+
+.buttonStartStyle{
+    <div style="width: 100%; height: 100%; background: white; border-radius: 30px"></div>
+}
