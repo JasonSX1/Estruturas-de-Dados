@@ -3,7 +3,7 @@ package com.example.trabalhoedgui
 import javafx.fxml.FXML
 import javafx.scene.control.Label
 
-class Controller {
+class LoginController {
     @FXML
     private lateinit var welcomeText: Label
 
