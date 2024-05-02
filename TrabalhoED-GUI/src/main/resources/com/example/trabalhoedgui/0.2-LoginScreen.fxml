@@ -13,11 +13,11 @@
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <Label layoutX="2.0" layoutY="32.0" text="Se você é novo aqui, " textFill="WHITE" />
-            <Label layoutX="1.0" layoutY="46.0" text="Registre-se" textFill="WHITE" />
             <Label layoutX="63.0" layoutY="78.0" text="JÁ TEM UMA CONTA?" textFill="WHITE" />
             <TextField fx:id="usernameTextField" layoutX="41.0" layoutY="115.0" text="Usuário" />
             <Label layoutX="136.0" layoutY="177.0" text="Recuperar Senha" textFill="WHITE" />
             <PasswordField fx:id="passwordTextField" layoutX="41.0" layoutY="149.0" text="Senha" />
+            <Button layoutX="-5.0" layoutY="49.0" mnemonicParsing="false" text="Registre-se" />
          </children>
       </AnchorPane>
    </top>
