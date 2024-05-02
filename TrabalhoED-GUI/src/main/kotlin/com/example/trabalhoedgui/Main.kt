@@ -5,9 +5,9 @@ import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
 import javafx.stage.Stage
 
-class HelloApplication : Application() {
+class Main : Application() {
     override fun start(stage: Stage) {
-        val fxmlLoader = FXMLLoader(HelloApplication::class.java.getResource("Cinma app.fxml"))
+        val fxmlLoader = FXMLLoader(Main::class.java.getResource("Cinema app.fxml"))
         val scene = Scene(fxmlLoader.load())
         stage.title = "Cinema App"
         stage.scene = scene
@@ -16,5 +16,5 @@ class HelloApplication : Application() {
 }
 
 fun main() {
-    Application.launch(HelloApplication::class.java)
+    Application.launch(Main::class.java)
 }
