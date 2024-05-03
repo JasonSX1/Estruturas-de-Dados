@@ -1,9 +1,9 @@
-package com.example.trabalhoedgui
+package com.example.trabalhoed2
 
 import javafx.fxml.FXML
 import javafx.scene.control.Label
 
-class LoginController {
+class HelloController {
     @FXML
     private lateinit var welcomeText: Label
 
