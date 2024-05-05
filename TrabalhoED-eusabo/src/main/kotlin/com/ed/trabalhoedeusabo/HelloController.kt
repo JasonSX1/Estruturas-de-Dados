@@ -1,4 +1,4 @@
-package com.example.trabalhoed2
+package com.ed.trabalhoedeusabo
 
 import javafx.fxml.FXML
 import javafx.scene.control.Label

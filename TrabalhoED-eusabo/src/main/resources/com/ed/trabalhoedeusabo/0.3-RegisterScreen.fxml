@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="426.0" prefWidth="240.0" styleClass="backgroundColor" stylesheets="@../../../../../Values/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <bottom>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button layoutX="67.0" layoutY="42.0" mnemonicParsing="false" text="CRIAR CONTA" />
+         </children>
+      </AnchorPane>
+   </bottom>
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Text fill="WHITE" layoutX="55.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" text="REGISTRE-SE">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+            <TextField layoutX="41.0" layoutY="156.0" promptText="Nome Completo" snapToPixel="false">
+               <padding>
+                  <Insets bottom="10.0" />
+               </padding>
+            </TextField>
+            <TextField layoutX="41.0" layoutY="190.0" promptText="Email" snapToPixel="false">
+               <padding>
+                  <Insets bottom="10.0" />
+               </padding>
+            </TextField>
+            <PasswordField layoutX="41.0" layoutY="223.0" promptText="Senha" snapToPixel="false">
+               <padding>
+                  <Insets bottom="10.0" />
+               </padding>
+            </PasswordField>
+            <PasswordField layoutX="42.0" layoutY="256.0" promptText="Confirmar Senha" snapToPixel="false">
+               <padding>
+                  <Insets bottom="10.0" />
+               </padding>
+            </PasswordField>
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>

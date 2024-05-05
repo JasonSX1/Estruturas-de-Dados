@@ -1,0 +1,19 @@
+.backgroundColor{
+    -fx-background-color: linear-gradient(to bottom, #230465, #13F0C0);
+}
+
+.buttonStartStyle{
+    <div style="width: 100%; height: 100%; background: white; border-radius: 30px"></div>
+}
+
+#Button1 {
+    -fx-background-image: url('ButtonStyle1.svg');
+    -fx-background-size: 100% 100%;
+    -fx-background-position: center center;
+}
+
+#Button2{
+    -fx-background-image: url('ButtonStyle2.svg');
+    -fx-background-size: 100% 100%;
+    -fx-background-position: center center;
+}
