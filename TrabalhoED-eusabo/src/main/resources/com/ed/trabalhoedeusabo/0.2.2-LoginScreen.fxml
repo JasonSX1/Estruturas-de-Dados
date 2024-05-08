@@ -1,26 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="426.0" prefWidth="240.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="816.0" prefWidth="459.0" styleClass="backgroundColor" stylesheets="@Values/Styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <BorderPane prefHeight="426.0" prefWidth="240.0">
-         <top>
-            <HBox prefHeight="55.0" prefWidth="240.0" BorderPane.alignment="CENTER">
+      <Pane layoutX="369.0" layoutY="113.0" />
+      <Pane layoutX="50.0" layoutY="263.0" prefHeight="200.0" prefWidth="358.0">
+         <children>
+            <Text fill="WHITE" layoutX="240.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recuperar Senha">
+               <font>
+                  <Font name="Poppins Regular" size="12.0" />
+               </font>
+            </Text>
+            <HBox layoutX="59.0" layoutY="100.0" prefHeight="34.0" prefWidth="240.0" styleClass="InputField">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-                  <Button mnemonicParsing="false" text="Button" />
+                  <PasswordField prefHeight="30.0" prefWidth="195.0" promptText="Senha" styleClass="InputField">
+                     <HBox.margin>
+                        <Insets top="3.0" />
+                     </HBox.margin>
+                  </PasswordField>
+                  <Button mnemonicParsing="false" styleClass="buttonWImage">
+                     <HBox.margin>
+                        <Insets top="3.0" />
+                     </HBox.margin>
+                     <graphic>
+                        <ImageView fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../../../../../../../Downloads/X%20Icon%20(1).png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
                </children>
             </HBox>
-         </top>
-         <bottom>
-            <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-         </bottom>
-      </BorderPane>
+            <HBox layoutX="59.0" layoutY="49.0" prefHeight="34.0" prefWidth="240.0" styleClass="InputField">
+               <children>
+                  <TextField prefHeight="30.0" prefWidth="195.0" promptText="Usuário" styleClass="InputField">
+                     <HBox.margin>
+                        <Insets top="3.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="Poppins Light" size="12.0" />
+                     </font>
+                  </TextField>
+                  <Button mnemonicParsing="false" styleClass="buttonWImage">
+                     <HBox.margin>
+                        <Insets top="3.0" />
+                     </HBox.margin>
+                     <graphic>
+                        <ImageView fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../../../../../../../Downloads/X%20Icon%20(4).png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </Pane>
+      <Pane layoutX="42.0" layoutY="610.0" prefHeight="170.0" prefWidth="375.0">
+         <children>
+            <Text fill="WHITE" layoutX="180.0" layoutY="101.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ou" />
+            <Button layoutX="75.0" layoutY="128.0" mnemonicParsing="false" styleClass="guestButton" stylesheets="@Values/Styles.css" text="CONTINUAR COMO CONVIDADO">
+               <font>
+                  <Font name="Poppins SemiBold" size="13.0" />
+               </font>
+            </Button>
+            <Button layoutX="125.0" layoutY="14.0" mnemonicParsing="false" styleClass="defaultButton" stylesheets="@Values/Styles.css" text="COMECE AGORA">
+               <font>
+                  <Font name="Poppins ExtraBold" size="12.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
+      <Text fill="WHITE" layoutX="59.0" layoutY="241.0" strokeType="OUTSIDE" strokeWidth="0.0" text="JÁ TEM UMA CONTA?" textAlignment="CENTER" wrappingWidth="341.1700897216797">
+         <font>
+            <Font name="Agency FB" size="40.0" />
+         </font>
+      </Text>
+      <Label layoutX="12.0" layoutY="20.0" prefHeight="18.0" prefWidth="185.0" text="Se você é novo aqui, Registre-se" textFill="WHITE" />
    </children>
 </AnchorPane>
