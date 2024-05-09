@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" type="StackPane" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ed.cinemamanagementsystem.HelloController">   <children>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <AnchorPane fx:id="su_signupForm" prefHeight="400.0" prefWidth="300.0" styleClass="white-form" stylesheets="@../../../Values/LoginDesign.css">
+               <children>
+                  <Label layoutX="37.0" layoutY="46.0" styleClass="head-label" text="Criar conta" textFill="#7242ec">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="su_username" depthTest="DISABLE" layoutX="44.0" layoutY="91.0" maxHeight="30.0" prefHeight="30.0" prefWidth="220.0" promptText="Usuário" styleClass="textfield" stylesheets="@../../../Values/LoginDesign.css" />
+                  <PasswordField fx:id="su_password" layoutX="44.0" layoutY="138.0" prefHeight="30.0" prefWidth="220.0" promptText="Senha" styleClass="textfield" stylesheets="@../../../Values/LoginDesign.css" />
+                  <Button fx:id="su_CreateBtn" layoutX="44.0" layoutY="316.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="220.0" styleClass="login-btn" text="Criar conta" />
+                  <ComboBox fx:id="su_question" layoutX="44.0" layoutY="186.0" prefHeight="30.0" prefWidth="220.0" promptText="Questão de segurança" styleClass="textfield" stylesheets="@../../../Values/LoginDesign.css" />
+                  <TextField fx:id="su_answer" depthTest="DISABLE" layoutX="44.0" layoutY="229.0" maxHeight="30.0" prefHeight="30.0" prefWidth="220.0" promptText="Resposta" styleClass="textfield" stylesheets="@../../../Values/LoginDesign.css" />
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="si_loginForm" layoutX="300.0" prefHeight="400.0" prefWidth="300.0" styleClass="white-form" stylesheets="@../../../Values/LoginDesign.css">
+               <children>
+                  <Label layoutX="37.0" layoutY="46.0" styleClass="head-label" text="Login" textFill="#7242ec">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="si_user" depthTest="DISABLE" layoutX="44.0" layoutY="113.0" maxHeight="30.0" prefHeight="30.0" prefWidth="220.0" promptText="Usuário" styleClass="textfield" stylesheets="@../../../Values/LoginDesign.css" />
+
+                  <PasswordField fx:id="si_password" layoutX="44.0" layoutY="160.0" prefHeight="30.0" prefWidth="220.0" promptText="Senha" styleClass="textfield" stylesheets="@../../../Values/LoginDesign.css" />
+                  <Button fx:id="si_login" layoutX="44.0" layoutY="233.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="220.0" styleClass="login-btn" text="Login" />
+                  <Hyperlink fx:id="si_forgotPass" layoutX="44.0" layoutY="200.0" text="Esqueci a senha" />
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="side_form" prefHeight="400.0" prefWidth="300.0" styleClass="gradient" stylesheets="@../../../Values/LoginDesign.css">
+               <children>
+                  <Label layoutX="102.0" layoutY="307.0" text="Criar conta" textFill="WHITE">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="side_alreadyHave" layoutX="40.0" layoutY="355.0" mnemonicParsing="false" onAction="#SwitchForm" prefHeight="30.0" prefWidth="220.0" styleClass="create-btn" stylesheets="@../../../Values/LoginDesign.css" text="Já possui uma conta!" />
+                  <Button fx:id="side_CreateBtn" layoutX="40.0" layoutY="355.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="220.0" styleClass="create-btn" stylesheets="@../../../Values/LoginDesign.css" text="Criar uma nova Conta" />
+                  <Label layoutX="19.0" layoutY="171.0" prefHeight="58.0" prefWidth="262.0" text="Gerenciamento de Sessões de Cinema" textFill="WHITE">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </children>
+</fx:root>
