@@ -9,10 +9,9 @@ import javafx.scene.control.PasswordField
 import javafx.scene.control.TextField
 import javafx.scene.layout.AnchorPane
 import javafx.event.ActionEvent
-import javafx.scene.Node
 import javafx.util.Duration
 
-class HelloController {
+class LoginAndSignupController {
     @FXML
     private val si_forgotPass: Hyperlink? = null
 
