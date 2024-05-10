@@ -10,10 +10,7 @@ class HelloApplication : Application() {
     override fun start(stage: Stage) {
         val fxmlLoader = FXMLLoader(HelloApplication::class.java.getResource("hello-view.fxml"))
         val root: Parent = fxmlLoader.load()
-
-        // Define o elemento raiz manualmente
-        fxmlLoader.setRoot(root)
-
+        
         val scene = Scene(root, 600.0, 400.0)
         stage.title = "teste!"
         stage.scene = scene
