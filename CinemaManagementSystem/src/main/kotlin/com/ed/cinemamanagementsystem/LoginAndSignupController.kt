@@ -13,48 +13,45 @@ import javafx.util.Duration
 
 class LoginAndSignupController {
     @FXML
-    private val si_forgotPass: Hyperlink? = null
+    private lateinit var si_user: TextField
 
     @FXML
-    private val si_login: Button? = null
+    private lateinit var su_answer: TextField
 
     @FXML
-    private val si_loginForm: AnchorPane? = null
+    private lateinit var su_username: TextField
 
     @FXML
-    private val si_password: PasswordField? = null
+    private lateinit var si_login: Button
 
     @FXML
-    private lateinit var si_user: TextField // Correção aqui
+    private lateinit var side_CreateBtn: Button
 
     @FXML
-    private val side_CreateBtn: Button? = null
+    private lateinit var side_alreadyHave: Button
 
     @FXML
-    private val side_form: AnchorPane? = null
+    private lateinit var si_password: PasswordField
 
     @FXML
-    private val su_CreateBtn: Button? = null
+    private lateinit var su_password: PasswordField
 
     @FXML
-    private lateinit var su_answer: TextField // Correção aqui
+    private lateinit var su_question: ComboBox<*>
 
     @FXML
-    private val su_password: PasswordField? = null
+    private lateinit var si_loginForm: AnchorPane
 
     @FXML
-    private val su_question: ComboBox<*>? = null
+    private lateinit var side_form: AnchorPane
 
     @FXML
-    private val su_signupForm: AnchorPane? = null
+    private lateinit var su_signupForm: AnchorPane
 
     @FXML
-    private lateinit var su_username: TextField // Correção aqui
+    private lateinit var si_forgotPass: Hyperlink
 
-    @FXML
-    private val side_alreadyHave: Button? = null
-
-    fun SwitchForm(event: ActionEvent) {
+    fun switchForm(event: ActionEvent) {
         val slider = TranslateTransition()
 
         if (event.source == side_CreateBtn) {

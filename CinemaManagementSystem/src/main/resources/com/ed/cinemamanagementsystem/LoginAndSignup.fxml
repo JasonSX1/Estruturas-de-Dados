@@ -48,8 +48,8 @@
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <Button fx:id="side_alreadyHave" layoutX="40.0" layoutY="355.0" mnemonicParsing="false" onAction="#SwitchForm" prefHeight="30.0" prefWidth="220.0" styleClass="create-btn" stylesheets="@../../../Values/LoginDesign.css" text="Já possui uma conta!" />
-                  <Button fx:id="side_CreateBtn" layoutX="40.0" layoutY="355.0" mnemonicParsing="false" onAction="#SwitchForm" prefHeight="30.0" prefWidth="220.0" styleClass="create-btn" stylesheets="@../../../Values/LoginDesign.css" text="Criar uma nova Conta" />
+                  <Button fx:id="side_alreadyHave" layoutX="40.0" layoutY="355.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="30.0" prefWidth="220.0" styleClass="create-btn" stylesheets="@../../../Values/LoginDesign.css" text="Já possui uma conta!" />
+                  <Button fx:id="side_CreateBtn" layoutX="40.0" layoutY="355.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="30.0" prefWidth="220.0" styleClass="create-btn" stylesheets="@../../../Values/LoginDesign.css" text="Criar uma nova Conta" />
                   <Label layoutX="19.0" layoutY="171.0" prefHeight="58.0" prefWidth="262.0" text="Gerenciamento de Sessões de Cinema" textFill="WHITE">
                      <font>
                         <Font size="15.0" />
