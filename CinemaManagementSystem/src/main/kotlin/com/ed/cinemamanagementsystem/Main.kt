@@ -14,7 +14,7 @@ class HelloApplication : Application() {
         val scene = Scene(root, 600.0, 400.0)
         stage.title = "Software de gerenciamento de sessões de cinema"
         stage.scene = scene
-        stage.minWidth = 650.0
+        stage.minWidth = 600.0
         stage.minHeight = 450.0
         stage.show()
     }
