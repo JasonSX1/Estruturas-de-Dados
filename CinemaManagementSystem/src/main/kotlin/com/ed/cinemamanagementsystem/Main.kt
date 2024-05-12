@@ -12,8 +12,10 @@ class HelloApplication : Application() {
         val root: Parent = fxmlLoader.load()
 
         val scene = Scene(root, 600.0, 400.0)
-        stage.title = "teste!"
+        stage.title = "Software de gerenciamento de sessões de cinema"
         stage.scene = scene
+        stage.minWidth = 650.0
+        stage.minHeight = 450.0
         stage.show()
     }
 }
