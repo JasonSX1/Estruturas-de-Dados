@@ -66,7 +66,9 @@ class LoginAndSignupController {
         } else {
             val regData : String = "INSERT INTO users (username, password, question, answer) VALUES(?, ?, ?, ?)"
             val connect: Connection? = Database.connectDB()
+            if (connect != null) {
 
+<<<<<<< Updated upstream
             try {
 
                 val prepare = connect!!.prepareStatement(regData)
@@ -104,6 +106,78 @@ class LoginAndSignupController {
 
 
             }catch (e: Exception){e.printStackTrace()}
+=======
+                try {
+                    //Verificação se o username do usuario foi cadastrado
+                    val checkUsername = "SELECT username FROM users WHERE username = ?"
+                    val prepare = connect.prepareStatement(checkUsername)
+                    prepare.setString(1, su_username.text)
+                    val result = prepare.executeQuery()
+
+                    if(result.next()){
+                        alert = Alert(Alert.AlertType.ERROR)
+                        alert.title = "Mensagem de erro!"
+                        alert.headerText = null
+                        alert.contentText = su_username.text + " já está cadastrado!"
+                        alert.showAndWait()
+                    } else if(su_password.text.length < 8){
+                        alert = Alert(Alert.AlertType.ERROR)
+                        alert.title = "Mensagem de erro!"
+                        alert.headerText = null
+                        alert.contentText = "Sua senha deve conter mais de 8 caracteres!"
+                        alert.showAndWait()
+                    } else {
+
+                        val prepare = connect!!.prepareStatement(regData)
+                        prepare.setString(1, su_username.text)
+                        prepare.setString(2, su_password.text)
+                        prepare.setString(3, su_question.selectionModel.selectedItem as String)
+                        prepare.setString(4, su_answer.text)
+
+                        val date = java.util.Date()
+                        val sqlDate = java.sql.Date(date.time)
+                        prepare.setString(5, sqlDate.toString())
+                        prepare.executeUpdate()
+
+                        alert = Alert(Alert.AlertType.INFORMATION)
+                        alert.title = "Mensagem de informação!"
+                        alert.headerText = null
+                        alert.contentText = "Cadastro bem sucedido!"
+                        alert.showAndWait()
+
+                        su_username.text = null
+                        su_password.text = null
+                        su_question.selectionModel.clearSelection()
+                        su_answer.text = null
+
+                        val slider = TranslateTransition()
+
+                        slider.node = side_form
+                        slider.toX = 0.0
+                        slider.duration = Duration.seconds(0.5)
+
+                        slider.setOnFinished {
+                            side_alreadyHave?.isVisible = false
+                            side_CreateBtn?.isVisible = true
+                            AnchorPane.setRightAnchor(side_form, null)
+                        }
+
+                        slider.play()
+
+                    }
+
+                    if(su_password.text.length < 8){
+                        alert = Alert(Alert.AlertType.ERROR)
+                        alert.title = "Mensagem de erro!"
+                        alert.headerText = null
+                        alert.contentText = "Sua senha deve conter mais de 8 caracteres!"
+                        alert.showAndWait()
+                    }
+                }catch (e: Exception){e.printStackTrace()}
+            } else {
+                //TODO CASE CONNECTION IS NULL
+            }
+>>>>>>> Stashed changes
         }
     }
 
