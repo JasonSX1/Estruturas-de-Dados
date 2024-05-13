@@ -1,15 +1,15 @@
 package com.ed.cinemamanagementsystem
 
 import javafx.animation.TranslateTransition
+import javafx.collections.FXCollections
+import javafx.collections.ObservableList
 import javafx.fxml.FXML
-import javafx.scene.control.Button
-import javafx.scene.control.ComboBox
-import javafx.scene.control.Hyperlink
-import javafx.scene.control.PasswordField
-import javafx.scene.control.TextField
 import javafx.scene.layout.AnchorPane
 import javafx.event.ActionEvent
+import javafx.scene.control.*
 import javafx.util.Duration
+import java.sql.Connection
+import java.sql.SQLException
 
 class LoginAndSignupController {
     @FXML
@@ -51,6 +51,74 @@ class LoginAndSignupController {
     @FXML
     private lateinit var si_forgotPass: Hyperlink
 
+    private val questionList = arrayOf("Onde você cursou o ensino médio?", "Qual o nome da sua mãe?", "Qual sua data de nascimento?")
+
+    private lateinit var alert: Alert
+
+    fun regBtn(){
+
+        if(su_username.text.isEmpty() || su_password.text.isEmpty() ||  su_question.selectionModel.selectedItem == null || su_answer.text.isEmpty()){
+            alert = Alert(Alert.AlertType.ERROR)
+            alert.title = "Mensagem de erro!"
+            alert.headerText = null
+            alert.contentText = "Preencha todos os campos em branco!"
+            alert.showAndWait()
+        } else {
+            val regData : String = "INSERT INTO users (username, password, question, answer) VALUES(?, ?, ?, ?)"
+            val connect: Connection? = Database.connectDB()
+
+            try {
+
+                val prepare = connect!!.prepareStatement(regData)
+                prepare.setString(1, su_username.text)
+                prepare.setString(2, su_password.text)
+                prepare.setString(3, su_question.selectionModel.selectedItem as String)
+                prepare.setString(4, su_answer.text)
+
+                prepare.executeUpdate()
+
+                alert = Alert(Alert.AlertType.INFORMATION)
+                alert.title = "Mensagem de informação!"
+                alert.headerText = null
+                alert.contentText = "Cadastro bem sucedido!"
+                alert.showAndWait()
+
+                su_username.text = null
+                su_password.text = null
+                su_question.selectionModel.clearSelection()
+                su_answer.text = null
+
+                val slider = TranslateTransition()
+
+                slider.node = side_form
+                slider.toX = 0.0
+                slider.duration = Duration.seconds(0.5)
+
+                slider.setOnFinished {
+                    side_alreadyHave?.isVisible = false
+                    side_CreateBtn?.isVisible = true
+                    AnchorPane.setRightAnchor(side_form, null)
+                }
+
+                slider.play()
+
+
+            }catch (e: Exception){e.printStackTrace()}
+        }
+    }
+
+    fun regQuestionList(){
+        val listQuestion = ArrayList<String>()
+
+        for (data in questionList) {
+            listQuestion.add(data)
+        }
+
+        val listData: ObservableList<String> = FXCollections.observableArrayList(listQuestion)
+        su_question.items = listData
+
+    }
+
     fun switchForm(event: ActionEvent) {
         val slider = TranslateTransition()
 
@@ -63,6 +131,8 @@ class LoginAndSignupController {
                 side_alreadyHave?.isVisible = true
                 side_CreateBtn?.isVisible = false
                 AnchorPane.setRightAnchor(side_form, 300.0)
+
+                regQuestionList();
             }
 
             slider.play()
@@ -80,4 +150,5 @@ class LoginAndSignupController {
             slider.play()
         }
     }
+
 }
