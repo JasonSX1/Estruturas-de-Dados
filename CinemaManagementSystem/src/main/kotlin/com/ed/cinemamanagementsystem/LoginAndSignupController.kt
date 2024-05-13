@@ -62,6 +62,7 @@ class LoginAndSignupController {
             slider.setOnFinished {
                 side_alreadyHave?.isVisible = true
                 side_CreateBtn?.isVisible = false
+                AnchorPane.setRightAnchor(side_form, 300.0)
             }
 
             slider.play()
@@ -73,6 +74,7 @@ class LoginAndSignupController {
             slider.setOnFinished {
                 side_alreadyHave?.isVisible = false
                 side_CreateBtn?.isVisible = true
+                AnchorPane.setRightAnchor(side_form, null)
             }
 
             slider.play()
