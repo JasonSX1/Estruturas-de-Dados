@@ -98,13 +98,17 @@ class LoginAndSignupController {
         }
 
         // Nome de usuário não duplicado, então podemos prosseguir com o cadastro
-        val regData: String = "INSERT INTO users (username, password, question, answer) VALUES(?, ?, ?, ?)"
+        val regData: String = "INSERT INTO users (username, password, question, answer, date) VALUES(?, ?, ?, ?, ?)"
         try {
             val prepare = connect.prepareStatement(regData)
             prepare.setString(1, su_username.text)
             prepare.setString(2, su_password.text)
             prepare.setString(3, su_question.selectionModel.selectedItem as String)
             prepare.setString(4, su_answer.text)
+
+            val currentDate = java.sql.Date(System.currentTimeMillis())
+            prepare.setDate(5, currentDate)
+
             prepare.executeUpdate()
 
             alert = Alert(Alert.AlertType.INFORMATION)
