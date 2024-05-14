@@ -13,11 +13,11 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane prefHeight="200.0" prefWidth="100.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ed.cinemamanagementsystem.LoginAndSignupController">
+<StackPane prefHeight="200.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ed.cinemamanagementsystem.LoginAndSignupController">
    <children>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+      <AnchorPane prefHeight="200.0" prefWidth="600.0">
          <children>
-            <AnchorPane fx:id="su_signupForm" prefHeight="400.0" prefWidth="300.0" styleClass="white-form" stylesheets="@../../../Values/LoginDesign.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="su_signupForm" prefHeight="400.0" prefWidth="300.0" styleClass="white-form" stylesheets="@../../../Values/LoginDesign.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="0.0">
                <children>
                   <Label layoutX="37.0" layoutY="46.0" styleClass="head-label" text="Criar conta" textFill="#7242ec">
                      <font>
@@ -40,7 +40,7 @@
                   </Label>
                   <TextField fx:id="si_user" depthTest="DISABLE" layoutX="44.0" layoutY="113.0" maxHeight="30.0" prefHeight="30.0" prefWidth="220.0" promptText="Usuário" styleClass="textfield" stylesheets="@../../../Values/LoginDesign.css" />
                   <PasswordField fx:id="si_password" layoutX="44.0" layoutY="160.0" prefHeight="30.0" prefWidth="220.0" promptText="Senha" styleClass="textfield" stylesheets="@../../../Values/LoginDesign.css" />
-                  <Button fx:id="si_login" layoutX="44.0" layoutY="233.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="220.0" styleClass="login-btn" text="Login" />
+                  <Button fx:id="si_login" layoutX="44.0" layoutY="233.0" mnemonicParsing="false" onAction="#loginBtn" prefHeight="30.0" prefWidth="220.0" styleClass="login-btn" text="Login" />
                   <Hyperlink fx:id="si_forgotPass" layoutX="44.0" layoutY="200.0" text="Esqueci a senha" />
                </children>
             </AnchorPane>
