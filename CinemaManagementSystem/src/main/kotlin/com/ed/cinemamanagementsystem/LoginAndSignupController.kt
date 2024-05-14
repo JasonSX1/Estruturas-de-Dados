@@ -70,7 +70,7 @@ class LoginAndSignupController {
             alert = Alert(Alert.AlertType.ERROR)
             alert.title = "Mensagem de erro!"
             alert.headerText = null
-            alert.contentText = "Sua senha deve conter mais de 8 caracteres!"
+            alert.contentText = "Sua senha deve conter ao menos 8 caracteres!"
             alert.showAndWait()
             return // Retorna se a senha for muito curta
         }
