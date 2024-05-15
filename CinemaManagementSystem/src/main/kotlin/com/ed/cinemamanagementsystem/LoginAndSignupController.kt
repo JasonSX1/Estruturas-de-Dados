@@ -3,10 +3,10 @@ package com.ed.cinemamanagementsystem
 import javafx.animation.TranslateTransition
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
-import javafx.fxml.FXML
-import javafx.scene.layout.AnchorPane
 import javafx.event.ActionEvent
+import javafx.fxml.FXML
 import javafx.scene.control.*
+import javafx.scene.layout.AnchorPane
 import javafx.util.Duration
 import java.sql.Connection
 import java.sql.SQLException
@@ -262,6 +262,58 @@ class LoginAndSignupController {
         }
     }
 
+    fun changePassBtn(){
+
+        if(np_newPassword.text.isEmpty() ||np_confirmPassword.text.isEmpty()) {
+            showAlert("Mensagem de erro!", "Preencha todos os campos em branco!", Alert.AlertType.ERROR)
+        } else {
+            if(np_newPassword.text.equals(np_confirmPassword.text)) {
+                val getDate = "SELECT date FROM users WHERE username = '" + fp_username.text + "'"
+
+
+                val connection = connectToDatabase() ?: return
+
+                try{
+
+
+                    var prepare = connection.prepareStatement(getDate)
+                    val result = prepare.executeQuery()
+
+                    var date = ""
+                    if(result.next()) {
+                        date = result.getString("date")
+                    }
+                    var updatePass = "UPDATE users SET password = '" + np_newPassword.text +
+                            "', question ='" + fp_question.selectionModel.selectedItem +
+                            "', answer = '" + fp_answer.text + "', date = '" + date +
+                            "' WHERE username = '" + fp_username.text + "'";
+
+                    prepare = connection.prepareStatement(updatePass)
+                    prepare.executeUpdate()
+
+                    showAlert("Aviso!", "Senha alterada com sucesso!", Alert.AlertType.INFORMATION)
+
+                    si_loginForm.isVisible= true
+                    np_newPassForm.isVisible= false
+
+                    //Limpar os campos de dados
+                    np_confirmPassword.text = ""
+                    np_newPassword.text = ""
+                    fp_question.selectionModel.clearSelection()
+                    fp_answer.text = ""
+                    fp_username.text = ""
+
+                } catch (e: SQLException) {
+                    println("Erro de banco de dados: ${e.message}")
+                    showAlert("Mensagem de erro!", "Erro de banco de dados: ${e.message}", Alert.AlertType.ERROR)
+                }
+
+            } else {
+                showAlert("Mensagem de erro!", "Dados não correspondem.", Alert.AlertType.ERROR)
+            }
+        }
+    }
+
     fun forgotPassQuestionList(){
         val listFP = ArrayList<String>()
 
@@ -282,6 +334,16 @@ class LoginAndSignupController {
 
         val listData: ObservableList<String> = FXCollections.observableArrayList(listQuestion)
         su_question.items = listData
+    }
+
+    fun backToLoginForm(){
+        si_loginForm.isVisible = true
+        fp_questionForm.isVisible = false
+    }
+
+    fun backToQuestionForm(){
+        fp_questionForm.isVisible = true
+        np_newPassForm.isVisible = false
     }
 
     fun switchForm(event: ActionEvent) {

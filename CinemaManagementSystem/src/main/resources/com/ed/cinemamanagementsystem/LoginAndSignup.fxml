@@ -54,7 +54,7 @@
                   <Button fx:id="fp_proceedBtn" layoutX="44.0" layoutY="261.0" mnemonicParsing="false" onAction="#proceedBtn" prefHeight="30.0" prefWidth="220.0" styleClass="login-btn" text="Continuar" />
                   <ComboBox fx:id="fp_question" layoutX="44.0" layoutY="149.0" prefHeight="30.0" prefWidth="220.0" promptText="Questão de segurança" styleClass="textfield" stylesheets="@../../../Values/LoginDesign.css" />
                   <TextField fx:id="fp_answer" layoutX="44.0" layoutY="189.0" prefHeight="30.0" prefWidth="220.0" promptText="Resposta" styleClass="textfield" stylesheets="@../../../Values/LoginDesign.css" />
-                  <Button fx:id="fp_backBtn" layoutX="104.0" layoutY="355.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="92.0" styleClass="login-btn" text="Voltar" />
+                  <Button fx:id="fp_backBtn" layoutX="104.0" layoutY="355.0" mnemonicParsing="false" onAction="#backToLoginForm" prefHeight="30.0" prefWidth="92.0" styleClass="login-btn" text="Voltar" />
                   <TextField fx:id="fp_username" layoutX="44.0" layoutY="105.0" prefHeight="30.0" prefWidth="220.0" promptText="Usuario" styleClass="textfield" stylesheets="@../../../Values/LoginDesign.css" />
                </children>
             </AnchorPane>
@@ -67,8 +67,8 @@
                   </Label>
                   <PasswordField fx:id="np_newPassword" layoutX="44.0" layoutY="113.0" prefHeight="30.0" prefWidth="220.0" promptText="Nova Senha" styleClass="textfield" stylesheets="@../../../Values/LoginDesign.css" />
                   <PasswordField fx:id="np_confirmPassword" layoutX="44.0" layoutY="160.0" prefHeight="30.0" prefWidth="220.0" promptText="Confirmar Senha" styleClass="textfield" stylesheets="@../../../Values/LoginDesign.css" />
-                  <Button fx:id="np_changePassBtn" layoutX="44.0" layoutY="233.0" mnemonicParsing="false" onAction="#loginBtn" prefHeight="30.0" prefWidth="220.0" styleClass="login-btn" text="Confirmar mudança" />
-                  <Button fx:id="np_back" layoutX="104.0" layoutY="355.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="92.0" styleClass="login-btn" stylesheets="@../../../Values/LoginDesign.css" text="Voltar" />
+                  <Button fx:id="np_changePassBtn" layoutX="44.0" layoutY="233.0" mnemonicParsing="false" onAction="#changePassBtn" prefHeight="30.0" prefWidth="220.0" styleClass="login-btn" text="Confirmar mudança" />
+                  <Button fx:id="np_back" layoutX="104.0" layoutY="355.0" mnemonicParsing="false" onAction="#backToQuestionForm" prefHeight="30.0" prefWidth="92.0" styleClass="login-btn" stylesheets="@../../../Values/LoginDesign.css" text="Voltar" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="side_form" prefHeight="400.0" prefWidth="300.0" styleClass="gradient" stylesheets="@../../../Values/LoginDesign.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
