@@ -22,7 +22,7 @@ class LoginAndSignupController {
     private lateinit var su_username: TextField
 
     @FXML
-    private lateinit var si_login: Button
+    private lateinit var si_loginBtn: Button
 
     @FXML
     private lateinit var side_CreateBtn: Button
@@ -50,6 +50,41 @@ class LoginAndSignupController {
 
     @FXML
     private lateinit var si_forgotPass: Hyperlink
+
+    //
+
+    @FXML
+    private lateinit var fp_answer: TextField
+
+    @FXML
+    private lateinit var fp_backBtn: Button
+
+    @FXML
+    private lateinit var fp_proceedBtn: Button
+
+    @FXML
+    private lateinit var fp_question: ComboBox<*>
+
+    @FXML
+    private lateinit var fp_questionForm: AnchorPane
+
+    @FXML
+    private lateinit var np_back: Button
+
+    @FXML
+    private lateinit var np_changePassBtn: Button
+
+    @FXML
+    private lateinit var np_confirmPassword: PasswordField
+
+    @FXML
+    private lateinit var np_newPassForm: AnchorPane
+
+    @FXML
+    private lateinit var np_newPassword: PasswordField
+
+    @FXML
+    private lateinit var fp_username: TextField
 
     private val questionList = arrayOf("Onde você cursou o ensino médio?", "Qual o nome da sua mãe?", "Qual sua data de nascimento?")
 
@@ -88,10 +123,8 @@ class LoginAndSignupController {
         val selectData = "SELECT username, password FROM users WHERE username = ? AND password = ?"
 
         try {
-            // Imprimir valores dos campos de entrada para depuração
             val usernameInput = si_user.text.trim()
             val passwordInput = si_password.text.trim()
-            println("Valores inseridos - Username: $usernameInput, Password: $passwordInput")
 
             val prepare = connection.prepareStatement(selectData)
             prepare.setString(1, usernameInput)
@@ -184,6 +217,62 @@ class LoginAndSignupController {
         }
     }
 
+    fun switchforgotPass(){
+        fp_questionForm.isVisible = true
+        si_loginForm.isVisible = false
+
+        forgotPassQuestionList()
+    }
+
+    fun proceedBtn(){
+
+
+        if(fp_username.text.isEmpty() ||fp_question.selectionModel.selectedItem == null || fp_answer.text.isEmpty()) {
+
+            showAlert("Mensagem de erro!", "Preencha todos os campos em branco!", Alert.AlertType.ERROR)
+
+        } else {
+
+            val selectData = "SELECT username, question, answer FROM users WHERE username = ? AND question = ? AND answer = ?"
+            val connection = connectToDatabase() ?: return
+
+            try{
+
+                val prepare = connection.prepareStatement(selectData)
+
+                prepare.setString(1, fp_username.text)
+                prepare.setString(2, fp_question.selectionModel.selectedItem as String)
+                prepare.setString(3, fp_answer.text)
+
+                val result = prepare.executeQuery()
+
+                if (result.next()) {
+                    np_newPassForm.isVisible = true
+                    fp_questionForm.isVisible = false
+                } else {
+                    println("Nome de usuário ou senha incorretos.")
+                    showAlert("Mensagem de erro!", "Informações Incorretas!", Alert.AlertType.ERROR)
+                }
+
+
+            } catch (e: SQLException) {
+                println("Erro de banco de dados: ${e.message}")
+                showAlert("Mensagem de erro!", "Erro de banco de dados: ${e.message}", Alert.AlertType.ERROR)
+            }
+        }
+    }
+
+    fun forgotPassQuestionList(){
+        val listFP = ArrayList<String>()
+
+        for (data in questionList) {
+            listFP.add(data)
+        }
+
+        val listData: ObservableList<String> = FXCollections.observableArrayList(listFP)
+        fp_question.items = listData
+    }
+
     private fun regQuestionList() {
         val listQuestion = ArrayList<String>()
 
@@ -208,6 +297,10 @@ class LoginAndSignupController {
                 side_CreateBtn?.isVisible = false
                 AnchorPane.setRightAnchor(side_form, 300.0)
 
+                fp_questionForm.isVisible = false
+                si_loginForm.isVisible = true
+                np_newPassForm.isVisible = false
+
                 regQuestionList()
             }
 
@@ -221,6 +314,10 @@ class LoginAndSignupController {
                 side_alreadyHave?.isVisible = false
                 side_CreateBtn?.isVisible = true
                 AnchorPane.setRightAnchor(side_form, null)
+
+                fp_questionForm.isVisible = false
+                si_loginForm.isVisible = true
+                np_newPassForm.isVisible = false
             }
 
             slider.play()
