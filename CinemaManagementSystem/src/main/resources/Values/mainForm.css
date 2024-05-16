@@ -1,0 +1,42 @@
+.nav_-btn{
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+    -fx-text-fill: #fff;
+    -fx-font-size: 14px;
+}
+
+.nav_-btn:hover{
+    -fx-background-color: #808080;
+    -fx-text-fill: #000;
+}
+
+.logout{
+    -fx-background-color: #fff;
+    -fx-padding: 5px;
+    -fx-cursor: hand;
+    -fx-background-radius: 90px;
+}
+
+.logout:hover{
+    -fx-background-color: #CCCCCC;
+}
+
+.shadow{
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 5,0,0,0);
+}
+
+.gray-bg{
+    -fx-background-color: #1f1d2b;
+}
+
+.radius{
+    -fx-background-radius: 6px;
+}
+
+.transparent{
+    -fx-background-color: transparent;
+}
+
+.nav_form{
+    -fx-background-color: #1f1d2b;
+}
