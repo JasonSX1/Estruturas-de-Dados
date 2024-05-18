@@ -5,8 +5,12 @@ import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
+import javafx.fxml.FXMLLoader
+import javafx.scene.Parent
+import javafx.scene.Scene
 import javafx.scene.control.*
 import javafx.scene.layout.AnchorPane
+import javafx.stage.Stage
 import javafx.util.Duration
 import java.sql.Connection
 import java.sql.SQLException
@@ -136,9 +140,17 @@ class LoginAndSignupController {
                 val username = result.getString("username")
                 println("Login bem-sucedido para o usuário: $username")
                 showAlert("Aviso!", "Login bem sucedido!", Alert.AlertType.INFORMATION)
+                val fxmlLoader = FXMLLoader(javaClass.getResource("MainForm.fxml"))
+                val root: Parent = fxmlLoader.load()
 
-                // Linkar main form aqui
-            } else {
+
+                val scene = Scene(root, 1100.0, 600.0)
+
+                // Obtém o estágio atual a partir de qualquer componente da cena atual
+                val stage = si_user.scene.window as Stage
+
+                // Define a nova cena para o estágio
+                stage.scene = scene            } else {
                 println("Nome de usuário ou senha incorretos.")
                 showAlert("Mensagem de erro!", "Nome de usuário/Senha incorretos", Alert.AlertType.ERROR)
             }
