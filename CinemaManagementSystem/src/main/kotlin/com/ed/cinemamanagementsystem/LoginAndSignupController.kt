@@ -138,7 +138,6 @@ class LoginAndSignupController {
 
             if (result.next()) {
                 val username = result.getString("username")
-                println("Login bem-sucedido para o usuário: $username")
                 showAlert("Aviso!", "Login bem sucedido!", Alert.AlertType.INFORMATION)
                 val fxmlLoader = FXMLLoader(javaClass.getResource("MainForm.fxml"))
                 val root: Parent = fxmlLoader.load()
@@ -260,7 +259,6 @@ class LoginAndSignupController {
                     np_newPassForm.isVisible = true
                     fp_questionForm.isVisible = false
                 } else {
-                    println("Nome de usuário ou senha incorretos.")
                     showAlert("Mensagem de erro!", "Informações Incorretas!", Alert.AlertType.ERROR)
                 }
 
