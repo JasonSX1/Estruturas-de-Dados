@@ -142,16 +142,14 @@ class LoginAndSignupController {
                 showAlert("Aviso!", "Login bem sucedido!", Alert.AlertType.INFORMATION)
                 val fxmlLoader = FXMLLoader(javaClass.getResource("MainForm.fxml"))
                 val root: Parent = fxmlLoader.load()
-
-
                 val scene = Scene(root, 1100.0, 600.0)
-
-                // Obtém o estágio atual a partir de qualquer componente da cena atual
                 val stage = si_user.scene.window as Stage
+                stage.scene = scene
+                stage.title = "Software de gerenciamento de sessões de cinema"
+                stage.minWidth = 1100.0
+                stage.minHeight = 650.0
+            } else {
 
-                // Define a nova cena para o estágio
-                stage.scene = scene            } else {
-                println("Nome de usuário ou senha incorretos.")
                 showAlert("Mensagem de erro!", "Nome de usuário/Senha incorretos", Alert.AlertType.ERROR)
             }
 
