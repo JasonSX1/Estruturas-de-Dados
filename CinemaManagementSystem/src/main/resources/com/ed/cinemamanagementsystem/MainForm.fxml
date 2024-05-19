@@ -102,9 +102,9 @@
                     <center>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #252836;" BorderPane.alignment="CENTER">
                      <children>
-                        <AnchorPane prefHeight="600.0" prefWidth="980.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane prefHeight="600.0" prefWidth="980.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <Label layoutX="50.0" layoutY="90.0" text="Dashboard" textFill="WHITE">
+                              <Label layoutX="26.0" layoutY="88.0" text="Dashboard" textFill="WHITE">
                                  <font>
                                     <Font name="Bebas Neue Regular" size="30.0" />
                                  </font>
@@ -307,8 +307,8 @@
                               </AnchorPane>
                            </children>
                         </AnchorPane>
-                        <AnchorPane prefHeight="600.0" prefWidth="980.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                        <AnchorPane layoutX="229.0" layoutY="182.0" prefHeight="600.0" prefWidth="980.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane prefHeight="600.0" prefWidth="980.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <AnchorPane layoutX="229.0" layoutY="182.0" prefHeight="600.0" prefWidth="980.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane prefHeight="255.0" prefWidth="965.0" stylesheets="@../../../Values/mainForm.css" AnchorPane.bottomAnchor="330.0" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="17.0">
                                  <styleClass>
