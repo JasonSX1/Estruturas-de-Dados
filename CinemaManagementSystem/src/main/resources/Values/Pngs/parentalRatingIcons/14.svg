@@ -1,0 +1,29 @@
+<svg id="SvgjsSvg1238" width="256" height="256" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <defs id="SvgjsDefs1239">
+    <clipPath id="clip-1">
+      <path d="M0 38h38V0H0v38Z" fill="#000000" class="color000000 svgShape"></path>
+    </clipPath>
+    <clipPath id="clip-2">
+      <path d="M0 38h38V0H0v38Z" fill="#000000" class="color000000 svgShape"></path>
+    </clipPath>
+  </defs>
+  <g id="SvgjsG1240">
+    <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 47.5 47.5" viewBox="0 0 47.5 47.5" width="256" height="256">
+      <defs>
+        <clipPath id="a">
+          <path d="M0 38h38V0H0v38Z" fill="#000000" class="color000 svgShape"></path>
+        </clipPath>
+      </defs>
+      <g clip-path="url(#a)" transform="matrix(1.25 0 0 -1.25 0 47.5)">
+        <path d="M0 0a4 4 0 0 0-4-4h-28a4 4 0 0 0-4 4v28a4 4 0 0 0 4 4h28a4 4 0 0 0 4-4V0Z" transform="translate(37 5)" class="color3b88c3 svgShape" style="fill: rgb(230, 120, 36);"></path>
+        <path fill="#f5f8fa" d="M0 0h-1.958C-3.55 0-4.213 1.162-4.213 2.289c0 1.16.829 2.288 2.255 2.288h4.71c1.426 0 2.223-1.028 2.223-2.354v-18.875c0-1.658-1.061-2.586-2.488-2.586-1.425 0-2.487.928-2.487 2.586V0Z" transform="translate(8.213 26.025)" class="colorf5f8fa svgShape"></path>
+        <path fill="#f5f8fa" d="M0 0c0 2.521-.232 7.696-3.616 7.696-3.383 0-3.615-5.175-3.615-7.696 0-2.355.232-7.695 3.615-7.695C-.232-7.695 0-2.355 0 0m-12.406 0c0 5.407 2.09 12.206 8.79 12.206 6.7 0 8.791-6.799 8.791-12.206 0-5.406-2.091-12.207-8.791-12.207S-12.406-5.406-12.406 0" transform="translate(28.586 18.794)" class="colorf5f8fa svgShape"></path>
+      </g>
+    </svg>
+  </g>
+  <g clip-path="url(#clip-1)" transform="matrix(7.150358, 0, 0, -7.150358, 27.126978, 262.446381)" fill="#000000" class="color000000 svgShape" style=""></g>
+  <g clip-path="url(#clip-2)" transform="matrix(7.292333, 0, 0, -7.292333, 30.346521, 268.017181)" fill="#000000" class="color000000 svgShape" style="">
+    <path d="M -9.076 20.185 C -9.076 17.976 -9.273 0.283 -9.273 0.283 C -11.482 0.283 -28.159 -0.176 -28.159 2.033 L -28.159 20.521 C -25.844 26.434 -26.948 25.973 -24.739 25.973 C -24.739 25.973 -11.109 28.103 -11.109 25.894 L -9.076 20.185 Z" transform="translate(37 5)" class="color3b88c3 svgShape" style="fill: rgb(230, 120, 36);"></path>
+    <path d="M0 0h-.062l-4.186-8.65H0V0Zm-7.472-12.743c-1.519 0-2.171 1.022-2.171 1.829 0 .682.248 1.055.435 1.364l6.945 12.589c.682 1.24 1.55 1.798 3.162 1.798 1.799 0 3.566-1.148 3.566-3.969V-8.65h.528c1.209 0 2.17-.807 2.17-2.047 0-1.241-.961-2.046-2.17-2.046h-.528v-2.636c0-1.643-.651-2.418-2.232-2.418-1.582 0-2.233.775-2.233 2.418v2.636h-7.472z" transform="translate(19.242 25.611)" class="colorffffff svgShape" style="" fill="#ffffff"></path>
+  </g>
+</svg>
