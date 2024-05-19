@@ -1,0 +1,23 @@
+<svg id="SvgjsSvg1238" width="256" height="256" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <g id="SvgjsG1240">
+    <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 47.5 47.5" viewBox="0 0 47.5 47.5" width="256" height="256">
+      <defs>
+        <clipPath id="a">
+          <path d="M0 38h38V0H0v38Z" fill="#000000" class="color000 svgShape"></path>
+        </clipPath>
+        <clipPath id="clip-1">
+          <path d="M0 38h38V0H0v38Z" fill="#000000" class="color000000 svgShape"></path>
+        </clipPath>
+      </defs>
+      <g clip-path="url(#a)" transform="matrix(1.25 0 0 -1.25 0 47.5)">
+        <path d="M0 0a4 4 0 0 0-4-4h-28a4 4 0 0 0-4 4v28a4 4 0 0 0 4 4h28a4 4 0 0 0 4-4V0Z" transform="translate(37 5)" class="color3b88c3 svgShape" style="fill: rgb(219, 40, 39);"></path>
+        <path fill="#f5f8fa" d="M0 0h-1.958C-3.55 0-4.213 1.162-4.213 2.289c0 1.16.829 2.288 2.255 2.288h4.71c1.426 0 2.223-1.028 2.223-2.354v-18.875c0-1.658-1.061-2.586-2.488-2.586-1.425 0-2.487.928-2.487 2.586V0Z" transform="translate(8.213 26.025)" class="colorf5f8fa svgShape"></path>
+        <path fill="#f5f8fa" d="M0 0c0 2.521-.232 7.696-3.616 7.696-3.383 0-3.615-5.175-3.615-7.696 0-2.355.232-7.695 3.615-7.695C-.232-7.695 0-2.355 0 0m-12.406 0c0 5.407 2.09 12.206 8.79 12.206 6.7 0 8.791-6.799 8.791-12.206 0-5.406-2.091-12.207-8.791-12.207S-12.406-5.406-12.406 0" transform="translate(28.586 18.794)" class="colorf5f8fa svgShape"></path>
+      </g>
+    </svg>
+  </g>
+  <g clip-path="url(#clip-1)" transform="matrix(7.088236, 0, 0, -7.088236, 34.162331, 265.708344)" fill="#000000" class="color000000 svgShape" style="">
+    <path d="M -8.627 27.758 C -6.418 27.758 -10.274 -0.24 -12.483 -0.24 L -26.698 -0.915 C -28.907 -0.915 -28.329 28.433 -26.12 28.433 L -8.627 27.758 Z" transform="translate(37 5)" class="color3b88c3 svgShape" style="fill: rgb(219, 40, 39);"></path>
+    <path fill="#ffffff" d="M0 0c0-1.736 1.085-3.225 2.945-3.225 1.768 0 2.946 1.427 2.946 3.225 0 1.644-.992 3.225-2.946 3.225C1.178 3.225 0 1.829 0 0m-4.837 0c0 4.682 4.744 11.255 7.876 14.17.248.248.62.496.992.744.341.217.682.217.93.217.868 0 2.202-1.148 2.202-2.264 0-.433-.28-.805-.652-1.271-1.24-1.519-3.255-3.503-4.279-4.961l.062-.062c.559.248 1.271.372 1.955.372 3.72 0 6.479-3.286 6.479-6.945 0-4.03-3.194-7.689-7.783-7.689-4.774 0-7.782 3.565-7.782 7.689" transform="translate(16.056 15.317)" class="colorffffff svgShape" style=""></path>
+  </g>
+</svg>

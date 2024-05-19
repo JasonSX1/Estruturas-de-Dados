@@ -1,0 +1,25 @@
+<svg id="SvgjsSvg1238" width="256" height="256" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <defs id="SvgjsDefs1239">
+    <clipPath id="clip-1">
+      <path d="M0 38h38V0H0v38Z" fill="#000000" class="color000000 svgShape"></path>
+    </clipPath>
+  </defs>
+  <g id="SvgjsG1240">
+    <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 47.5 47.5" viewBox="0 0 47.5 47.5" width="256" height="256">
+      <defs>
+        <clipPath id="a">
+          <path d="M0 38h38V0H0v38Z" fill="#000000" class="color000 svgShape"></path>
+        </clipPath>
+      </defs>
+      <g clip-path="url(#a)" transform="matrix(1.25 0 0 -1.25 0 47.5)">
+        <path d="M0 0a4 4 0 0 0-4-4h-28a4 4 0 0 0-4 4v28a4 4 0 0 0 4 4h28a4 4 0 0 0 4-4V0Z" transform="translate(37 5)" class="color3b88c3 svgShape" style="fill: rgb(248, 196, 17);"></path>
+        <path fill="#f5f8fa" d="M0 0h-1.958C-3.55 0-4.213 1.162-4.213 2.289c0 1.16.829 2.288 2.255 2.288h4.71c1.426 0 2.223-1.028 2.223-2.354v-18.875c0-1.658-1.061-2.586-2.488-2.586-1.425 0-2.487.928-2.487 2.586V0Z" transform="translate(8.213 26.025)" class="colorf5f8fa svgShape"></path>
+        <path fill="#f5f8fa" d="M0 0c0 2.521-.232 7.696-3.616 7.696-3.383 0-3.615-5.175-3.615-7.696 0-2.355.232-7.695 3.615-7.695C-.232-7.695 0-2.355 0 0m-12.406 0c0 5.407 2.09 12.206 8.79 12.206 6.7 0 8.791-6.799 8.791-12.206 0-5.406-2.091-12.207-8.791-12.207S-12.406-5.406-12.406 0" transform="translate(28.586 18.794)" class="colorf5f8fa svgShape"></path>
+      </g>
+    </svg>
+  </g>
+  <g clip-path="url(#clip-1)" transform="matrix(7.150358, 0, 0, -7.150358, 27.126978, 262.446381)" fill="#000000" class="color000000 svgShape" style="">
+    <path d="M -8.119 0.056 C -8.119 -2.153 -9.91 -1.406 -12.119 -1.406 L -28.842 -1.012 C -31.051 -1.012 -36 -2.209 -36 0 C -22.232 -3.109 -27.712 22.305 -27.712 22.305 C -27.712 24.514 -32.856 30.534 -30.647 30.534 L -14.487 29.632 C -12.278 29.632 -7.668 29.589 -7.668 27.38 L -8.119 0.056 Z" transform="translate(37 5)" class="color3b88c3 svgShape" style="paint-order: fill; fill: rgb(248, 196, 17);"></path>
+    <path d="M0 0c1.365 0 2.42-.62 2.42-2.046 0-1.427-1.055-2.047-2.233-2.047h-10.356c-1.365 0-2.418.62-2.418 2.047 0 .65.402 1.209.712 1.581 2.574 3.069 5.365 5.861 7.721 9.271.558.806 1.086 1.767 1.086 2.883 0 1.271-.961 2.388-2.233 2.388-3.566 0-1.861-5.023-4.837-5.023-1.488 0-2.264 1.054-2.264 2.263 0 3.907 3.473 7.038 7.287 7.038s6.883-2.511 6.883-6.449C1.768 7.597-3.037 3.317-5.673 0H0Z" transform="translate(24.086 12.093)" class="colorffffff svgShape" style="paint-order: fill;" fill="#ffffff"></path>
+  </g>
+</svg>

@@ -1,0 +1,27 @@
+<svg id="SvgjsSvg1238" width="256" height="256" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <g id="SvgjsG1240">
+    <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 47.5 47.5" viewBox="0 0 47.5 47.5" width="256" height="256">
+      <defs>
+        <clipPath id="a">
+          <path d="M0 38h38V0H0v38Z" fill="#000000" class="color000 svgShape"></path>
+        </clipPath>
+        <clipPath id="clip-1">
+          <path d="M0 38h38V0H0v38Z" fill="#000000" class="color000000 svgShape"></path>
+        </clipPath>
+        <clipPath id="clip-2">
+          <path d="M0 38h38V0H0v38Z" fill="#000000" class="color000000 svgShape"></path>
+        </clipPath>
+      </defs>
+      <g clip-path="url(#a)" transform="matrix(1.25 0 0 -1.25 0 47.5)">
+        <path d="M0 0a4 4 0 0 0-4-4h-28a4 4 0 0 0-4 4v28a4 4 0 0 0 4 4h28a4 4 0 0 0 4-4V0Z" transform="translate(37 5)" class="color3b88c3 svgShape" style="fill: rgb(29, 24, 21);"></path>
+        <path d="M0 0h-1.958C-3.55 0-4.213 1.162-4.213 2.289c0 1.16.829 2.288 2.255 2.288h4.71c1.426 0 2.223-1.028 2.223-2.354v-18.875c0-1.658-1.061-2.586-2.488-2.586-1.425 0-2.487.928-2.487 2.586V0Z" transform="translate(8.213 26.025)" class="colorf5f8fa svgShape" style="fill: rgb(255, 255, 255);"></path>
+        <path fill="#f5f8fa" d="M0 0c0 2.521-.232 7.696-3.616 7.696-3.383 0-3.615-5.175-3.615-7.696 0-2.355.232-7.695 3.615-7.695C-.232-7.695 0-2.355 0 0m-12.406 0c0 5.407 2.09 12.206 8.79 12.206 6.7 0 8.791-6.799 8.791-12.206 0-5.406-2.091-12.207-8.791-12.207S-12.406-5.406-12.406 0" transform="translate(28.586 18.794)" class="colorf5f8fa svgShape"></path>
+      </g>
+    </svg>
+  </g>
+  <g clip-path="url(#clip-1)" transform="matrix(7.088236, 0, 0, -7.088236, 34.162331, 265.708344)" fill="#000000" class="color000000 svgShape" style=""></g>
+  <g clip-path="url(#clip-2)" transform="matrix(7.182232, 0, 0, -7.182232, 148.95871, 110.440758)" fill="#000000" class="color000000 svgShape" style="transform-origin: 19px 19px;">
+    <path d="M 27.307 5.129 C 27.307 2.92 10.816 4.36 10.816 4.36 C 8.607 4.36 8.478 34.803 10.687 34.803 L 27.701 33.898 C 29.91 33.898 27.307 5.129 27.307 5.129 Z" class="color3b88c3 svgShape" style="fill: rgb(29, 24, 21);"></path>
+    <path fill="#ffffff" d="M16.769 23.999c0-1.396.807-2.356 2.232-2.356 1.427 0 2.265.96 2.265 2.356 0 1.333-.807 2.356-2.265 2.356-1.457 0-2.232-1.023-2.232-2.356m-.589-8.991c0-1.582.93-3.102 2.821-3.102 1.768 0 2.822 1.52 2.822 3.102 0 1.953-1.116 3.1-2.822 3.1-1.797 0-2.821-1.364-2.821-3.1m-4.837-.311c0 2.481 1.364 4.31 3.318 5.364-1.457 1.054-2.357 2.481-2.357 4.434 0 3.628 3.008 5.953 6.697 5.953 3.597 0 6.729-2.294 6.729-5.953 0-1.736-.869-3.473-2.388-4.434 2.109-1.054 3.318-2.976 3.318-5.364 0-4.309-3.504-7.069-7.659-7.069-4.278 0-7.658 2.915-7.658 7.069" class="colorffffff svgShape" style=""></path>
+  </g>
+</svg>
