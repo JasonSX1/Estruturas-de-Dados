@@ -516,14 +516,14 @@
                                     <String fx:value="radius" />
                                  </styleClass>
                                  <children>
-                                    <TableView fx:id="movies_tableView1" layoutX="12.0" layoutY="12.0" prefHeight="229.0" prefWidth="922.0" stylesheets="@../../../Values/mainForm.css" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="12.0">
+                                    <TableView fx:id="sessions_tableView" layoutX="12.0" layoutY="12.0" prefHeight="229.0" prefWidth="922.0" stylesheets="@../../../Values/mainForm.css" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="12.0">
                                        <columns>
-                                          <TableColumn fx:id="movies_col_movieId1" prefWidth="63.999969482421875" text="ID da Sala" />
-                                          <TableColumn fx:id="movies_col_movieTitle1" prefWidth="99.20004272460938" text="Número da sala" />
-                                          <TableColumn fx:id="movies_col_productionType1" prefWidth="236.79998779296875" text="Filme Atual" />
-                                          <TableColumn fx:id="movies_col_audType1" prefWidth="239.99993896484375" text="Proximo Filme" />
-                                          <TableColumn fx:id="movies_col_movieDuration1" prefWidth="85.33343505859375" text="Capacidade" />
-                                          <TableColumn fx:id="movies_col_hasHalf1" prefWidth="76.79998779296875" text="Ocupação" />
+                                          <TableColumn fx:id="sessions_col_sessionId" prefWidth="63.999969482421875" text="ID da Sala" />
+                                          <TableColumn fx:id="sessions_col_number" prefWidth="99.20004272460938" text="Número da sala" />
+                                          <TableColumn fx:id="sessions_col_currentMovie" prefWidth="236.79998779296875" text="Filme Atual" />
+                                          <TableColumn fx:id="sessions_col_nextMovie" prefWidth="239.99993896484375" text="Proximo Filme" />
+                                          <TableColumn fx:id="sessions_col_capacity" prefWidth="85.33343505859375" text="Capacidade" />
+                                          <TableColumn fx:id="sessions_col_ocupation" prefWidth="76.79998779296875" text="Ocupação" />
                                           <TableColumn fx:id="movies_col_moviePrice1" prefWidth="120.8001708984375" text="Status" />
                                        </columns>
                                        <columnResizePolicy>
