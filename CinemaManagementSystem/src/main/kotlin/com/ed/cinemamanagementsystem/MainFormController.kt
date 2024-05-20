@@ -22,10 +22,13 @@ class MainFormController : Initializable {
     private lateinit var MoviesBtn: Button
 
     @FXML
+    private lateinit var movies_imageView: ImageView
+
+    @FXML
     private lateinit var MoviesForm: AnchorPane
 
     @FXML
-    private lateinit var MoviesForm1: AnchorPane
+    private lateinit var sessions_form: AnchorPane
 
     @FXML
     private lateinit var SessionsForm: AnchorPane
@@ -49,7 +52,7 @@ class MainFormController : Initializable {
     private lateinit var movies_btn: ImageView
 
     @FXML
-    private lateinit var movies_cleatBtn: Button
+    private lateinit var movies_clearBtn: Button
 
     @FXML
     private lateinit var movies_col_audType: TableColumn<*, *>
@@ -80,9 +83,6 @@ class MainFormController : Initializable {
 
     @FXML
     private lateinit var movies_deleteBtn: Button
-
-    @FXML
-    private lateinit var movies_imageView: ImageView
 
     @FXML
     private lateinit var movies_importBtn: Button
@@ -122,6 +122,7 @@ class MainFormController : Initializable {
 
     @FXML
     private lateinit var wishlist_btn: Button
+
 
     private lateinit var alert: Alert
 
