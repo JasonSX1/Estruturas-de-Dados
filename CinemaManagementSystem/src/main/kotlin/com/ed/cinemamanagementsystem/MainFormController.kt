@@ -134,31 +134,33 @@ class MainFormController : Initializable {
     }
 
 
-    fun logout(){
-
-        try{
-
+    fun logout() {
+        try {
             val option = showAlert("Mensagem de confirmação", "Você realmente deseja sair?", Alert.AlertType.CONFIRMATION)
-            if(option.equals(ButtonType.OK)){
+            if (option.isPresent && option.get() == ButtonType.OK) {
+                // Fechar o estágio atual
+                val currentStage = logout_btn.scene.window as Stage
+                currentStage.close()
 
-                //Ocultar mainForm
-                logout_btn.scene.window.hide()
-
-                val root: Parent = FXMLLoader.load(javaClass.getResource("MainForm.fxml"))
+                // Carregar a tela de login e signup
+                val loginLoader = FXMLLoader(javaClass.getResource("LoginAndSignup.fxml"))
+                val root: Parent = loginLoader.load()
+                val loginController = loginLoader.getController<LoginAndSignupController>()
 
                 val stage = Stage()
                 val scene = Scene(root)
                 stage.title = "Software de gerenciamento de sessões de cinema"
                 stage.scene = scene
                 stage.show()
-
             } else {
-
+                // Não faz nada se o usuário cancelar ou se o valor não estiver presente
             }
         } catch (e: SQLException) {
             e.printStackTrace()
         }
     }
+
+
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
         // Inicialização do controlador
