@@ -19,9 +19,9 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600.0" minWidth="1100.0" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600.0" minWidth="1100.0" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ed.cinemamanagementsystem.MainFormController">
     <children>
-        <AnchorPane minHeight="600.0" minWidth="1100.0" prefHeight="200.0" prefWidth="200.0">
+        <AnchorPane fx:id="main_form" minHeight="600.0" minWidth="1100.0" prefHeight="200.0" prefWidth="200.0">
             <children>
                 <BorderPane minHeight="600.0" minWidth="1100.0" prefHeight="600.0" prefWidth="1100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <left>
@@ -88,7 +88,7 @@
                                         </ImageView>
                                     </graphic>
                                 </Button>
-                                <Button fx:id="logout_btn" layoutX="14.0" layoutY="560.0" mnemonicParsing="false" styleClass="nav_-btn" stylesheets="@../../../Values/mainForm.css" text="Logout" AnchorPane.bottomAnchor="6.399999999999999" AnchorPane.leftAnchor="14.0">
+                                <Button fx:id="logout_btn" layoutX="14.0" layoutY="560.0" mnemonicParsing="false" onAction="#logout" styleClass="nav_-btn" stylesheets="@../../../Values/mainForm.css" text="Logout" AnchorPane.bottomAnchor="6.399999999999999" AnchorPane.leftAnchor="14.0">
                                     <graphic>
                                         <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
