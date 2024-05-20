@@ -1,3 +1,5 @@
+package com.ed.cinemamanagementsystem
+
 import javafx.fxml.Initializable
 import java.net.URL
 import java.util.ResourceBundle
