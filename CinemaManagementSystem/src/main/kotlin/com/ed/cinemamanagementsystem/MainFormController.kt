@@ -152,6 +152,7 @@ class MainFormController : Initializable {
                 stage.title = "Software de gerenciamento de sessões de cinema"
                 stage.scene = scene
                 stage.show()
+                stage.centerOnScreen()
             } else {
                 // Não faz nada se o usuário cancelar ou se o valor não estiver presente
             }

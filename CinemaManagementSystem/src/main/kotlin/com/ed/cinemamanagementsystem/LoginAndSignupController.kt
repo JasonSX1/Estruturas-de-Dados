@@ -147,6 +147,7 @@ class LoginAndSignupController {
                 stage.title = "Software de gerenciamento de sessões de cinema"
                 stage.minWidth = 1100.0
                 stage.minHeight = 650.0
+                stage.centerOnScreen()
             } else {
 
                 showAlert("Mensagem de erro!", "Nome de usuário/Senha incorretos", Alert.AlertType.ERROR)
