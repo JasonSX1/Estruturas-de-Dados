@@ -32,7 +32,7 @@
                                     </image>
                                 </ImageView>
                                 <Label layoutX="46.0" layoutY="100.0" prefHeight="18.0" prefWidth="28.0" text="User" textFill="WHITE" AnchorPane.leftAnchor="46.0" AnchorPane.rightAnchor="46.0" />
-                                <Button layoutX="32.0" layoutY="150.0" mnemonicParsing="false" styleClass="nav_-btn" stylesheets="@../../../Values/mainForm.css" text="Home" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0">
+                                <Button fx:id="home_btn" layoutX="32.0" layoutY="150.0" mnemonicParsing="false" styleClass="nav_-btn" stylesheets="@../../../Values/mainForm.css" text="Home" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0">
                                     <graphic>
                                         <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
@@ -41,7 +41,7 @@
                                         </ImageView>
                                     </graphic>
                                 </Button>
-                                <Button layoutX="8.8" layoutY="200.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="99.0" styleClass="nav_-btn" stylesheets="@../../../Values/mainForm.css" text="Pedidos" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="12.0">
+                                <Button fx:id="orders_btn" layoutX="8.8" layoutY="200.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="99.0" styleClass="nav_-btn" stylesheets="@../../../Values/mainForm.css" text="Pedidos" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="12.0">
                                     <graphic>
                                         <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
@@ -50,7 +50,7 @@
                                         </ImageView>
                                     </graphic>
                                 </Button>
-                                <Button layoutX="1.0" layoutY="250.0" mnemonicParsing="false" styleClass="nav_-btn" stylesheets="@../../../Values/mainForm.css" text="Wishlist" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0">
+                                <Button fx:id="wishlist_btn" layoutX="1.0" layoutY="250.0" mnemonicParsing="false" styleClass="nav_-btn" stylesheets="@../../../Values/mainForm.css" text="Wishlist" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0">
                                     <graphic>
                                         <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
@@ -60,7 +60,7 @@
                                     </graphic>
                                 </Button>
                                 <Label layoutX="40.0" layoutY="308.0" prefHeight="18.0" prefWidth="40.0" text="Admin" textFill="WHITE" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" />
-                                <Button layoutY="349.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="118.0" styleClass="nav_-btn" stylesheets="@../../../Values/mainForm.css" text="Dashboard" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="2.4000000000000057">
+                                <Button fx:id="dashboard_btn" layoutY="349.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="118.0" styleClass="nav_-btn" stylesheets="@../../../Values/mainForm.css" text="Dashboard" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="2.4000000000000057">
                                     <graphic>
                                         <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
@@ -69,7 +69,7 @@
                                         </ImageView>
                                     </graphic>
                                 </Button>
-                                <Button layoutX="1.0" layoutY="400.0" mnemonicParsing="false" styleClass="nav_-btn" stylesheets="@../../../Values/mainForm.css" text="Sessões" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0">
+                                <Button fx:id="sessions_btn" layoutX="1.0" layoutY="400.0" mnemonicParsing="false" styleClass="nav_-btn" stylesheets="@../../../Values/mainForm.css" text="Sessões" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0">
                                     <graphic>
                                         <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
@@ -78,16 +78,16 @@
                                         </ImageView>
                                     </graphic>
                                 </Button>
-                                <Button layoutX="10.0" layoutY="450.0" mnemonicParsing="false" styleClass="nav_-btn" stylesheets="@../../../Values/mainForm.css" text="Filmes" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0">
+                                <Button fx:id="MoviesBtn" layoutX="10.0" layoutY="450.0" mnemonicParsing="false" styleClass="nav_-btn" stylesheets="@../../../Values/mainForm.css" text="Filmes" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0">
                                     <graphic>
-                                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                        <ImageView fx:id="movies_btn" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
                                                 <Image url="@../../../Values/Pngs/Icons/icons8-movie-50 (1).png" />
                                             </image>
                                         </ImageView>
                                     </graphic>
                                 </Button>
-                                <Button layoutX="14.0" layoutY="560.0" mnemonicParsing="false" styleClass="nav_-btn" stylesheets="@../../../Values/mainForm.css" text="Logout" AnchorPane.bottomAnchor="6.399999999999999" AnchorPane.leftAnchor="14.0">
+                                <Button fx:id="logout_btn" layoutX="14.0" layoutY="560.0" mnemonicParsing="false" styleClass="nav_-btn" stylesheets="@../../../Values/mainForm.css" text="Logout" AnchorPane.bottomAnchor="6.399999999999999" AnchorPane.leftAnchor="14.0">
                                     <graphic>
                                         <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
@@ -102,7 +102,7 @@
                     <center>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #252836;" BorderPane.alignment="CENTER">
                      <children>
-                        <AnchorPane prefHeight="600.0" prefWidth="980.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="DashboardForm" prefHeight="600.0" prefWidth="980.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <Label layoutX="26.0" layoutY="88.0" text="Dashboard" textFill="WHITE">
                                  <font>
@@ -156,7 +156,7 @@
                                  <children>
                                     <Pane layoutX="13.0" layoutY="11.0" prefHeight="32.0" prefWidth="33.0" style="-fx-background-color: #252836;" styleClass="radius" stylesheets="@../../../Values/mainForm.css">
                                        <children>
-                                          <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                          <ImageView fitHeight="32.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
                                                 <Image url="@../../../Values/Pngs/Icons/Order.png" />
                                              </image>
@@ -307,8 +307,37 @@
                               </AnchorPane>
                            </children>
                         </AnchorPane>
-                        <AnchorPane prefHeight="600.0" prefWidth="980.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                        <AnchorPane layoutX="229.0" layoutY="182.0" prefHeight="600.0" prefWidth="980.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="SessionsForm" prefHeight="600.0" prefWidth="980.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="238.0" prefWidth="150.0" stylesheets="@../../../Values/mainForm.css">
+                                 <styleClass>
+                                    <String fx:value="gray-bg" />
+                                    <String fx:value="radius" />
+                                 </styleClass>
+                                 <children>
+                                    <Label layoutX="8.0" layoutY="4.0" prefHeight="17.0" prefWidth="89.0" text="Nome da Sessão" textFill="#abbbc2" />
+                                    <Pane layoutX="7.0" layoutY="24.0" prefHeight="120.0" prefWidth="136.0" style="-fx-background-color: #252836;" styleClass="radius" stylesheets="@../../../Values/mainForm.css" />
+                                    <Label layoutX="8.0" layoutY="147.0" prefHeight="35.0" prefWidth="46.0" text="Status: " textFill="WHITE">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="9.0" layoutY="178.0" text="Ocupação:" textFill="#abbbc2" />
+                                    <Label layoutX="74.0" layoutY="147.0" prefHeight="35.0" prefWidth="69.0" text="FECHADA" textFill="#ff7ca3">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="86.0" layoutY="169.0" prefHeight="35.0" prefWidth="46.0" text="18/130" textFill="WHITE">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Button layoutX="25.0" layoutY="204.0" mnemonicParsing="false" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Editar Sessão" />
+                                 </children>
+                              </AnchorPane>
+                           </children></AnchorPane>
+                        <AnchorPane fx:id="MoviesForm" layoutX="229.0" layoutY="182.0" prefHeight="600.0" prefWidth="980.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane prefHeight="255.0" prefWidth="965.0" stylesheets="@../../../Values/mainForm.css" AnchorPane.bottomAnchor="330.0" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="17.0">
                                  <styleClass>
@@ -316,16 +345,16 @@
                                     <String fx:value="radius" />
                                  </styleClass>
                                  <children>
-                                    <TableView layoutX="19.0" layoutY="12.0" prefHeight="226.0" prefWidth="914.0" styleClass="column-header" stylesheets="@../../../Values/mainForm.css" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="12.0">
+                                    <TableView fx:id="movies_tableView" layoutX="19.0" layoutY="12.0" prefHeight="226.0" prefWidth="914.0" styleClass="column-header" stylesheets="@../../../Values/mainForm.css" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="12.0">
                                        <columns>
-                                          <TableColumn prefWidth="76.5334159731865" text="ID do Filme" />
-                                          <TableColumn prefWidth="187.46653747558594" text="Título do Filme" />
-                                          <TableColumn prefWidth="85.33343505859375" text="Duração (min)" />
-                                          <TableColumn prefWidth="173.066650390625" text="Tipo de produção" />
-                                          <TableColumn prefWidth="134.933349609375" text="Tipo de Audio" />
-                                          <TableColumn prefWidth="76.79998779296875" text="3D" />
-                                          <TableColumn prefWidth="76.79998779296875" text="Meia" />
-                                          <TableColumn prefWidth="120.8001708984375" text="Preço" />
+                                          <TableColumn fx:id="movies_col_movieId" prefWidth="76.5334159731865" text="ID do Filme" />
+                                          <TableColumn fx:id="movies_col_movieTitle" prefWidth="187.46653747558594" text="Título do Filme" />
+                                          <TableColumn fx:id="movies_col_movieDuration" prefWidth="85.33343505859375" text="Duração (min)" />
+                                          <TableColumn fx:id="movies_col_productionType" prefWidth="173.066650390625" text="Tipo de produção" />
+                                          <TableColumn fx:id="movies_col_audType" prefWidth="134.933349609375" text="Tipo de Audio" />
+                                          <TableColumn fx:id="movies_col_has3d" prefWidth="76.79998779296875" text="3D" />
+                                          <TableColumn fx:id="movies_col_hasHalf" prefWidth="76.79998779296875" text="Meia" />
+                                          <TableColumn fx:id="movies_col_moviePrice" prefWidth="120.8001708984375" text="Preço" />
                                        </columns>
                                        <columnResizePolicy>
                                           <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

@@ -1,0 +1,5 @@
+Green:#50d1aa
+Yellow:#F3AC6D
+Red:#ff7ca3
+
+Text light: #abbbc2
