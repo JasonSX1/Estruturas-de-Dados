@@ -123,6 +123,9 @@ class MainFormController : Initializable {
     @FXML
     private lateinit var wishlist_btn: Button
 
+    private val productionTypeList = arrayOf("Nacional", "Estrangeira")
+
+    private val hasHalf
 
     private lateinit var alert: Alert
 
