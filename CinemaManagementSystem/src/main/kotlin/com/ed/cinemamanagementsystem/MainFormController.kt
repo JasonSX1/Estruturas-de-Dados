@@ -13,6 +13,7 @@ import javafx.scene.layout.AnchorPane
 import javafx.stage.Stage
 import org.w3c.dom.Text
 import java.net.URL
+import java.sql.Connection
 import java.sql.SQLException
 import java.util.*
 
@@ -155,6 +156,19 @@ class MainFormController : Initializable {
     private val productionTypeList = arrayOf("Nacional", "Estrangeira")
 
     private val audioTypeList = arrayOf("Original", "Original com Legenda", "Dublado")
+
+    private fun connectToDatabase(): Connection? {
+        return try {
+            val connection = Database.connectDB()
+            if (connection == null) {
+                showAlert("Mensagem de erro!", "Não foi possível estabelecer conexão com o banco de dados!", Alert.AlertType.ERROR)
+            }
+            connection
+        } catch (e: SQLException) {
+            showAlert("Mensagem de erro!", "Erro ao conectar ao banco de dados: ${e.message}", Alert.AlertType.ERROR)
+            null
+        }
+    }
 
     private lateinit var alert: Alert
 
