@@ -11,6 +11,7 @@ import javafx.scene.control.*
 import javafx.scene.image.ImageView
 import javafx.scene.layout.AnchorPane
 import javafx.stage.Stage
+import org.w3c.dom.Text
 import java.net.URL
 import java.sql.SQLException
 import java.util.*
@@ -137,9 +138,23 @@ class MainFormController : Initializable {
     @FXML
     private lateinit var movies_typeProd: ComboBox<String>
 
+    @FXML
+    private lateinit var movies_movieId: TextField
+
+    @FXML
+    private lateinit var movies_title: TextField
+
+    @FXML
+    private lateinit var movies_duration: TextField
+
+    @FXML
+    private lateinit var movies_price: TextField
+
     private val comboList = arrayOf("Sim", "Não")
 
     private val productionTypeList = arrayOf("Nacional", "Estrangeira")
+
+    private val audioTypeList = arrayOf("Original", "Original com Legenda", "Dublado")
 
     private lateinit var alert: Alert
 
@@ -156,6 +171,18 @@ class MainFormController : Initializable {
 
         movies_hasHalf.items = listData
         movies_has3d.items = listData
+    }
+
+    private fun intializeProductionTypeList(){
+        val listData: ObservableList<String> = FXCollections.observableArrayList(*productionTypeList)
+
+        movies_typeProd.items = listData
+    }
+
+    private fun initializeAudioTypeList(){
+        val listData: ObservableList<String> = FXCollections.observableArrayList(*audioTypeList)
+
+        movies_audio.items = listData
     }
 
     fun logout() {
@@ -189,5 +216,7 @@ class MainFormController : Initializable {
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
         initializeComboBoxes()
+        initializeAudioTypeList()
+        intializeProductionTypeList()
     }
 }
