@@ -444,7 +444,7 @@
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <ComboBox layoutX="202.0" layoutY="170.0" prefWidth="165.0" promptText="Selecione um tipo...">
+                                    <ComboBox fx:id="movies_typeProd" layoutX="202.0" layoutY="170.0" prefWidth="165.0" promptText="Selecione um tipo...">
                                        <stylesheets>
                                           <URL value="@../../../Values/mainForm.css" />
                                           <URL value="@../../../Values/mainForm.css" />
@@ -455,7 +455,7 @@
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <ComboBox layoutX="521.0" layoutY="135.0" prefWidth="165.0" promptText="Selecione uma opção...">
+                                    <ComboBox fx:id="movies_audio" layoutX="521.0" layoutY="135.0" prefWidth="165.0" promptText="Selecione uma opção...">
                                        <stylesheets>
                                           <URL value="@../../../Values/mainForm.css" />
                                           <URL value="@../../../Values/mainForm.css" />
@@ -466,7 +466,7 @@
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <ComboBox layoutX="520.0" layoutY="170.0" prefHeight="26.0" prefWidth="165.0" promptText="Selecione uma opção...">
+                                    <ComboBox fx:id="movies_has3d" layoutX="520.0" layoutY="170.0" prefHeight="26.0" prefWidth="165.0" promptText="Selecione uma opção...">
                                        <stylesheets>
                                           <URL value="@../../../Values/mainForm.css" />
                                           <URL value="@../../../Values/mainForm.css" />
@@ -477,7 +477,7 @@
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <ComboBox layoutX="521.0" layoutY="65.0" prefWidth="165.0" promptText="Selecione uma opção...">
+                                    <ComboBox fx:id="movies_hasHalf" layoutX="521.0" layoutY="65.0" prefWidth="165.0" promptText="Selecione uma opção...">
                                        <stylesheets>
                                           <URL value="@../../../Values/mainForm.css" />
                                           <URL value="@../../../Values/mainForm.css" />

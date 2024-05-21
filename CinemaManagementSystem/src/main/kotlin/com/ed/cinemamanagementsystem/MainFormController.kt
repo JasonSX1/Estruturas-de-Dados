@@ -1,5 +1,7 @@
 package com.ed.cinemamanagementsystem
 
+import javafx.collections.FXCollections
+import javafx.collections.ObservableList
 import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
 import javafx.fxml.Initializable
@@ -123,9 +125,21 @@ class MainFormController : Initializable {
     @FXML
     private lateinit var wishlist_btn: Button
 
-    private val productionTypeList = arrayOf("Nacional", "Estrangeira")
+    @FXML
+    private lateinit var movies_hasHalf: ComboBox<String>
 
-    private val hasHalf
+    @FXML
+    private lateinit var movies_has3d: ComboBox<String>
+
+    @FXML
+    private lateinit var movies_audio: ComboBox<String>
+
+    @FXML
+    private lateinit var movies_typeProd: ComboBox<String>
+
+    private val comboList = arrayOf("Sim", "Não")
+
+    private val productionTypeList = arrayOf("Nacional", "Estrangeira")
 
     private lateinit var alert: Alert
 
@@ -137,6 +151,12 @@ class MainFormController : Initializable {
         return alert.showAndWait()
     }
 
+    private fun initializeComboBoxes() {
+        val listData: ObservableList<String> = FXCollections.observableArrayList(*comboList)
+
+        movies_hasHalf.items = listData
+        movies_has3d.items = listData
+    }
 
     fun logout() {
         try {
@@ -168,6 +188,6 @@ class MainFormController : Initializable {
 
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
-        // Inicialização do controlador
+        initializeComboBoxes()
     }
 }
