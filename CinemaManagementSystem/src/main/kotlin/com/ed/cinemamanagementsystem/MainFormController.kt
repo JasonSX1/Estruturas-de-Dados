@@ -1,5 +1,6 @@
 package com.ed.cinemamanagementsystem
 
+import com.ed.cinemamanagementsystem.Data.Companion.username
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import javafx.fxml.FXML
@@ -151,6 +152,9 @@ class MainFormController : Initializable {
     @FXML
     private lateinit var movies_price: TextField
 
+    @FXML
+    private lateinit var usernameLabel: Label
+
     private val comboList = arrayOf("Sim", "Não")
 
     private val productionTypeList = arrayOf("Nacional", "Estrangeira")
@@ -199,6 +203,12 @@ class MainFormController : Initializable {
         movies_audio.items = listData
     }
 
+    fun displayUsername() {
+        val user = Data.username
+        val formattedUser = user.substring(0, 1).uppercase() + user.substring(1)
+        usernameLabel.text = formattedUser
+    }
+
     fun logout() {
         try {
             val option = showAlert("Mensagem de confirmação", "Você realmente deseja sair?", Alert.AlertType.CONFIRMATION)
@@ -232,5 +242,6 @@ class MainFormController : Initializable {
         initializeComboBoxes()
         initializeAudioTypeList()
         intializeProductionTypeList()
+        displayUsername()
     }
 }

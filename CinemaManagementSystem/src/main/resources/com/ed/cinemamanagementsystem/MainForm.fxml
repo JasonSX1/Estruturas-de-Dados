@@ -32,7 +32,7 @@
                                         <Image url="@../../../Values/Pngs/Icons/cineicon.png" />
                                     </image>
                                 </ImageView>
-                                <Label layoutX="46.0" layoutY="100.0" prefHeight="18.0" prefWidth="28.0" text="User" textFill="WHITE" AnchorPane.leftAnchor="46.0" AnchorPane.rightAnchor="46.0" />
+                                <Label layoutX="11.0" layoutY="102.0" prefHeight="18.0" prefWidth="28.0" text="Olá, " textFill="WHITE" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="81.8" />
                                 <Button fx:id="home_btn" layoutX="32.0" layoutY="150.0" mnemonicParsing="false" styleClass="nav_-btn" stylesheets="@../../../Values/mainForm.css" text="Home" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0">
                                     <graphic>
                                         <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
@@ -97,6 +97,11 @@
                                         </ImageView>
                                     </graphic>
                                 </Button>
+                        <Label fx:id="usernameLabel" layoutX="37.0" layoutY="98.0" prefHeight="18.0" prefWidth="83.0" text="User" textFill="WHITE">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
                             </children>
                         </AnchorPane>
                     </left>
@@ -385,7 +390,7 @@
                                  </children>
                               </AnchorPane>
                            </children></AnchorPane>
-                        <AnchorPane fx:id="MoviesForm" layoutX="229.0" layoutY="182.0" prefHeight="600.0" prefWidth="980.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="MoviesForm" layoutX="229.0" layoutY="182.0" prefHeight="600.0" prefWidth="980.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane prefHeight="255.0" prefWidth="965.0" stylesheets="@../../../Values/mainForm.css" AnchorPane.bottomAnchor="330.0" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="17.0">
                                  <styleClass>
@@ -426,19 +431,19 @@
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <TextField layoutX="202.0" layoutY="65.0" prefWidth="165.0" />
+                                    <TextField fx:id="movies_movieId" layoutX="202.0" layoutY="65.0" prefWidth="165.0" />
                                     <Label layoutX="61.0" layoutY="100.0" text="Titulo do Filme" textFill="WHITE">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <TextField layoutX="202.0" layoutY="100.0" prefWidth="165.0" />
+                                    <TextField fx:id="movies_title" layoutX="202.0" layoutY="100.0" prefWidth="165.0" />
                                     <Label layoutX="38.0" layoutY="135.0" text="Duração (em minutos)" textFill="WHITE">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <TextField layoutX="202.0" layoutY="135.0" prefWidth="165.0" />
+                                    <TextField fx:id="movies_duration" layoutX="202.0" layoutY="135.0" prefWidth="165.0" />
                                     <Label layoutX="52.0" layoutY="170.0" text="Tipo de produção" textFill="WHITE">
                                        <font>
                                           <Font size="14.0" />
@@ -488,7 +493,7 @@
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <TextField layoutX="521.0" layoutY="100.0" prefWidth="165.0" />
+                                    <TextField fx:id="movies_price" layoutX="521.0" layoutY="100.0" prefWidth="165.0" promptText="R$ 0.0" />
                                     <AnchorPane layoutX="772.0" layoutY="8.0" prefHeight="236.0" prefWidth="160.0" styleClass="white-bg" stylesheets="@../../../Values/mainForm.css" AnchorPane.bottomAnchor="58.39999999999998" AnchorPane.rightAnchor="14.400000000000091">
                                        <children>
                                           <ImageView fx:id="movies_imageView" fitHeight="236.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true" />
@@ -509,7 +514,7 @@
                               </AnchorPane>
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="sessions_form" layoutX="14.0" layoutY="127.0" prefHeight="727.2" prefWidth="994.4" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="sessions_form" layoutX="14.0" layoutY="127.0" prefHeight="727.2" prefWidth="994.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane prefHeight="255.0" prefWidth="965.0" stylesheets="@../../../Values/mainForm.css" AnchorPane.bottomAnchor="330.0" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="17.0">
                                  <styleClass>
