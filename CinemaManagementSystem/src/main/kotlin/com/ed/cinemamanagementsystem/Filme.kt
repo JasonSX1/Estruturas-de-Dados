@@ -1,6 +1,4 @@
 package com.ed.cinemamanagementsystem
 
-interface Listavel {
-
-
+class Filme {
 }

@@ -137,6 +137,8 @@ class LoginAndSignupController {
             val result = prepare.executeQuery()
 
             if (result.next()) {
+                Data.username = si_user.text
+
                 val username = result.getString("username")
                 showAlert("Aviso!", "Login bem sucedido!", Alert.AlertType.INFORMATION)
                 val fxmlLoader = FXMLLoader(javaClass.getResource("MainForm.fxml"))
