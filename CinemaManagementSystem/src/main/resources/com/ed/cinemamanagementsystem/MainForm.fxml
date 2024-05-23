@@ -32,7 +32,10 @@
                                         <Image url="@../../../Values/Pngs/Icons/cineicon.png" />
                                     </image>
                                 </ImageView>
-                                <Label layoutX="11.0" layoutY="102.0" prefHeight="18.0" prefWidth="28.0" text="Olá, " textFill="WHITE" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="81.8" />
+                                <Label layoutX="8.8" layoutY="102.0" prefHeight="20.0" prefWidth="29.0" text="Olá, " textFill="WHITE" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="82.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Label>
                                 <Button fx:id="home_btn" layoutX="32.0" layoutY="150.0" mnemonicParsing="false" styleClass="nav_-btn" stylesheets="@../../../Values/mainForm.css" text="Home" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0">
                                     <graphic>
                                         <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
@@ -390,7 +393,7 @@
                                  </children>
                               </AnchorPane>
                            </children></AnchorPane>
-                        <AnchorPane fx:id="MoviesForm" layoutX="229.0" layoutY="182.0" prefHeight="600.0" prefWidth="980.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="MoviesForm" layoutX="229.0" layoutY="182.0" prefHeight="600.0" prefWidth="980.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane prefHeight="255.0" prefWidth="965.0" stylesheets="@../../../Values/mainForm.css" AnchorPane.bottomAnchor="330.0" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="17.0">
                                  <styleClass>
@@ -514,7 +517,7 @@
                               </AnchorPane>
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="sessions_form" layoutX="14.0" layoutY="127.0" prefHeight="727.2" prefWidth="994.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="sessions_form" layoutX="14.0" layoutY="127.0" prefHeight="727.2" prefWidth="994.4" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane prefHeight="255.0" prefWidth="965.0" stylesheets="@../../../Values/mainForm.css" AnchorPane.bottomAnchor="330.0" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="17.0">
                                  <styleClass>
