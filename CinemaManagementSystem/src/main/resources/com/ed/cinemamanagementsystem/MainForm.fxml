@@ -393,7 +393,7 @@
                                  </children>
                               </AnchorPane>
                            </children></AnchorPane>
-                        <AnchorPane fx:id="MoviesForm" layoutX="229.0" layoutY="182.0" prefHeight="600.0" prefWidth="980.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="MoviesForm" layoutX="229.0" layoutY="182.0" prefHeight="600.0" prefWidth="980.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane prefHeight="255.0" prefWidth="965.0" stylesheets="@../../../Values/mainForm.css" AnchorPane.bottomAnchor="330.0" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="17.0">
                                  <styleClass>
@@ -401,12 +401,12 @@
                                     <String fx:value="radius" />
                                  </styleClass>
                                  <children>
-                                    <TableView fx:id="movies_tableView" layoutX="19.0" layoutY="12.0" prefHeight="226.0" prefWidth="914.0" styleClass="column-header" stylesheets="@../../../Values/mainForm.css" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="12.0">
+                                    <TableView fx:id="movies_tableView" layoutX="19.0" layoutY="12.0" prefHeight="226.0" prefWidth="914.0" stylesheets="@../../../Values/mainForm.css" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="12.0">
                                        <columns>
                                           <TableColumn fx:id="movies_col_movieId" prefWidth="76.5334159731865" text="ID do Filme" />
-                                          <TableColumn fx:id="movies_col_movieTitle" prefWidth="187.46653747558594" text="Título do Filme" />
-                                          <TableColumn fx:id="movies_col_movieDuration" prefWidth="85.33343505859375" text="Duração (min)" />
-                                          <TableColumn fx:id="movies_col_productionType" prefWidth="173.066650390625" text="Tipo de produção" />
+                                          <TableColumn fx:id="movies_col_movieTitle" prefWidth="216.80001831054688" text="Título do Filme" />
+                                          <TableColumn fx:id="movies_col_movieDuration" prefWidth="97.5999755859375" text="Duração (min)" />
+                                          <TableColumn fx:id="movies_col_productionType" prefWidth="122.39996337890625" text="Tipo de produção" />
                                           <TableColumn fx:id="movies_col_audType" prefWidth="134.933349609375" text="Tipo de Audio" />
                                           <TableColumn fx:id="movies_col_has3d" prefWidth="76.79998779296875" text="3D" />
                                           <TableColumn fx:id="movies_col_hasHalf" prefWidth="76.79998779296875" text="Meia" />
@@ -517,7 +517,7 @@
                               </AnchorPane>
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="sessions_form" layoutX="14.0" layoutY="127.0" prefHeight="727.2" prefWidth="994.4" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="sessions_form" layoutX="14.0" layoutY="127.0" prefHeight="727.2" prefWidth="994.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane prefHeight="255.0" prefWidth="965.0" stylesheets="@../../../Values/mainForm.css" AnchorPane.bottomAnchor="330.0" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="17.0">
                                  <styleClass>
@@ -557,31 +557,31 @@
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <TextField layoutX="202.0" layoutY="65.0" prefWidth="165.0" />
+                                    <TextField fx:id="sessions_id" layoutX="202.0" layoutY="65.0" prefWidth="165.0" />
                                     <Label layoutX="61.0" layoutY="100.0" text="Número da sala" textFill="WHITE">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <TextField layoutX="202.0" layoutY="100.0" prefWidth="165.0" />
+                                    <TextField fx:id="sessions_roomNumber" layoutX="202.0" layoutY="100.0" prefWidth="165.0" />
                                     <Label layoutX="38.0" layoutY="135.0" text="Capacidade da sala" textFill="WHITE">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <TextField layoutX="202.0" layoutY="135.0" prefWidth="165.0" />
+                                    <TextField fx:id="sessions_capacity" layoutX="202.0" layoutY="135.0" prefWidth="165.0" />
                                     <Label layoutX="409.0" layoutY="62.0" text="Atribuir um filme" textFill="WHITE">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <ComboBox layoutX="559.0" layoutY="62.0" prefWidth="165.0" promptText="Selecione um tipo...">
+                                    <ComboBox fx:id="sessions_movie" layoutX="559.0" layoutY="62.0" prefWidth="165.0" promptText="Selecione um filme...">
                                        <stylesheets>
                                           <URL value="@../../../Values/mainForm.css" />
                                           <URL value="@../../../Values/mainForm.css" />
                                        </stylesheets>
                                     </ComboBox>
-                                    <AnchorPane layoutX="772.0" layoutY="8.0" prefHeight="236.0" prefWidth="160.0" styleClass="white-bg" stylesheets="@../../../Values/mainForm.css" AnchorPane.bottomAnchor="58.39999999999998" AnchorPane.rightAnchor="14.400000000000091">
+                                    <AnchorPane disable="true" layoutX="772.0" layoutY="8.0" prefHeight="236.0" prefWidth="160.0" styleClass="white-bg" stylesheets="@../../../Values/mainForm.css" AnchorPane.bottomAnchor="58.39999999999998" AnchorPane.rightAnchor="14.400000000000091">
                                        <children>
                                           <Label layoutX="11.0" layoutY="22.0" prefHeight="191.0" prefWidth="138.0" text="Implementação posterior do grid da sala" textAlignment="CENTER" wrapText="true">
                                              <stylesheets>
@@ -591,19 +591,29 @@
                                           </Label>
                                        </children>
                                     </AnchorPane>
-                                    <Button layoutX="778.0" layoutY="253.0" mnemonicParsing="false" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Configurar poltronas" AnchorPane.bottomAnchor="19.799999999999955" AnchorPane.rightAnchor="20.40000000000009" />
-                                    <Button layoutX="20.0" layoutY="233.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="80.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Adicionar" />
-                                    <Button layoutX="130.0" layoutY="233.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="80.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Atualizar" />
-                                    <Button layoutX="240.0" layoutY="233.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="80.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Limpar" />
-                                    <Button layoutX="350.0" layoutY="233.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="80.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Deletar" />
+                                    <Button disable="true" layoutX="778.0" layoutY="253.0" mnemonicParsing="false" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Configurar poltronas" AnchorPane.bottomAnchor="19.799999999999955" AnchorPane.rightAnchor="20.40000000000009" />
+                                    <Button fx:id="sessions_addBtn" layoutX="20.0" layoutY="233.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="80.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Adicionar" />
+                                    <Button fx:id="sessions_updateBtn" layoutX="130.0" layoutY="233.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="80.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Atualizar" />
+                                    <Button fx:id="sessions_clearBtn" layoutX="240.0" layoutY="233.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="80.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Limpar" />
+                                    <Button fx:id="sessions_deleteBtn" layoutX="350.0" layoutY="233.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="80.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Deletar" />
                                     <Label layoutX="395.0" layoutY="97.0" text="Horario de inicio do filme" textFill="WHITE">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <TextField layoutX="559.0" layoutY="97.0" prefWidth="165.0" />
-                                    <Button layoutX="465.0" layoutY="233.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="107.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Iniciar Vendas" />
-                                    <Button layoutX="610.0" layoutY="233.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="115.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Fechar Vendas" />
+                                    <TextField fx:id="sessions_startTime" layoutX="559.0" layoutY="97.0" prefWidth="165.0" />
+                                    <Button fx:id="sessions_startSales" layoutX="465.0" layoutY="233.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="107.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Iniciar Vendas" />
+                                    <Button fx:id="sessions_closeSales" layoutX="610.0" layoutY="233.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="115.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Fechar Vendas" />
+                                    <Label layoutX="409.0" layoutY="135.0" text="Status da Sessão" textFill="WHITE">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="sessions_statusLabel" layoutX="617.0" layoutY="135.0" text="STATUS" textFill="WHITE">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Label>
                                  </children>
                               </AnchorPane>
                            </children>

@@ -155,6 +155,42 @@ class MainFormController : Initializable {
     @FXML
     private lateinit var usernameLabel: Label
 
+    @FXML
+    private lateinit var sessions_addBtn: Button
+
+    @FXML
+    private lateinit var sessions_capacity: TextField
+
+    @FXML
+    private lateinit var sessions_clearBtn: Button
+
+    @FXML
+    private lateinit var sessions_closeSales: Button
+
+    @FXML
+    private lateinit var sessions_deleteBtn: Button
+
+    @FXML
+    private lateinit var sessions_id: TextField
+
+    @FXML
+    private lateinit var sessions_movie: ComboBox<String>
+
+    @FXML
+    private lateinit var sessions_roomNumber: TextField
+
+    @FXML
+    private lateinit var sessions_startSales: Button
+
+    @FXML
+    private lateinit var sessions_startTime: TextField
+
+    @FXML
+    private lateinit var sessions_updateBtn: Button
+
+    @FXML
+    private lateinit var sessions_statusLabel: Label
+
     private val comboList = arrayOf("Sim", "Não")
 
     private val productionTypeList = arrayOf("Nacional", "Estrangeira")
@@ -235,8 +271,6 @@ class MainFormController : Initializable {
             e.printStackTrace()
         }
     }
-
-
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
         initializeComboBoxes()
