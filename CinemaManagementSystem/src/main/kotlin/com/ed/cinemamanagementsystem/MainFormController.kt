@@ -1,6 +1,7 @@
 package com.ed.cinemamanagementsystem
 
 import com.ed.cinemamanagementsystem.Data.Companion.username
+import javafx.application.Platform
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import javafx.fxml.FXML
@@ -15,7 +16,9 @@ import javafx.stage.Stage
 import org.w3c.dom.Text
 import java.net.URL
 import java.sql.Connection
+import java.sql.ResultSet
 import java.sql.SQLException
+import java.sql.Statement
 import java.util.*
 
 class MainFormController : Initializable {
@@ -226,6 +229,36 @@ class MainFormController : Initializable {
         movies_hasHalf.items = listData
         movies_has3d.items = listData
     }
+
+    //Testar essa função de inicializar a combobox dos filmes
+    private fun loadMovieNames() {
+        val connection = connectToDatabase()
+        if (connection != null) {
+            val query = "SELECT movie_name FROM movies"
+            try {
+                val statement: Statement = connection.createStatement()
+                val resultSet: ResultSet = statement.executeQuery(query)
+                val movieNames = mutableListOf<String>()
+                while (resultSet.next()) {
+                    movieNames.add(resultSet.getString("nome"))
+                }
+                resultSet.close()
+                statement.close()
+                connection.close()
+
+                // Atualizar o ComboBox na thread da UI
+                Platform.runLater {
+                    sessions_movie.items.clear()
+                    sessions_movie.items.addAll(movieNames)
+                }
+
+            } catch (e: SQLException) {
+                showAlert("Mensagem de erro!", "Erro ao carregar os nomes dos filmes: ${e.message}", Alert.AlertType.ERROR)
+            }
+        }
+    }
+
+    //Desenvolver o metodo para cadastrar os filmes e alocar eles na ED
 
     private fun intializeProductionTypeList(){
         val listData: ObservableList<String> = FXCollections.observableArrayList(*productionTypeList)
