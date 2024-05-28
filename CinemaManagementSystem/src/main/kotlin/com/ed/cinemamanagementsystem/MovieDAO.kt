@@ -8,6 +8,7 @@ interface MovieDAO {
     fun updateMovie(id: Int, novoFilme: Movie)
     fun listMovies(): List<Movie>
     fun searchMovieByID(id: Int): Movie?
+    fun deleteMovieByPosition(position: Int): Movie?
     fun isEmpty(): Boolean
     fun qtdMovies(): Int
 }
