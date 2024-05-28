@@ -258,8 +258,6 @@ class MainFormController : Initializable {
         }
     }
 
-    //Desenvolver o metodo para cadastrar os filmes e alocar eles na ED
-
     private fun intializeProductionTypeList(){
         val listData: ObservableList<String> = FXCollections.observableArrayList(*productionTypeList)
 
@@ -271,6 +269,9 @@ class MainFormController : Initializable {
 
         movies_audio.items = listData
     }
+
+    //Desenvolver o metodo para cadastrar os filmes e alocar eles na ED
+
 
     fun displayUsername() {
         val user = Data.username
