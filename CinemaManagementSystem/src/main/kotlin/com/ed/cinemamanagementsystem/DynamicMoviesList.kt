@@ -1,6 +1,6 @@
 package com.ed.cinemamanagementsystem
 
-class DynamicMoviesList: MovieDAO {
+class DynamicMoviesList : MovieDAO {
 
     private var ponteiroInicio: DoubleNode? = null
     private var ponteiroFim: DoubleNode? = null
@@ -18,17 +18,31 @@ class DynamicMoviesList: MovieDAO {
         ponteiroInicio = tempNode
         quantidade++
     }
-    override fun addMovieCustomP(filmes: Movie, position: Int) {
+
+    override fun addMovieEnd(movie: Movie) {
+        val tempNode = DoubleNode(movie)
+        tempNode.next = null
+        if (!isEmpty()) {
+            tempNode.previous = ponteiroFim
+            ponteiroFim?.next = tempNode
+        } else {
+            ponteiroInicio = tempNode
+        }
+        ponteiroFim = tempNode
+        quantidade++
+    }
+
+    override fun addMovieCustomP(movie: Movie, position: Int) {
         if (position < 0 || position > quantidade) {
             println("Posição inválida!")
             return
         }
 
-        val tempNode = DoubleNode(filmes)
+        val tempNode = DoubleNode(movie)
         if (position == 0) {
-            addMovieStart(filmes)
+            addMovieStart(movie)
         } else if (position == quantidade) {
-            addMovieEnd(filmes)
+            addMovieEnd(movie)
         } else {
             var current = ponteiroInicio
             for (i in 0 until position) {
@@ -42,41 +56,95 @@ class DynamicMoviesList: MovieDAO {
         }
     }
 
-    override fun addMovieEnd(filmes: Movie) {
-        val tempNode = DoubleNode(filmes)
-        tempNode.next = null
-        if (!isEmpty()) {
-            tempNode.previous = ponteiroFim
-            ponteiroFim?.next = tempNode
-        } else {
-            ponteiroInicio = tempNode
+    override fun removeMovie(id: Int): Movie? {
+        var current = ponteiroInicio
+        while (current != null) {
+            if (current.movie.id == id) {
+                val movie = current.movie
+                if (current.previous != null) {
+                    current.previous?.next = current.next
+                } else {
+                    ponteiroInicio = current.next
+                }
+                if (current.next != null) {
+                    current.next?.previous = current.previous
+                } else {
+                    ponteiroFim = current.previous
+                }
+                quantidade--
+                return movie
+            }
+            current = current.next
         }
-        ponteiroFim = tempNode
-        quantidade++
+        return null
     }
 
-    override fun removeMovie(id: Int): Movie{
-        TODO("Not yet implemented")
+    override fun updateMovie(id: Int, novoFilme: Movie) {
+        var current = ponteiroInicio
+        while (current != null) {
+            if (current.movie.id == id) {
+                current.movie = novoFilme
+                return
+            }
+            current = current.next
+        }
+        println("Filme não encontrado!")
     }
 
-    override fun updateMovie(id: Int, novoFilme: Movie){
-        TODO("Not yet implemented")
+    override fun listMovies(): List<Movie> {
+        val listaFilmes = mutableListOf<Movie>()
+        var current = ponteiroInicio
+        while (current != null) {
+            listaFilmes.add(current.movie)
+            current = current.next
+        }
+        return listaFilmes
     }
 
-    override fun listMovies(): List<Movie>{
-        TODO("Not yet implemented")
+    override fun searchMovieByID(id: Int): Movie? {
+        var current = ponteiroInicio
+        while (current != null) {
+            if (current.movie.id == id) {
+                return current.movie
+            }
+            current = current.next
+        }
+        return null
     }
 
-    override fun searchMovieByID(id: Int): Movie?{
-        TODO("Not yet implemented")
+    override fun deleteMovieByPosition(position: Int): Movie? {
+        if (position < 0 || position >= quantidade) {
+            println("Índice inválido!")
+            return null
+        }
+
+        var current = ponteiroInicio
+        for (i in 0 until position) {
+            current = current?.next
+        }
+
+        val movie = current?.movie
+        if (current != null) {
+            if (current.previous != null) {
+                current.previous?.next = current.next
+            } else {
+                ponteiroInicio = current.next
+            }
+            if (current.next != null) {
+                current.next?.previous = current.previous
+            } else {
+                ponteiroFim = current.previous
+            }
+            quantidade--
+        }
+        return movie
     }
 
     override fun isEmpty(): Boolean {
-        TODO("Not yet implemented")
+        return quantidade == 0
     }
 
     override fun qtdMovies(): Int {
-        TODO("Not yet implemented")
+        return quantidade
     }
-
 }
