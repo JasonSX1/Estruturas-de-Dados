@@ -1,19 +1,19 @@
 package com.ed.cinemamanagementsystem
 
-import com.ed.cinemamanagementsystem.Data.Companion.username
 import javafx.application.Platform
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
 import javafx.fxml.Initializable
+import javafx.geometry.Insets
 import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.scene.control.*
 import javafx.scene.image.ImageView
 import javafx.scene.layout.AnchorPane
+import javafx.scene.layout.GridPane
 import javafx.stage.Stage
-import org.w3c.dom.Text
 import java.net.URL
 import java.sql.Connection
 import java.sql.ResultSet
@@ -200,6 +200,8 @@ class MainFormController : Initializable {
 
     private val audioTypeList = arrayOf("Original", "Original com Legenda", "Dublado")
 
+    private val movieDAO: MovieDAO = DynamicMoviesList()
+
     private fun connectToDatabase(): Connection? {
         return try {
             val connection = Database.connectDB()
@@ -270,9 +272,6 @@ class MainFormController : Initializable {
         movies_audio.items = listData
     }
 
-    //Desenvolver o metodo para cadastrar os filmes e alocar eles na ED
-
-
     fun displayUsername() {
         val user = Data.username
         val formattedUser = user.substring(0, 1).uppercase() + user.substring(1)
@@ -306,10 +305,148 @@ class MainFormController : Initializable {
         }
     }
 
+    @FXML
+    fun addMovie() {
+        val movieId = movies_movieId.text.toIntOrNull()
+        val title = movies_title.text
+        val duration = movies_duration.text.toIntOrNull()
+        val price = movies_price.text.toDoubleOrNull()
+
+        if (movieId != null && title.isNotBlank() && duration != null && price != null) {
+            val movie = Movie(movieId, title, duration, "Type", false, price, "AudioType", false, "ImagePath")
+            val options = listOf("Início", "Fim", "Posição Personalizada")
+            val dialog = ChoiceDialog(options[0], options)
+            dialog.title = "Escolher posição"
+            dialog.headerText = "Escolha onde adicionar o filme"
+            dialog.contentText = "Posição:"
+
+            val result = dialog.showAndWait()
+            result.ifPresent { position ->
+                when (position) {
+                    "Início" -> movieDAO.addMovieStart(movie)
+                    "Fim" -> movieDAO.addMovieEnd(movie)
+                    "Posição Personalizada" -> {
+                        val inputDialog = TextInputDialog()
+                        inputDialog.title = "Posição Personalizada"
+                        inputDialog.headerText = "Digite a posição onde deseja adicionar o filme"
+                        inputDialog.contentText = "Posição:"
+
+                        val posResult = inputDialog.showAndWait()
+                        posResult.ifPresent { pos ->
+                            val posInt = pos.toIntOrNull()
+                            if (posInt != null && posInt >= 0 && posInt <= movieDAO.qtdMovies()) {
+                                movieDAO.addMovieCustomP(movie, posInt)
+                            } else {
+                                showAlert("Erro", "Posição inválida!", Alert.AlertType.ERROR)
+                            }
+                        }
+                    }
+                }
+            }
+            showAlert("Sucesso", "Filme adicionado com sucesso!", Alert.AlertType.INFORMATION)
+        } else {
+            showAlert("Erro", "Por favor, preencha todos os campos corretamente!", Alert.AlertType.ERROR)
+        }
+    }
+
+    fun showCustomDialog() {
+        val dialog = Dialog<String>()
+        dialog.title = "Escolher posição"
+        dialog.headerText = "Escolha onde adicionar o filme"
+
+        val addButtonType = ButtonType("Adicionar", ButtonBar.ButtonData.OK_DONE)
+        dialog.dialogPane.buttonTypes.addAll(addButtonType, ButtonType.CANCEL)
+
+        val grid = GridPane()
+        grid.hgap = 10.0
+        grid.vgap = 10.0
+        grid.padding = Insets(20.0, 150.0, 10.0, 10.0)
+
+        val options = listOf("Início", "Fim", "Posição Personalizada")
+        val comboBox = ComboBox<String>(FXCollections.observableArrayList(options))
+        comboBox.selectionModel.selectFirst()
+
+        grid.add(Label("Posição:"), 0, 0)
+        grid.add(comboBox, 1, 0)
+
+        val positionField = TextField()
+        positionField.isDisable = true
+
+        comboBox.selectionModel.selectedItemProperty().addListener { _, _, newValue ->
+            positionField.isDisable = newValue != "Posição Personalizada"
+        }
+
+        grid.add(Label("Posição Personalizada:"), 0, 1)
+        grid.add(positionField, 1, 1)
+
+        dialog.dialogPane.content = grid
+
+        dialog.setResultConverter { dialogButton ->
+            if (dialogButton == addButtonType) {
+                val selectedPosition = comboBox.selectionModel.selectedItem
+                if (selectedPosition == "Posição Personalizada") {
+                    positionField.text
+                } else {
+                    selectedPosition
+                }
+            } else {
+                null
+            }
+        }
+
+        val result = dialog.showAndWait()
+
+        result.ifPresent { selectedPosition ->
+            val movieId = movies_movieId.text.toIntOrNull()
+            val title = movies_title.text
+            val duration = movies_duration.text.toIntOrNull()
+            val price = movies_price.text.toDoubleOrNull()
+
+            if (movieId != null && title.isNotBlank() && duration != null && price != null) {
+                val movie = Movie(movieId, title, duration, "Type", false, price, "AudioType", false, "ImagePath")
+
+                when (selectedPosition) {
+                    "Início" -> movieDAO.addMovieStart(movie)
+                    "Fim" -> movieDAO.addMovieEnd(movie)
+                    else -> {
+                        val posInt = selectedPosition.toIntOrNull()
+                        if (posInt != null && posInt >= 0 && posInt <= movieDAO.qtdMovies()) {
+                            movieDAO.addMovieCustomP(movie, posInt)
+                        } else {
+                            showAlert("Erro", "Posição inválida!", Alert.AlertType.ERROR)
+                        }
+                    }
+                }
+                showAlert("Sucesso", "Filme adicionado com sucesso!", Alert.AlertType.INFORMATION)
+            } else {
+                showAlert("Erro", "Por favor, preencha todos os campos corretamente!", Alert.AlertType.ERROR)
+            }
+        }
+    }
+
+    @FXML
+    fun removeMovie() {
+        val movieId = movies_movieId.text.toIntOrNull()
+
+        if (movieId != null) {
+            val removedMovie = movieDAO.removeMovie(movieId)
+            if (removedMovie != null) {
+                showAlert("Sucesso", "Filme removido com sucesso!", Alert.AlertType.INFORMATION)
+            } else {
+                showAlert("Erro", "Filme com ID $movieId não encontrado!", Alert.AlertType.ERROR)
+            }
+        } else {
+            showAlert("Erro", "Por favor, insira um ID de filme válido!", Alert.AlertType.ERROR)
+        }
+    }
+
+
     override fun initialize(location: URL?, resources: ResourceBundle?) {
         initializeComboBoxes()
         initializeAudioTypeList()
         intializeProductionTypeList()
         displayUsername()
+
+        movies_addBtn.setOnAction { addMovie() }
     }
 }
