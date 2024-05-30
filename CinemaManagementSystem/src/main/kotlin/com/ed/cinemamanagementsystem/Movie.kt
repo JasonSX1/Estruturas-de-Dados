@@ -4,7 +4,7 @@ data class Movie(
     val id: Int,
     val title: String,
     val duration: Int,
-    val type: String,
+    val productionType: String,
     val halfPrice: Boolean,
     val price: Double,
     val typeAud: String,
