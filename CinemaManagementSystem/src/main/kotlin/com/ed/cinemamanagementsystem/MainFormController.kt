@@ -10,10 +10,12 @@ import javafx.geometry.Insets
 import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.scene.control.*
+import javafx.scene.control.cell.PropertyValueFactory
 import javafx.scene.image.ImageView
 import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.GridPane
 import javafx.stage.Stage
+import java.awt.event.ActionEvent
 import java.net.URL
 import java.sql.Connection
 import java.sql.ResultSet
@@ -272,7 +274,7 @@ class MainFormController : Initializable {
         movies_audio.items = listData
     }
 
-    fun displayUsername() {
+    private fun displayUsername() {
         val user = Data.username
         val formattedUser = user.substring(0, 1).uppercase() + user.substring(1)
         usernameLabel.text = formattedUser
@@ -305,12 +307,15 @@ class MainFormController : Initializable {
         }
     }
 
-    @FXML
     fun addMovie() {
         val movieId = movies_movieId.text.toIntOrNull()
         val title = movies_title.text
         val duration = movies_duration.text.toIntOrNull()
         val price = movies_price.text.toDoubleOrNull()
+        val productionType = movies_typeProd.value
+        val hasHalf = movies_hasHalf.value == "Sim"
+        val audio = movies_audio.value
+        val has3d = movies_has3d.value == "Sim"
 
         if (movieId != null && title.isNotBlank() && duration != null && price != null) {
             val movie = Movie(movieId, title, duration, "Type", false, price, "AudioType", false, "ImagePath")
@@ -344,39 +349,47 @@ class MainFormController : Initializable {
                 }
             }
             showAlert("Sucesso", "Filme adicionado com sucesso!", Alert.AlertType.INFORMATION)
+            updateTableView()
+            loadMoviesToTableView()
         } else {
             showAlert("Erro", "Por favor, preencha todos os campos corretamente!", Alert.AlertType.ERROR)
         }
     }
 
     fun showCustomDialog() {
-        val dialog = Dialog<String>()
-        dialog.title = "Escolher posição"
-        dialog.headerText = "Escolha onde adicionar o filme"
+        val dialog = Dialog<String>().apply {
+            title = "Escolher posição"
+            headerText = "Escolha onde adicionar o filme"
+            //O CSS não tá funcionando
+            dialogPane.stylesheets.add(javaClass.getResource("dialog-styles.css").toExternalForm())
+        }
 
         val addButtonType = ButtonType("Adicionar", ButtonBar.ButtonData.OK_DONE)
         dialog.dialogPane.buttonTypes.addAll(addButtonType, ButtonType.CANCEL)
 
-        val grid = GridPane()
-        grid.hgap = 10.0
-        grid.vgap = 10.0
-        grid.padding = Insets(20.0, 150.0, 10.0, 10.0)
+        val grid = GridPane().apply {
+            styleClass.add("dialog-grid")
+            hgap = 10.0
+            vgap = 10.0
+            padding = Insets(20.0, 150.0, 10.0, 10.0)
+        }
 
-        val options = listOf("Início", "Fim", "Posição Personalizada")
-        val comboBox = ComboBox<String>(FXCollections.observableArrayList(options))
-        comboBox.selectionModel.selectFirst()
-
-        grid.add(Label("Posição:"), 0, 0)
-        grid.add(comboBox, 1, 0)
-
-        val positionField = TextField()
-        positionField.isDisable = true
+        val comboBox = ComboBox<String>(FXCollections.observableArrayList("Início", "Fim", "Posição Personalizada")).apply {
+            styleClass.add("dialog-combo-box")
+            selectionModel.selectFirst()
+        }
+        val positionField = TextField().apply {
+            styleClass.add("dialog-text-field")
+            isDisable = true
+        }
 
         comboBox.selectionModel.selectedItemProperty().addListener { _, _, newValue ->
             positionField.isDisable = newValue != "Posição Personalizada"
         }
 
-        grid.add(Label("Posição Personalizada:"), 0, 1)
+        grid.add(Label("Posição:").apply { styleClass.add("dialog-label") }, 0, 0)
+        grid.add(comboBox, 1, 0)
+        grid.add(Label("Posição Personalizada:").apply { styleClass.add("dialog-label") }, 0, 1)
         grid.add(positionField, 1, 1)
 
         dialog.dialogPane.content = grid
@@ -418,13 +431,14 @@ class MainFormController : Initializable {
                     }
                 }
                 showAlert("Sucesso", "Filme adicionado com sucesso!", Alert.AlertType.INFORMATION)
+                updateTableView()
+                loadMoviesToTableView()
             } else {
                 showAlert("Erro", "Por favor, preencha todos os campos corretamente!", Alert.AlertType.ERROR)
             }
         }
     }
 
-    @FXML
     fun removeMovie() {
         val movieId = movies_movieId.text.toIntOrNull()
 
@@ -440,6 +454,52 @@ class MainFormController : Initializable {
         }
     }
 
+    fun configureTableViewColumns(tableView: TableView<Movie>) {
+        // Vincula as propriedades do objeto Movie às células das colunas
+        val idColumn = tableView.columns[0] as TableColumn<Movie, Int>
+        idColumn.setCellValueFactory(PropertyValueFactory<Movie, Int>("id"))
+
+        val titleColumn = tableView.columns[1] as TableColumn<Movie, String>
+        titleColumn.setCellValueFactory(PropertyValueFactory<Movie, String>("title"))
+
+        val durationColumn = tableView.columns[2] as TableColumn<Movie, Int>
+        durationColumn.setCellValueFactory(PropertyValueFactory<Movie, Int>("duration"))
+
+        val productionTypeColumn = tableView.columns[3] as TableColumn<Movie, String>
+        productionTypeColumn.setCellValueFactory(PropertyValueFactory<Movie, String>("productionType"))
+
+        val audTypeColumn = tableView.columns[4] as TableColumn<Movie, String>
+        audTypeColumn.setCellValueFactory(PropertyValueFactory<Movie, String>("audType"))
+
+        val has3dColumn = tableView.columns[5] as TableColumn<Movie, Boolean>
+        has3dColumn.setCellValueFactory(PropertyValueFactory<Movie, Boolean>("has3d"))
+
+        val hasHalfColumn = tableView.columns[6] as TableColumn<Movie, Boolean>
+        hasHalfColumn.setCellValueFactory(PropertyValueFactory<Movie, Boolean>("hasHalf"))
+
+        val priceColumn = tableView.columns[7] as TableColumn<Movie, Double>
+        priceColumn.setCellValueFactory(PropertyValueFactory<Movie, Double>("price"))
+    }
+
+    private fun updateTableView() {
+        // Obtém a lista atualizada de filmes da sua lista dinâmica
+        val movies = movieDAO.listMovies()
+
+        // Define os itens da TableView como a lista atualizada de filmes
+        movies_tableView.items = FXCollections.observableArrayList(movies)
+    }
+
+    private fun loadMoviesToTableView() {
+        movies_tableView.items.clear()
+        val moviesList = movieDAO.listMovies()
+
+        val observableList = FXCollections.observableList(moviesList)
+        movies_tableView.items = observableList
+    }
+
+    fun switchMenu(event: ActionEvent){
+
+    }
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
         initializeComboBoxes()
