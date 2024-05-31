@@ -16,6 +16,7 @@ import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.GridPane
 import javafx.stage.Stage
 import java.awt.event.ActionEvent
+import java.awt.event.MouseEvent
 import java.net.URL
 import java.sql.Connection
 import java.sql.ResultSet
@@ -497,8 +498,19 @@ class MainFormController : Initializable {
         movies_tableView.items = observableList
     }
 
-    fun switchMenu(event: ActionEvent){
+    fun switchMenu(event: javafx.event.ActionEvent) {
+        // Esconder todos os menus
+        DashboardForm.isVisible = false
+        sessions_form.isVisible = false
+        MoviesForm.isVisible = false
 
+        if(event.source == dashboard_btn) {
+            DashboardForm.isVisible = true
+        } else if(event.source == sessions_btn){
+            sessions_form.isVisible = true
+        } else if(event.source == MoviesBtn){
+            MoviesForm.isVisible = true
+        }
     }
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
