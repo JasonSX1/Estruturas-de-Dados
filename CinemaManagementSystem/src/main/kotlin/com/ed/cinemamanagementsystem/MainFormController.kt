@@ -232,7 +232,8 @@ class MainFormController : Initializable {
         movies_has3d.items = listData
     }
 
-    //Testar essa função de inicializar a combobox dos filmes
+    //Testar essa função de inicializar a combobox dos filmes no menu de sessões
+    //Na verdade tem que atualizar ela pra funcionar com a ED ao invés do BD
     private fun loadMovieNames() {
         val connection = connectToDatabase()
         if (connection != null) {
@@ -306,59 +307,79 @@ class MainFormController : Initializable {
     }
 
     fun addMovie() {
-        val movieId = movies_movieId.text.toIntOrNull()
-        val title = movies_title.text
-        val duration = movies_duration.text.toIntOrNull()
-        val price = movies_price.text.toDoubleOrNull()
-        val productionType = movies_typeProd.value
-        val hasHalf = movies_hasHalf.value == "Sim"
-        val audio = movies_audio.value
-        val has3d = movies_has3d.value == "Sim"
+        try {
+            val movieId = movies_movieId.text.toIntOrNull()
+            val title = movies_title.text
+            val duration = movies_duration.text.toIntOrNull()
+            val price = movies_price.text.toDoubleOrNull()
+            val productionType = movies_typeProd.value
+            val hasHalf = movies_hasHalf.value == "Sim"
+            val audio = movies_audio.value
+            val has3d = movies_has3d.value
 
-        if (movieId != null && title.isNotBlank() && duration != null && price != null) {
-            val movie = Movie(movieId, title, duration, "Type", false, price, "AudioType", false, "ImagePath")
-            val options = listOf("Início", "Fim", "Posição Personalizada")
-            val dialog = ChoiceDialog(options[0], options)
-            dialog.title = "Escolher posição"
-            dialog.headerText = "Escolha onde adicionar o filme"
-            dialog.contentText = "Posição:"
+            if (movieId != null && title.isNotBlank() && duration != null && price != null && productionType != null && audio != null && has3d != null) {
+                val movie = Movie(movieId, title, duration, productionType, hasHalf, price, audio, has3d == "Sim", "ImagePath")
+                val options = listOf("Início", "Fim", "Posição Personalizada")
+                val dialog = ChoiceDialog(options[0], options)
+                dialog.title = "Escolher posição"
+                dialog.headerText = "Escolha onde adicionar o filme"
+                dialog.contentText = "Posição:"
 
-            val result = dialog.showAndWait()
-            result.ifPresent { position ->
-                when (position) {
-                    "Início" -> movieDAO.addMovieStart(movie)
-                    "Fim" -> movieDAO.addMovieEnd(movie)
-                    "Posição Personalizada" -> {
-                        val inputDialog = TextInputDialog()
-                        inputDialog.title = "Posição Personalizada"
-                        inputDialog.headerText = "Digite a posição onde deseja adicionar o filme"
-                        inputDialog.contentText = "Posição:"
+                val result = dialog.showAndWait()
 
-                        val posResult = inputDialog.showAndWait()
-                        posResult.ifPresent { pos ->
-                            val posInt = pos.toIntOrNull()
-                            if (posInt != null && posInt >= 0 && posInt <= movieDAO.qtdMovies()) {
-                                movieDAO.addMovieCustomP(movie, posInt)
-                            } else {
-                                showAlert("Erro", "Posição inválida!", Alert.AlertType.ERROR)
+                if (result.isPresent) {
+                    val position = result.get()
+                    var sucesso = false
+
+                    when (position) {
+                        "Início" -> {
+                            movieDAO.addMovieStart(movie)
+                            sucesso = true
+                        }
+                        "Fim" -> {
+                            movieDAO.addMovieEnd(movie)
+                            sucesso = true
+                        }
+                        "Posição Personalizada" -> {
+                            val inputDialog = TextInputDialog()
+                            inputDialog.title = "Posição Personalizada"
+                            inputDialog.headerText = "Digite a posição onde deseja adicionar o filme"
+                            inputDialog.contentText = "Posição:"
+
+                            val posResult = inputDialog.showAndWait()
+
+                            if (posResult.isPresent) {
+                                val pos = posResult.get()
+                                val posInt = pos.toIntOrNull()
+                                if (posInt != null && posInt >= 0 && posInt <= movieDAO.qtdMovies()) {
+                                    movieDAO.addMovieCustomP(movie, posInt)
+                                    sucesso = true
+                                } else {
+                                    showAlert("Erro", "Posição inválida!", Alert.AlertType.ERROR)
+                                }
                             }
                         }
                     }
+
+                    if (sucesso) {
+                        showAlert("Sucesso", "Filme adicionado com sucesso!", Alert.AlertType.INFORMATION)
+                        updateTableView()
+                        loadMoviesToTableView()
+                        clearForm()
+                    }
                 }
+            } else {
+                showAlert("Erro", "Por favor, preencha todos os campos corretamente!", Alert.AlertType.ERROR)
             }
-            showAlert("Sucesso", "Filme adicionado com sucesso!", Alert.AlertType.INFORMATION)
-            updateTableView()
-            loadMoviesToTableView()
-        } else {
-            showAlert("Erro", "Por favor, preencha todos os campos corretamente!", Alert.AlertType.ERROR)
+        } catch (e: Exception) {
+            showAlert("Erro", "Ocorreu um erro ao adicionar o filme: ${e.message}", Alert.AlertType.ERROR)
+            e.printStackTrace()
         }
     }
-
     fun showCustomDialog() {
         val dialog = Dialog<String>().apply {
             title = "Escolher posição"
             headerText = "Escolha onde adicionar o filme"
-            //O CSS não tá funcionando
             dialogPane.stylesheets.add(javaClass.getResource("dialog-styles.css").toExternalForm())
         }
 
@@ -408,34 +429,36 @@ class MainFormController : Initializable {
         val result = dialog.showAndWait()
 
         result.ifPresent { selectedPosition ->
-            val movieId = movies_movieId.text.toIntOrNull()
-            val title = movies_title.text
-            val duration = movies_duration.text.toIntOrNull()
-            val price = movies_price.text.toDoubleOrNull()
+            if (selectedPosition != null) { // Verifica se o usuário clicou em "Adicionar"
+                val movieId = movies_movieId.text.toIntOrNull()
+                val title = movies_title.text
+                val duration = movies_duration.text.toIntOrNull()
+                val price = movies_price.text.toDoubleOrNull()
 
-            if (movieId != null && title.isNotBlank() && duration != null && price != null) {
-                val movie = Movie(movieId, title, duration, "Type", false, price, "AudioType", false, "ImagePath")
+                if (movieId != null && title.isNotBlank() && duration != null && price != null) {
+                    val movie = Movie(movieId, title, duration, "Type", false, price, "AudioType", false, "ImagePath")
 
-                when (selectedPosition) {
-                    "Início" -> movieDAO.addMovieStart(movie)
-                    "Fim" -> movieDAO.addMovieEnd(movie)
-                    else -> {
-                        val posInt = selectedPosition.toIntOrNull()
-                        if (posInt != null && posInt >= 0 && posInt <= movieDAO.qtdMovies()) {
-                            movieDAO.addMovieCustomP(movie, posInt)
-                        } else {
-                            showAlert("Erro", "Posição inválida!", Alert.AlertType.ERROR)
+                    when (selectedPosition) {
+                        "Início" -> movieDAO.addMovieStart(movie)
+                        "Fim" -> movieDAO.addMovieEnd(movie)
+                        else -> {
+                            val posInt = selectedPosition.toIntOrNull()
+                            if (posInt != null && posInt >= 0 && posInt <= movieDAO.qtdMovies()) {
+                                movieDAO.addMovieCustomP(movie, posInt)
+                            } else {
+                                showAlert("Erro", "Posição inválida!", Alert.AlertType.ERROR)
+                            }
                         }
                     }
+                    showAlert("Sucesso", "Filme adicionado com sucesso!", Alert.AlertType.INFORMATION)
+                    updateTableView()
+                    loadMoviesToTableView()
+                } else {
+                    showAlert("Erro", "Por favor, preencha todos os campos corretamente!", Alert.AlertType.ERROR)
                 }
-                showAlert("Sucesso", "Filme adicionado com sucesso!", Alert.AlertType.INFORMATION)
-                updateTableView()
-                loadMoviesToTableView()
-            } else {
-                showAlert("Erro", "Por favor, preencha todos os campos corretamente!", Alert.AlertType.ERROR)
             }
         }
-    }
+    } // falta corrigir o css
 
     fun removeMovie() {
         val movieId = movies_movieId.text.toIntOrNull()
@@ -495,8 +518,18 @@ class MainFormController : Initializable {
         movies_tableView.items = observableList
     }
 
+    private fun clearForm() {
+        movies_movieId.clear()
+        movies_title.clear()
+        movies_duration.clear()
+        movies_price.clear()
+        movies_typeProd.value = null
+        movies_hasHalf.value = null
+        movies_audio.value = null
+        movies_has3d.value = null
+    }
+
     fun switchMenu(event: javafx.event.ActionEvent) {
-        // Esconder todos os menus
         DashboardForm.isVisible = false
         sessions_form.isVisible = false
         MoviesForm.isVisible = false
