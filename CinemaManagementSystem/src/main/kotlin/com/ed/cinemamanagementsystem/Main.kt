@@ -17,7 +17,7 @@ class HelloApplication : Application() {
         stage.minWidth = 600.0
         stage.minHeight = 450.0
         stage.show()
-    } 
+    }
 }
 
 fun main() {

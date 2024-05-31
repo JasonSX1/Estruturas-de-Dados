@@ -30,7 +30,7 @@ class MainFormController : Initializable {
     private lateinit var DashboardForm: AnchorPane
 
     @FXML
-    private lateinit var MoviesBtn: Button
+    private lateinit var movies_btn: Button
 
     @FXML
     private lateinit var movies_imageView: ImageView
@@ -58,9 +58,6 @@ class MainFormController : Initializable {
 
     @FXML
     private lateinit var movies_addBtn: Button
-
-    @FXML
-    private lateinit var movies_btn: ImageView
 
     @FXML
     private lateinit var movies_clearBtn: Button
@@ -508,7 +505,7 @@ class MainFormController : Initializable {
             DashboardForm.isVisible = true
         } else if(event.source == sessions_btn){
             sessions_form.isVisible = true
-        } else if(event.source == MoviesBtn){
+        } else if(event.source == movies_btn){
             MoviesForm.isVisible = true
         }
     }
