@@ -63,40 +63,37 @@ class MainFormController : Initializable {
     private lateinit var movies_clearBtn: Button
 
     @FXML
-    private lateinit var movies_col_audType: TableColumn<*, *>
+    private lateinit var movies_tableView: TableView<Movie>
 
     @FXML
-    private lateinit var movies_col_has3d: TableColumn<*, *>
+    private lateinit var movies_col_movieId: TableColumn<Movie, Int>
 
     @FXML
-    private lateinit var movies_col_hasHalf: TableColumn<*, *>
+    private lateinit var movies_col_movieTitle: TableColumn<Movie, String>
 
     @FXML
-    private lateinit var movies_col_movieDuration: TableColumn<*, *>
+    private lateinit var movies_col_movieDuration: TableColumn<Movie, Int>
 
     @FXML
-    private lateinit var movies_col_movieId: TableColumn<*, *>
+    private lateinit var movies_col_productionType: TableColumn<Movie, String>
 
     @FXML
-    private lateinit var movies_col_moviePrice: TableColumn<*, *>
+    private lateinit var movies_col_moviePrice: TableColumn<Movie, Double>
 
     @FXML
-    private lateinit var movies_col_moviePrice1: TableColumn<*, *>
+    private lateinit var movies_col_audType: TableColumn<Movie, String>
 
     @FXML
-    private lateinit var movies_col_movieTitle: TableColumn<*, *>
+    private lateinit var movies_col_has3d: TableColumn<Movie, Boolean>
 
     @FXML
-    private lateinit var movies_col_productionType: TableColumn<*, *>
+    private lateinit var movies_col_hasHalf: TableColumn<Movie, Boolean>
 
     @FXML
     private lateinit var movies_deleteBtn: Button
 
     @FXML
     private lateinit var movies_importBtn: Button
-
-    @FXML
-    private lateinit var movies_tableView: TableView<*>
 
     @FXML
     private lateinit var movies_updateBtn: Button
@@ -193,6 +190,8 @@ class MainFormController : Initializable {
 
     @FXML
     private lateinit var sessions_statusLabel: Label
+
+    private val movieList: ObservableList<Movie> = FXCollections.observableArrayList()
 
     private val comboList = arrayOf("Sim", "Não")
 
@@ -363,7 +362,6 @@ class MainFormController : Initializable {
 
                     if (sucesso) {
                         showAlert("Sucesso", "Filme adicionado com sucesso!", Alert.AlertType.INFORMATION)
-                        updateTableView()
                         loadMoviesToTableView()
                         clearForm()
                     }
@@ -376,6 +374,7 @@ class MainFormController : Initializable {
             e.printStackTrace()
         }
     }
+
     fun showCustomDialog() {
         val dialog = Dialog<String>().apply {
             title = "Escolher posição"
@@ -513,6 +512,8 @@ class MainFormController : Initializable {
     private fun loadMoviesToTableView() {
         movies_tableView.items.clear()
         val moviesList = movieDAO.listMovies()
+        val movies = movieDAO.listMovies()
+        println("Carregando filmes: $movies")
 
         val observableList = FXCollections.observableList(moviesList)
         movies_tableView.items = observableList
@@ -550,5 +551,19 @@ class MainFormController : Initializable {
         displayUsername()
 
         movies_addBtn.setOnAction { addMovie() }
+
+        movies_col_movieId.cellValueFactory = PropertyValueFactory("id")
+        movies_col_movieTitle.cellValueFactory = PropertyValueFactory("title")
+        movies_col_movieDuration.cellValueFactory = PropertyValueFactory("duration")
+        movies_col_productionType.cellValueFactory = PropertyValueFactory("productionType")
+        movies_col_moviePrice.cellValueFactory = PropertyValueFactory("price")
+        movies_col_audType.cellValueFactory = PropertyValueFactory("audio")
+        movies_col_has3d.cellValueFactory = PropertyValueFactory("has3d")
+        movies_col_hasHalf.cellValueFactory = PropertyValueFactory("hasHalf")
+
+        movies_tableView.items = movieList
+
+        // Carregar filmes no início
+        loadMoviesToTableView()
     }
 }

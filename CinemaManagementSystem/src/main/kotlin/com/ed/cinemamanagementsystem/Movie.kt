@@ -5,9 +5,9 @@ data class Movie(
     val title: String,
     val duration: Int,
     val productionType: String,
-    val halfPrice: Boolean,
+    val hasHalf: Boolean,
     val price: Double,
-    val typeAud: String,
+    val audio: String,
     val has3d: Boolean,
-    val image: String
+    val imagePath: String
 )
