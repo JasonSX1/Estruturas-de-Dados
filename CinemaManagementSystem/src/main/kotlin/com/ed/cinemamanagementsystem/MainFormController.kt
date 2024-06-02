@@ -474,33 +474,6 @@ class MainFormController : Initializable {
         }
     }
 
-    fun configureTableViewColumns(tableView: TableView<Movie>) {
-        // Vincula as propriedades do objeto Movie às células das colunas
-        val idColumn = tableView.columns[0] as TableColumn<Movie, Int>
-        idColumn.setCellValueFactory(PropertyValueFactory<Movie, Int>("id"))
-
-        val titleColumn = tableView.columns[1] as TableColumn<Movie, String>
-        titleColumn.setCellValueFactory(PropertyValueFactory<Movie, String>("title"))
-
-        val durationColumn = tableView.columns[2] as TableColumn<Movie, Int>
-        durationColumn.setCellValueFactory(PropertyValueFactory<Movie, Int>("duration"))
-
-        val productionTypeColumn = tableView.columns[3] as TableColumn<Movie, String>
-        productionTypeColumn.setCellValueFactory(PropertyValueFactory<Movie, String>("productionType"))
-
-        val audTypeColumn = tableView.columns[4] as TableColumn<Movie, String>
-        audTypeColumn.setCellValueFactory(PropertyValueFactory<Movie, String>("audType"))
-
-        val has3dColumn = tableView.columns[5] as TableColumn<Movie, Boolean>
-        has3dColumn.setCellValueFactory(PropertyValueFactory<Movie, Boolean>("has3d"))
-
-        val hasHalfColumn = tableView.columns[6] as TableColumn<Movie, Boolean>
-        hasHalfColumn.setCellValueFactory(PropertyValueFactory<Movie, Boolean>("hasHalf"))
-
-        val priceColumn = tableView.columns[7] as TableColumn<Movie, Double>
-        priceColumn.setCellValueFactory(PropertyValueFactory<Movie, Double>("price"))
-    }
-
     private fun updateTableView() {
         // Obtém a lista atualizada de filmes da sua lista dinâmica
         val movies = movieDAO.listMovies()
@@ -512,9 +485,6 @@ class MainFormController : Initializable {
     private fun loadMoviesToTableView() {
         movies_tableView.items.clear()
         val moviesList = movieDAO.listMovies()
-        val movies = movieDAO.listMovies()
-        println("Carregando filmes: $movies")
-
         val observableList = FXCollections.observableList(moviesList)
         movies_tableView.items = observableList
     }
