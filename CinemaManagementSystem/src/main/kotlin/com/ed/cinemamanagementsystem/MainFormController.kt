@@ -472,6 +472,7 @@ class MainFormController : Initializable {
         } else {
             showAlert("Erro", "Por favor, insira um ID de filme válido!", Alert.AlertType.ERROR)
         }
+        updateTableView()
     }
 
     private fun updateTableView() {
