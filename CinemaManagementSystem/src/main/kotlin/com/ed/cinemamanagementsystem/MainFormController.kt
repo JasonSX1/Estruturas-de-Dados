@@ -99,6 +99,9 @@ class MainFormController : Initializable {
     private lateinit var movies_updateBtn: Button
 
     @FXML
+    private lateinit var movies_randomizerBtn: Button
+
+    @FXML
     private lateinit var orders_btn: Button
 
     @FXML
@@ -478,18 +481,21 @@ class MainFormController : Initializable {
         updateTableView()
     }
 
-    private fun generateRandomData() {
-        // Gerar valores aleatórios para cada campo
-        val randomId = (1..1000).random()
+    fun generateRandomData() {
+        val quantidadeTemp = movieDAO.qtdMovies()
+        val randomId = quantidadeTemp + 1
         val randomTitle = "Filme $randomId"
         val randomDuration = (90..180).random()
-        val randomProductionType = if ((0..1).random() == 0) "Nacional" else "Internacional"
+        val randomProductionType = if ((0..1).random() == 0) "Nacional" else "Estrangeira"
         val randomHasHalf = if ((0..1).random() == 0) "Não" else "Sim"
         val randomPrice = (10..50).random().toDouble()
-        val randomAudio = if ((0..1).random() == 0) "Dublado" else "Legendado"
+        val randomAudio = when ((0..2).random()) {
+            0 -> "Original"
+            1 -> "Original com Legenda"
+            else -> "Dublado"
+        }
         val randomHas3d = if ((0..1).random() == 0) "Não" else "Sim"
 
-        // Preencher os campos de entrada com os valores gerados
         movies_movieId.text = randomId.toString()
         movies_title.text = randomTitle
         movies_duration.text = randomDuration.toString()
@@ -498,7 +504,7 @@ class MainFormController : Initializable {
         movies_price.text = randomPrice.toString()
         movies_audio.value = randomAudio
         movies_has3d.value = randomHas3d
-    } //ja esta adequado com o half e o 3d para string
+    }
 
     fun updateTableView() {
         // Obtém a lista atualizada de filmes da sua lista dinâmica

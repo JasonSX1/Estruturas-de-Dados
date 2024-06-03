@@ -33,19 +33,21 @@ class DynamicMoviesList : MovieDAO {
     }
 
     override fun addMovieCustomP(movie: Movie, position: Int) {
-        if (position < 0 || position > quantidade) {
+        val adjustedPosition = position - 1
+
+        if (adjustedPosition < 0 || adjustedPosition > quantidade) {
             println("Posição inválida!")
             return
         }
 
         val tempNode = DoubleNode(movie)
-        if (position == 0) {
+        if (adjustedPosition == 0) {
             addMovieStart(movie)
-        } else if (position == quantidade) {
+        } else if (adjustedPosition == quantidade) {
             addMovieEnd(movie)
         } else {
             var current = ponteiroInicio
-            for (i in 0 until position) {
+            for (i in 0 until adjustedPosition) {
                 current = current?.next
             }
             tempNode.previous = current?.previous

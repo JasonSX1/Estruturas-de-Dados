@@ -513,6 +513,15 @@
                                     <Button fx:id="movies_updateBtn" layoutX="561.0" layoutY="233.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="80.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Atualizar" />
                                     <Button fx:id="movies_clearBtn" layoutX="437.0" layoutY="233.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="80.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Limpar" />
                                     <Button fx:id="movies_deleteBtn" layoutX="312.0" layoutY="233.0" mnemonicParsing="false" onAction="#removeMovie" prefHeight="40.0" prefWidth="80.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Deletar" />
+                                    <Button fx:id="movies_randomizerBtn" layoutX="120.0" layoutY="233.0" mnemonicParsing="false" onAction="#generateRandomData" prefHeight="40.0" prefWidth="32.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css">
+                                       <graphic>
+                                          <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../../Values/Pngs/Icons/random.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </Button>
                                     <Button fx:id="movies_refreshBtn" layoutX="62.0" layoutY="233.0" mnemonicParsing="false" onAction="#updateTableView" prefHeight="40.0" prefWidth="32.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css">
                                        <graphic>
                                           <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
