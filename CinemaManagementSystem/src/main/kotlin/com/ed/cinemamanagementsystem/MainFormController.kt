@@ -189,6 +189,9 @@ class MainFormController : Initializable {
     private lateinit var sessions_updateBtn: Button
 
     @FXML
+    private lateinit var movies_refreshBtn: Button
+
+    @FXML
     private lateinit var sessions_statusLabel: Label
 
     private val movieList: ObservableList<Movie> = FXCollections.observableArrayList()
@@ -312,12 +315,12 @@ class MainFormController : Initializable {
             val duration = movies_duration.text.toIntOrNull()
             val price = movies_price.text.toDoubleOrNull()
             val productionType = movies_typeProd.value
-            val hasHalf = movies_hasHalf.value == "Sim"
+            val hasHalf = movies_hasHalf.value
             val audio = movies_audio.value
             val has3d = movies_has3d.value
 
             if (movieId != null && title.isNotBlank() && duration != null && price != null && productionType != null && audio != null && has3d != null) {
-                val movie = Movie(movieId, title, duration, productionType, hasHalf, price, audio, has3d == "Sim", "ImagePath")
+                val movie = Movie(movieId, title, duration, productionType, hasHalf, price, audio, has3d, "ImagePath")
                 val options = listOf("Início", "Fim", "Posição Personalizada")
                 val dialog = ChoiceDialog(options[0], options)
                 dialog.title = "Escolher posição"
@@ -435,7 +438,7 @@ class MainFormController : Initializable {
                 val price = movies_price.text.toDoubleOrNull()
 
                 if (movieId != null && title.isNotBlank() && duration != null && price != null) {
-                    val movie = Movie(movieId, title, duration, "Type", false, price, "AudioType", false, "ImagePath")
+                    val movie = Movie(movieId, title, duration, "Type", "HasHalf", price, "AudioType", "Has3d", "ImagePath")
 
                     when (selectedPosition) {
                         "Início" -> movieDAO.addMovieStart(movie)
@@ -475,7 +478,29 @@ class MainFormController : Initializable {
         updateTableView()
     }
 
-    private fun updateTableView() {
+    private fun generateRandomData() {
+        // Gerar valores aleatórios para cada campo
+        val randomId = (1..1000).random()
+        val randomTitle = "Filme $randomId"
+        val randomDuration = (90..180).random()
+        val randomProductionType = if ((0..1).random() == 0) "Nacional" else "Internacional"
+        val randomHasHalf = if ((0..1).random() == 0) "Não" else "Sim"
+        val randomPrice = (10..50).random().toDouble()
+        val randomAudio = if ((0..1).random() == 0) "Dublado" else "Legendado"
+        val randomHas3d = if ((0..1).random() == 0) "Não" else "Sim"
+
+        // Preencher os campos de entrada com os valores gerados
+        movies_movieId.text = randomId.toString()
+        movies_title.text = randomTitle
+        movies_duration.text = randomDuration.toString()
+        movies_typeProd.value = randomProductionType
+        movies_hasHalf.value = randomHasHalf
+        movies_price.text = randomPrice.toString()
+        movies_audio.value = randomAudio
+        movies_has3d.value = randomHas3d
+    } //ja esta adequado com o half e o 3d para string
+
+    fun updateTableView() {
         // Obtém a lista atualizada de filmes da sua lista dinâmica
         val movies = movieDAO.listMovies()
 
