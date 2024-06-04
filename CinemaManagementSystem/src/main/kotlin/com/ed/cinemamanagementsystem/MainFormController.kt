@@ -12,6 +12,7 @@ import javafx.scene.Scene
 import javafx.scene.control.*
 import javafx.scene.control.cell.PropertyValueFactory
 import javafx.scene.image.ImageView
+import javafx.scene.input.KeyCode
 import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.GridPane
 import javafx.stage.Stage
@@ -472,6 +473,7 @@ class MainFormController : Initializable {
             val removedMovie = movieDAO.removeMovie(movieId)
             if (removedMovie != null) {
                 showAlert("Sucesso", "Filme removido com sucesso!", Alert.AlertType.INFORMATION)
+                clearForm()
             } else {
                 showAlert("Erro", "Filme com ID $movieId não encontrado!", Alert.AlertType.ERROR)
             }
@@ -504,7 +506,7 @@ class MainFormController : Initializable {
         movies_price.text = randomPrice.toString()
         movies_audio.value = randomAudio
         movies_has3d.value = randomHas3d
-    }
+    }//Metodo de geração aleatorio durante a fase de testes
 
     fun updateTableView() {
         // Obtém a lista atualizada de filmes da sua lista dinâmica
@@ -521,7 +523,7 @@ class MainFormController : Initializable {
         movies_tableView.items = observableList
     }
 
-    private fun clearForm() {
+    fun clearForm() {
         movies_movieId.clear()
         movies_title.clear()
         movies_duration.clear()
@@ -546,6 +548,20 @@ class MainFormController : Initializable {
         }
     }
 
+    private fun searchMovieByID(id: Int): Movie? {
+        return movieDAO.searchMovieByID(id)
+    }
+
+    private fun loadMovieData(movie: Movie) {
+        movies_title.text = movie.title
+        movies_duration.text = movie.duration.toString()
+        movies_typeProd.value = movie.productionType
+        movies_hasHalf.value = movie.hasHalf
+        movies_price.text = movie.price.toString()
+        movies_audio.value = movie.audio
+        movies_has3d.value = movie.has3d
+    }
+
     override fun initialize(location: URL?, resources: ResourceBundle?) {
         initializeComboBoxes()
         initializeAudioTypeList()
@@ -553,6 +569,7 @@ class MainFormController : Initializable {
         displayUsername()
 
         movies_addBtn.setOnAction { addMovie() }
+        movies_clearBtn.setOnAction { clearForm() }
 
         movies_col_movieId.cellValueFactory = PropertyValueFactory("id")
         movies_col_movieTitle.cellValueFactory = PropertyValueFactory("title")
@@ -565,7 +582,22 @@ class MainFormController : Initializable {
 
         movies_tableView.items = movieList
 
-        // Carregar filmes no início
+        movies_movieId.setOnKeyPressed { event ->
+            if (event.code == KeyCode.ENTER) {
+                val id = movies_movieId.text.toIntOrNull()
+                if (id != null) {
+                    val movie = searchMovieByID(id)
+                    if (movie != null) {
+                        loadMovieData(movie)
+                    } else {
+                        showAlert("Mensagem de erro!", "Não foi possível encontrar um filme com o ID $id!", Alert.AlertType.ERROR)
+                    }
+                } else {
+                    println("ID inválido.")
+                }
+            }
+        }
+
         loadMoviesToTableView()
     }
 }
