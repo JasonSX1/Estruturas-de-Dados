@@ -237,33 +237,23 @@ class MainFormController : Initializable {
         movies_hasHalf.items = listData
         movies_has3d.items = listData
     }
-
-    //Testar essa função de inicializar a combobox dos filmes no menu de sessões
-    //Na verdade tem que atualizar ela pra funcionar com a ED ao invés do BD
+    
     private fun loadMovieNames() {
-        val connection = connectToDatabase()
-        if (connection != null) {
-            val query = "SELECT movie_name FROM movies"
-            try {
-                val statement: Statement = connection.createStatement()
-                val resultSet: ResultSet = statement.executeQuery(query)
-                val movieNames = mutableListOf<String>()
-                while (resultSet.next()) {
-                    movieNames.add(resultSet.getString("nome"))
-                }
-                resultSet.close()
-                statement.close()
-                connection.close()
+        try {
+            // Obter a lista de filmes a partir do DAO
+            val moviesList = movieDAO.listMovies()
 
-                // Atualizar o ComboBox na thread da UI
-                Platform.runLater {
-                    sessions_movie.items.clear()
-                    sessions_movie.items.addAll(movieNames)
-                }
+            // Extrair os nomes dos filmes
+            val movieNames = moviesList.map { it.title }
 
-            } catch (e: SQLException) {
-                showAlert("Mensagem de erro!", "Erro ao carregar os nomes dos filmes: ${e.message}", Alert.AlertType.ERROR)
+            // Atualizar o ComboBox na thread da UI
+            Platform.runLater {
+                sessions_movie.items.clear()
+                sessions_movie.items.addAll(movieNames)
             }
+
+        } catch (e: Exception) {
+            showAlert("Mensagem de erro!", "Erro ao carregar os nomes dos filmes: ${e.message}", Alert.AlertType.ERROR)
         }
     }
 
@@ -380,7 +370,7 @@ class MainFormController : Initializable {
             showAlert("Erro", "Ocorreu um erro ao adicionar o filme: ${e.message}", Alert.AlertType.ERROR)
             e.printStackTrace()
         }
-    }
+    } //adicionar verificação de ID antes de poder adicionar o filme
 
     fun showCustomDialog() {
         val dialog = Dialog<String>().apply {
@@ -595,6 +585,12 @@ class MainFormController : Initializable {
                 } else {
                     println("ID inválido.")
                 }
+            }
+        }
+
+        sessions_form.visibleProperty().addListener { _, _, newValue ->
+            if (newValue) {
+                loadMovieNames()
             }
         }
 
