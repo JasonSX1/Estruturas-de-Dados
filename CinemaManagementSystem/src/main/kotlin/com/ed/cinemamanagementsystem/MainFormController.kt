@@ -237,7 +237,7 @@ class MainFormController : Initializable {
         movies_hasHalf.items = listData
         movies_has3d.items = listData
     }
-    
+
     private fun loadMovieNames() {
         try {
             // Obter a lista de filmes a partir do DAO
@@ -314,6 +314,13 @@ class MainFormController : Initializable {
             val has3d = movies_has3d.value
 
             if (movieId != null && title.isNotBlank() && duration != null && price != null && productionType != null && audio != null && has3d != null) {
+                // Verificar se o ID já está cadastrado
+                val existingMovie = movieDAO.searchMovieByID(movieId)
+                if (existingMovie != null) {
+                    showAlert("Erro", "ID do filme já está cadastrado!", Alert.AlertType.ERROR)
+                    return
+                }
+
                 val movie = Movie(movieId, title, duration, productionType, hasHalf, price, audio, has3d, "ImagePath")
                 val options = listOf("Início", "Fim", "Posição Personalizada")
                 val dialog = ChoiceDialog(options[0], options)
@@ -370,7 +377,7 @@ class MainFormController : Initializable {
             showAlert("Erro", "Ocorreu um erro ao adicionar o filme: ${e.message}", Alert.AlertType.ERROR)
             e.printStackTrace()
         }
-    } //adicionar verificação de ID antes de poder adicionar o filme
+    }
 
     fun showCustomDialog() {
         val dialog = Dialog<String>().apply {
