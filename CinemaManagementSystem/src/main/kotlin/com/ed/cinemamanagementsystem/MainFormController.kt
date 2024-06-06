@@ -34,7 +34,7 @@ class MainFormController : Initializable {
     private lateinit var movies_btn: Button
 
     @FXML
-    private lateinit var movies_imageView: ImageView
+    private lateinit var movies_alertIcon: Label
 
     @FXML
     private lateinit var MoviesForm: AnchorPane
@@ -197,6 +197,8 @@ class MainFormController : Initializable {
 
     @FXML
     private lateinit var sessions_statusLabel: Label
+
+    private var originalMovie: Movie? = null
 
     private val movieList: ObservableList<Movie> = FXCollections.observableArrayList()
 
@@ -549,7 +551,88 @@ class MainFormController : Initializable {
         return movieDAO.searchMovieByID(id)
     }
 
+    fun updateMovie() {
+        val movieId = movies_movieId.text.toIntOrNull()
+
+        if (movieId == null) {
+            showAlert("Erro", "ID do filme inválido!", Alert.AlertType.ERROR)
+            return
+        }
+
+        val updatedMovie = Movie(
+            movieId,
+            movies_title.text,
+            movies_duration.text.toIntOrNull() ?: 0,
+            movies_typeProd.value ?: "",
+            movies_hasHalf.value ?: "",
+            movies_price.text.toDoubleOrNull() ?: 0.0,
+            movies_audio.value ?: "",
+            movies_has3d.value ?: "",
+            "ImagePath"
+        )
+
+        val changes = getChanges(updatedMovie)
+        if (changes.isEmpty()) {
+            showAlert("Sem alterações", "Nenhuma alteração foi feita.", Alert.AlertType.INFORMATION)
+            return
+        }
+
+        val confirmation = showConfirmationDialog(changes)
+        if (confirmation) {
+            movieDAO.updateMovie(movieId, updatedMovie)
+            showAlert("Sucesso", "Filme atualizado com sucesso!", Alert.AlertType.INFORMATION)
+            loadMoviesToTableView()
+            clearForm()
+        }
+    }
+
+    private fun getChanges(updatedMovie: Movie): String {
+        val changes = mutableListOf<String>()
+        originalMovie?.let {
+            if (it.title != updatedMovie.title) changes.add("Título: ${it.title} -> ${updatedMovie.title}")
+            if (it.duration != updatedMovie.duration) changes.add("Duração: ${it.duration} -> ${updatedMovie.duration}")
+            if (it.price != updatedMovie.price) changes.add("Preço: ${it.price} -> ${updatedMovie.price}")
+            if (it.productionType != updatedMovie.productionType) changes.add("Tipo de Produção: ${it.productionType} -> ${updatedMovie.productionType}")
+            if (it.hasHalf != updatedMovie.hasHalf) changes.add("Meia Entrada: ${it.hasHalf} -> ${updatedMovie.hasHalf}")
+            if (it.audio != updatedMovie.audio) changes.add("Áudio: ${it.audio} -> ${updatedMovie.audio}")
+            if (it.has3d != updatedMovie.has3d) changes.add("3D: ${it.has3d} -> ${updatedMovie.has3d}")
+        }
+        return changes.joinToString("\n")
+    }
+
+    private fun showConfirmationDialog(changes: String): Boolean {
+        val dialog = Dialog<ButtonType>()
+        dialog.title = "Confirmação de Atualização"
+        dialog.headerText = "Você deseja atualizar as seguintes informações?"
+        //dialog.dialogPane.stylesheets.add(javaClass.getResource("dialog-styles.css").toExternalForm())
+
+        val grid = GridPane().apply {
+            styleClass.add("dialog-grid")
+            hgap = 10.0
+            vgap = 10.0
+            padding = Insets(20.0, 150.0, 10.0, 10.0)
+        }
+
+        val label = Label("Alterações:")
+        val textArea = TextArea(changes).apply {
+            isEditable = false
+            prefWidth = 400.0
+            prefHeight = 200.0
+        }
+
+        grid.add(label, 0, 0)
+        grid.add(textArea, 0, 1)
+
+        dialog.dialogPane.content = grid
+        dialog.dialogPane.buttonTypes.addAll(ButtonType.OK, ButtonType.CANCEL)
+
+        val result = dialog.showAndWait()
+        return result.isPresent && result.get() == ButtonType.OK
+    }
+
     private fun loadMovieData(movie: Movie) {
+        originalMovie = movie
+
         movies_title.text = movie.title
         movies_duration.text = movie.duration.toString()
         movies_typeProd.value = movie.productionType
@@ -557,6 +640,22 @@ class MainFormController : Initializable {
         movies_price.text = movie.price.toString()
         movies_audio.value = movie.audio
         movies_has3d.value = movie.has3d
+    }
+
+    private fun loadMovieById() {
+        val movieId = movies_movieId.text.toIntOrNull()
+        if (movieId != null) {
+            val movie = movieDAO.searchMovieByID(movieId)
+            if (movie != null) {
+                originalMovie = movie
+                loadMovieData(movie)
+                movies_alertIcon.isVisible = false
+            } else {
+                showAlert("Erro", "Filme não encontrado!", Alert.AlertType.ERROR)
+            }
+        } else {
+            showAlert("Erro", "ID inválido!", Alert.AlertType.ERROR)
+        }
     }
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
@@ -600,7 +699,6 @@ class MainFormController : Initializable {
                 loadMovieNames()
             }
         }
-
         loadMoviesToTableView()
     }
 }

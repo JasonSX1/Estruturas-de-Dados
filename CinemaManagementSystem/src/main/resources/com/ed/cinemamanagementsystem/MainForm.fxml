@@ -393,7 +393,7 @@
                                  </children>
                               </AnchorPane>
                            </children></AnchorPane>
-                        <AnchorPane fx:id="MoviesForm" layoutX="229.0" layoutY="182.0" prefHeight="600.0" prefWidth="980.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="MoviesForm" layoutX="229.0" layoutY="182.0" prefHeight="600.0" prefWidth="980.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane prefHeight="255.0" prefWidth="965.0" stylesheets="@../../../Values/mainForm.css" AnchorPane.bottomAnchor="330.0" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="17.0">
                                  <styleClass>
@@ -510,7 +510,7 @@
                                     </AnchorPane>
                                     <Button fx:id="movies_importBtn" layoutX="798.0" layoutY="253.0" mnemonicParsing="false" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Importar capa" AnchorPane.bottomAnchor="19.799999999999955" AnchorPane.rightAnchor="42.000000000000114" />
                                     <Button fx:id="movies_addBtn" layoutX="187.0" layoutY="233.0" mnemonicParsing="false" onAction="#addMovie" prefHeight="40.0" prefWidth="80.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Adicionar" />
-                                    <Button fx:id="movies_updateBtn" layoutX="561.0" layoutY="233.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="80.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Atualizar" />
+                                    <Button fx:id="movies_updateBtn" layoutX="561.0" layoutY="233.0" mnemonicParsing="false" onAction="#updateMovie" prefHeight="40.0" prefWidth="80.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Atualizar" />
                                     <Button fx:id="movies_clearBtn" layoutX="437.0" layoutY="233.0" mnemonicParsing="false" onAction="#clearForm" prefHeight="40.0" prefWidth="80.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Limpar" />
                                     <Button fx:id="movies_deleteBtn" layoutX="312.0" layoutY="233.0" mnemonicParsing="false" onAction="#removeMovie" prefHeight="40.0" prefWidth="80.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Deletar" />
                                     <Button fx:id="movies_randomizerBtn" layoutX="120.0" layoutY="233.0" mnemonicParsing="false" onAction="#generateRandomData" prefHeight="40.0" prefWidth="32.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css">
