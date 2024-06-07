@@ -13,13 +13,11 @@ import javafx.scene.Scene
 import javafx.scene.control.*
 import javafx.scene.control.cell.PropertyValueFactory
 import javafx.scene.image.ImageView
-import javafx.scene.input.KeyCode
 import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.GridPane
 import javafx.stage.FileChooser
 import javafx.stage.Stage
 import java.awt.Image
-import java.awt.desktop.OpenFilesEvent
 import java.io.File
 import java.net.URL
 import java.sql.Connection
@@ -340,7 +338,8 @@ class MainFormController : Initializable {
                     return
                 }
 
-                val movie = Movie(movieId, title, duration, productionType, hasHalf, price, audio, has3d, imagePath ?: "NoImagePath")
+                // Atribuir o caminho da imagem ou uma string vazia se nulo
+                val movie = Movie(movieId, title, duration, productionType, hasHalf, price, audio, has3d, imagePath ?: "")
                 val options = listOf("Início", "Fim", "Posição Personalizada")
                 val dialog = ChoiceDialog(options[0], options)
                 dialog.title = "Escolher posição"
@@ -384,7 +383,6 @@ class MainFormController : Initializable {
                     }
 
                     if (sucesso) {
-                        println("Filme adicionado: $movie")
                         showAlert("Sucesso", "Filme adicionado com sucesso!", Alert.AlertType.INFORMATION)
                         loadMoviesToTableView()
                         clearForm()
@@ -398,7 +396,6 @@ class MainFormController : Initializable {
             e.printStackTrace()
         }
     }
-
     fun showAddDialog() {
         val dialog = Dialog<String>().apply {
             title = "Escolher posição"
@@ -548,6 +545,7 @@ class MainFormController : Initializable {
         movies_has3d.value = null
         movies_imageView.image = null
         movies_imageLabel.isVisible = true
+        movies_imageLabel2.isVisible = false
         imagePath = null
     }
 
@@ -586,7 +584,7 @@ class MainFormController : Initializable {
             movies_price.text.toDoubleOrNull() ?: 0.0,
             movies_audio.value ?: "",
             movies_has3d.value ?: "",
-            imagePath ?: originalMovie?.imagePath ?: "NoImagePath" // Atualiza o imagePath
+            imagePath ?: originalMovie?.imagePath ?: "" // Atualiza o imagePath
         )
 
         val changes = getChanges(updatedMovie)
@@ -651,6 +649,7 @@ class MainFormController : Initializable {
     private fun loadMovieData(movie: Movie) {
         originalMovie = movie
 
+        movies_movieId.text = movie.id.toString()
         movies_title.text = movie.title
         movies_duration.text = movie.duration.toString()
         movies_typeProd.value = movie.productionType
@@ -660,10 +659,11 @@ class MainFormController : Initializable {
         movies_has3d.value = movie.has3d
 
         val imagePath = movie.imagePath
-        if (imagePath.isNotEmpty()) {
+        if (imagePath != null && imagePath.isNotEmpty() && File(imagePath).exists()) {
             val image = javafx.scene.image.Image(File(imagePath).toURI().toString(), 260.0, 385.0, false, true)
             movies_imageView.image = image
             movies_imageLabel.isVisible = false
+            movies_imageLabel2.isVisible = false
         } else {
             movies_imageView.image = null
             movies_imageLabel.isVisible = false
@@ -702,6 +702,7 @@ class MainFormController : Initializable {
             val image = javafx.scene.image.Image(it.toURI().toString(), 260.0, 385.0, false, true)
             movies_imageView.image = image
             movies_imageLabel.isVisible = false
+            movies_imageLabel2.isVisible = false
             imagePath = it.path.replace("\\", "\\\\")
         }
     }
@@ -725,13 +726,25 @@ class MainFormController : Initializable {
         movies_col_hasHalf.cellValueFactory = PropertyValueFactory("hasHalf")
         movies_col_hasCover.setCellValueFactory { cellData ->
             val movie = cellData.value
-            val hasCover = if (movie.imagePath.equals("NoImagePath")) "Não" else "Sim"
+            val hasCover = if (movie.imagePath.isNullOrEmpty()) "Não" else "Sim"
             SimpleStringProperty(hasCover)
         }
 
+        movies_tableView.selectionModel.selectedItemProperty().addListener { _, _, newValue ->
+            if (newValue != null) {
+                loadMovieData(newValue)
+                movies_imageLabel.isVisible = false
+                movies_imageLabel2.isVisible = true
+            } else {
+                clearForm()
+                movies_imageLabel.isVisible = true
+                movies_imageLabel2.isVisible = false
+            }
+        }
+
         movies_tableView.items = movieList
-    
-        movies_movieId.setOnKeyPressed { event ->
+
+        /*movies_movieId.setOnKeyPressed { event ->
             if (event.code == KeyCode.ENTER) {
                 val id = movies_movieId.text.toIntOrNull()
                 if (id != null) {
@@ -745,13 +758,22 @@ class MainFormController : Initializable {
                     println("ID inválido.")
                 }
             }
+        }*/
+
+        //Função de interação com o mouse do usuario com os filmes cadastrados
+        movies_tableView.selectionModel.selectedItemProperty().addListener { _, _, selectedMovie ->
+            selectedMovie?.let { movie ->
+                loadMovieData(movie)
+            }
         }
 
+        //Função que carrega os nomes dos filmes à comboBox do menu de sesões
         sessions_form.visibleProperty().addListener { _, _, newValue ->
             if (newValue) {
                 loadMovieNames()
             }
         }
+
         loadMoviesToTableView()
     }
 }
