@@ -410,7 +410,8 @@
                                           <TableColumn fx:id="movies_col_audType" prefWidth="134.933349609375" text="Tipo de Audio" />
                                           <TableColumn fx:id="movies_col_has3d" prefWidth="76.79998779296875" text="3D" />
                                           <TableColumn fx:id="movies_col_hasHalf" prefWidth="76.79998779296875" text="Meia" />
-                                          <TableColumn fx:id="movies_col_moviePrice" prefWidth="120.8001708984375" text="Preço" />
+                                          <TableColumn fx:id="movies_col_hasCover" prefWidth="74.4000244140625" text="Capa" />
+                                          <TableColumn fx:id="movies_col_moviePrice" prefWidth="139.20001220703125" text="Preço" />
                                        </columns>
                                        <columnResizePolicy>
                                           <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -501,6 +502,12 @@
                                        <children>
                                           <ImageView fx:id="movies_imageView" fitHeight="236.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true" />
                                           <Label fx:id="movies_imageLabel" layoutX="11.0" layoutY="22.0" prefHeight="191.0" prefWidth="138.0" text="Envie a capa do seu filme aqui (Res. recomendada: 260x385)" textAlignment="CENTER" wrapText="true">
+                                             <stylesheets>
+                                                <URL value="@../../../Values/mainForm.css" />
+                                                <URL value="@../../../Values/mainForm.css" />
+                                             </stylesheets>
+                                          </Label>
+                                          <Label fx:id="movies_imageLabel2" layoutX="11.0" layoutY="22.0" prefHeight="191.0" prefWidth="138.0" text="Este filme ainda não possui uma capa." textAlignment="CENTER" visible="false" wrapText="true">
                                              <stylesheets>
                                                 <URL value="@../../../Values/mainForm.css" />
                                                 <URL value="@../../../Values/mainForm.css" />

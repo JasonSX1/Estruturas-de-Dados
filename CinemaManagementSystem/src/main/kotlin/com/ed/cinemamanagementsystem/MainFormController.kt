@@ -1,6 +1,7 @@
 package com.ed.cinemamanagementsystem
 
 import javafx.application.Platform
+import javafx.beans.property.SimpleStringProperty
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import javafx.fxml.FXML
@@ -207,6 +208,9 @@ class MainFormController : Initializable {
     @FXML
     private lateinit var movies_imageLabel: Label
 
+    @FXML
+    private lateinit var movies_imageLabel2: Label
+
     private var imagePath: String? = null
 
     private lateinit var image: Image
@@ -394,6 +398,7 @@ class MainFormController : Initializable {
             e.printStackTrace()
         }
     }
+
     fun showAddDialog() {
         val dialog = Dialog<String>().apply {
             title = "Escolher posição"
@@ -521,10 +526,7 @@ class MainFormController : Initializable {
     }//Metodo de geração aleatorio durante a fase de testes
 
     fun updateTableView() {
-        // Obtém a lista atualizada de filmes da sua lista dinâmica
         val movies = movieDAO.listMovies()
-
-        // Define os itens da TableView como a lista atualizada de filmes
         movies_tableView.items = FXCollections.observableArrayList(movies)
     }
 
@@ -584,7 +586,7 @@ class MainFormController : Initializable {
             movies_price.text.toDoubleOrNull() ?: 0.0,
             movies_audio.value ?: "",
             movies_has3d.value ?: "",
-            "ImagePath"
+            imagePath ?: originalMovie?.imagePath ?: "NoImagePath" // Atualiza o imagePath
         )
 
         val changes = getChanges(updatedMovie)
@@ -612,6 +614,7 @@ class MainFormController : Initializable {
             if (it.hasHalf != updatedMovie.hasHalf) changes.add("Meia Entrada: ${it.hasHalf} -> ${updatedMovie.hasHalf}")
             if (it.audio != updatedMovie.audio) changes.add("Áudio: ${it.audio} -> ${updatedMovie.audio}")
             if (it.has3d != updatedMovie.has3d) changes.add("3D: ${it.has3d} -> ${updatedMovie.has3d}")
+            if (it.imagePath != updatedMovie.imagePath) changes.add("Imagem: ${it.imagePath} -> ${updatedMovie.imagePath}")
         }
         return changes.joinToString("\n")
     }
@@ -655,6 +658,17 @@ class MainFormController : Initializable {
         movies_price.text = movie.price.toString()
         movies_audio.value = movie.audio
         movies_has3d.value = movie.has3d
+
+        val imagePath = movie.imagePath
+        if (imagePath.isNotEmpty()) {
+            val image = javafx.scene.image.Image(File(imagePath).toURI().toString(), 260.0, 385.0, false, true)
+            movies_imageView.image = image
+            movies_imageLabel.isVisible = false
+        } else {
+            movies_imageView.image = null
+            movies_imageLabel.isVisible = false
+            movies_imageLabel2.isVisible = true
+        }
     }
 
     private fun loadMovieById() {
@@ -709,9 +723,14 @@ class MainFormController : Initializable {
         movies_col_audType.cellValueFactory = PropertyValueFactory("audio")
         movies_col_has3d.cellValueFactory = PropertyValueFactory("has3d")
         movies_col_hasHalf.cellValueFactory = PropertyValueFactory("hasHalf")
+        movies_col_hasCover.setCellValueFactory { cellData ->
+            val movie = cellData.value
+            val hasCover = if (movie.imagePath.equals("NoImagePath")) "Não" else "Sim"
+            SimpleStringProperty(hasCover)
+        }
 
         movies_tableView.items = movieList
-
+    
         movies_movieId.setOnKeyPressed { event ->
             if (event.code == KeyCode.ENTER) {
                 val id = movies_movieId.text.toIntOrNull()
