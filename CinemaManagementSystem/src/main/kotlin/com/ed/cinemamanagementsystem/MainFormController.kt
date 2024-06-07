@@ -91,6 +91,9 @@ class MainFormController : Initializable {
     private lateinit var movies_col_hasHalf: TableColumn<Movie, Boolean>
 
     @FXML
+    private lateinit var movies_col_hasCover: TableColumn<Movie, String>
+
+    @FXML
     private lateinit var movies_deleteBtn: Button
 
     @FXML
@@ -333,7 +336,7 @@ class MainFormController : Initializable {
                     return
                 }
 
-                val movie = Movie(movieId, title, duration, productionType, hasHalf, price, audio, has3d, "ImagePath")
+                val movie = Movie(movieId, title, duration, productionType, hasHalf, price, audio, has3d, imagePath ?: "NoImagePath")
                 val options = listOf("Início", "Fim", "Posição Personalizada")
                 val dialog = ChoiceDialog(options[0], options)
                 dialog.title = "Escolher posição"
@@ -377,6 +380,7 @@ class MainFormController : Initializable {
                     }
 
                     if (sucesso) {
+                        println("Filme adicionado: $movie")
                         showAlert("Sucesso", "Filme adicionado com sucesso!", Alert.AlertType.INFORMATION)
                         loadMoviesToTableView()
                         clearForm()
@@ -390,7 +394,6 @@ class MainFormController : Initializable {
             e.printStackTrace()
         }
     }
-
     fun showAddDialog() {
         val dialog = Dialog<String>().apply {
             title = "Escolher posição"
@@ -541,6 +544,9 @@ class MainFormController : Initializable {
         movies_hasHalf.value = null
         movies_audio.value = null
         movies_has3d.value = null
+        movies_imageView.image = null
+        movies_imageLabel.isVisible = true
+        imagePath = null
     }
 
     fun switchMenu(event: javafx.event.ActionEvent) {
@@ -667,8 +673,7 @@ class MainFormController : Initializable {
         }
     }
 
-    @FXML
-    private fun importImage() {
+    fun importImage() {
         val fileChooser = FileChooser().apply {
             extensionFilters.addAll(
                 FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.webp")
@@ -683,6 +688,7 @@ class MainFormController : Initializable {
             val image = javafx.scene.image.Image(it.toURI().toString(), 260.0, 385.0, false, true)
             movies_imageView.image = image
             movies_imageLabel.isVisible = false
+            imagePath = it.path.replace("\\", "\\\\")
         }
     }
 
