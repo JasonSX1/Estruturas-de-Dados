@@ -500,7 +500,7 @@
                                     <AnchorPane layoutX="772.0" layoutY="8.0" prefHeight="236.0" prefWidth="160.0" styleClass="white-bg" stylesheets="@../../../Values/mainForm.css" AnchorPane.bottomAnchor="58.39999999999998" AnchorPane.rightAnchor="14.400000000000091">
                                        <children>
                                           <ImageView fx:id="movies_imageView" fitHeight="236.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true" />
-                                          <Label layoutX="11.0" layoutY="22.0" prefHeight="191.0" prefWidth="138.0" text="Envie a capa do seu filme aqui (Res. recomendada: 260x385)" textAlignment="CENTER" wrapText="true">
+                                          <Label fx:id="movies_imageLabel" layoutX="11.0" layoutY="22.0" prefHeight="191.0" prefWidth="138.0" text="Envie a capa do seu filme aqui (Res. recomendada: 260x385)" textAlignment="CENTER" wrapText="true">
                                              <stylesheets>
                                                 <URL value="@../../../Values/mainForm.css" />
                                                 <URL value="@../../../Values/mainForm.css" />
@@ -508,7 +508,7 @@
                                           </Label>
                                        </children>
                                     </AnchorPane>
-                                    <Button fx:id="movies_importBtn" layoutX="798.0" layoutY="253.0" mnemonicParsing="false" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Importar capa" AnchorPane.bottomAnchor="19.799999999999955" AnchorPane.rightAnchor="42.000000000000114" />
+                                    <Button fx:id="movies_importBtn" layoutX="798.0" layoutY="253.0" mnemonicParsing="false" onAction="#importImage" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Importar capa" AnchorPane.bottomAnchor="19.799999999999955" AnchorPane.rightAnchor="42.000000000000114" />
                                     <Button fx:id="movies_addBtn" layoutX="187.0" layoutY="233.0" mnemonicParsing="false" onAction="#addMovie" prefHeight="40.0" prefWidth="80.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Adicionar" />
                                     <Button fx:id="movies_updateBtn" layoutX="561.0" layoutY="233.0" mnemonicParsing="false" onAction="#updateMovie" prefHeight="40.0" prefWidth="80.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Atualizar" />
                                     <Button fx:id="movies_clearBtn" layoutX="437.0" layoutY="233.0" mnemonicParsing="false" onAction="#clearForm" prefHeight="40.0" prefWidth="80.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Limpar" />

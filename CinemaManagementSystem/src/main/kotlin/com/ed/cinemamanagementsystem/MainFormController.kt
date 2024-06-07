@@ -15,14 +15,14 @@ import javafx.scene.image.ImageView
 import javafx.scene.input.KeyCode
 import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.GridPane
+import javafx.stage.FileChooser
 import javafx.stage.Stage
-import java.awt.event.ActionEvent
-import java.awt.event.MouseEvent
+import java.awt.Image
+import java.awt.desktop.OpenFilesEvent
+import java.io.File
 import java.net.URL
 import java.sql.Connection
-import java.sql.ResultSet
 import java.sql.SQLException
-import java.sql.Statement
 import java.util.*
 
 class MainFormController : Initializable {
@@ -197,6 +197,16 @@ class MainFormController : Initializable {
 
     @FXML
     private lateinit var sessions_statusLabel: Label
+
+    @FXML
+    private lateinit var movies_imageView: ImageView
+
+    @FXML
+    private lateinit var movies_imageLabel: Label
+
+    private var imagePath: String? = null
+
+    private lateinit var image: Image
 
     private var originalMovie: Movie? = null
 
@@ -381,7 +391,7 @@ class MainFormController : Initializable {
         }
     }
 
-    fun showCustomDialog() {
+    fun showAddDialog() {
         val dialog = Dialog<String>().apply {
             title = "Escolher posição"
             headerText = "Escolha onde adicionar o filme"
@@ -604,7 +614,6 @@ class MainFormController : Initializable {
         val dialog = Dialog<ButtonType>()
         dialog.title = "Confirmação de Atualização"
         dialog.headerText = "Você deseja atualizar as seguintes informações?"
-        //dialog.dialogPane.stylesheets.add(javaClass.getResource("dialog-styles.css").toExternalForm())
 
         val grid = GridPane().apply {
             styleClass.add("dialog-grid")
@@ -628,7 +637,7 @@ class MainFormController : Initializable {
 
         val result = dialog.showAndWait()
         return result.isPresent && result.get() == ButtonType.OK
-    }
+    } // Tá sem CSS
 
     private fun loadMovieData(movie: Movie) {
         originalMovie = movie
@@ -655,6 +664,25 @@ class MainFormController : Initializable {
             }
         } else {
             showAlert("Erro", "ID inválido!", Alert.AlertType.ERROR)
+        }
+    }
+
+    @FXML
+    private fun importImage() {
+        val fileChooser = FileChooser().apply {
+            extensionFilters.addAll(
+                FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.webp")
+            )
+        }
+
+        val stage: Stage = movies_importBtn.scene.window as Stage
+
+        val file = fileChooser.showOpenDialog(stage)
+
+        file?.let {
+            val image = javafx.scene.image.Image(it.toURI().toString(), 260.0, 385.0, false, true)
+            movies_imageView.image = image
+            movies_imageLabel.isVisible = false
         }
     }
 
