@@ -1,5 +1,7 @@
 package com.ed.cinemamanagementsystem
 
+// A interface de Data Acess Object serve para separar a logica de acesso aos dados da lógica de negócios da aplicação
+
 interface MovieDAO {
     fun addMovieStart(movie: Movie)
     fun addMovieCustomP(movie: Movie, position: Int)
@@ -11,4 +13,5 @@ interface MovieDAO {
     fun deleteMovieByPosition(position: Int): Movie?
     fun isEmpty(): Boolean
     fun qtdMovies(): Int
+    fun getAllMovies(): List<Movie>
 }

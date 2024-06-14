@@ -149,4 +149,14 @@ class DynamicMoviesList : MovieDAO {
     override fun qtdMovies(): Int {
         return quantidade
     }
+
+    override fun getAllMovies(): List<Movie> {
+        val allMovies = mutableListOf<Movie>()
+        var current = ponteiroInicio
+        while (current != null) {
+            allMovies.add(current.movie)
+            current = current.next
+        }
+        return allMovies
+    }
 }
