@@ -8,7 +8,7 @@ object Database {
     fun connectDB(): Connection? {
         return try {
             Class.forName("com.mysql.jdbc.Driver")
-            val connect: Connection = DriverManager.getConnection("jdbc:mysql://localhost/cinema", "root", "") // LINK YOUR DATABASE
+            val connect: Connection = DriverManager.getConnection("jdbc:mysql://localhost/cinema", "root", "")
             connect
         } catch (e: Exception) {
             e.printStackTrace()
