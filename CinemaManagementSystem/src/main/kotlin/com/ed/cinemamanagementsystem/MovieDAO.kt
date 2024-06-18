@@ -14,4 +14,6 @@ interface MovieDAO {
     fun isEmpty(): Boolean
     fun qtdMovies(): Int
     fun getAllMovies(): List<Movie>
+    fun save(username: String)
+    fun load(username: String)
 }

@@ -17,6 +17,9 @@ import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.GridPane
 import javafx.stage.FileChooser
 import javafx.stage.Stage
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import java.awt.Image
 import java.io.File
 import java.net.URL
@@ -299,6 +302,7 @@ class MainFormController : Initializable {
                 // Fechar o estágio atual
                 val currentStage = logout_btn.scene.window as Stage
                 currentStage.close()
+                movieDAO.save(Data.username)
 
                 // Carregar a tela de login e signup
                 val loginLoader = FXMLLoader(javaClass.getResource("LoginAndSignup.fxml"))
@@ -396,6 +400,7 @@ class MainFormController : Initializable {
             e.printStackTrace()
         }
     }
+
     fun showAddDialog() {
         val dialog = Dialog<String>().apply {
             title = "Escolher posição"
@@ -707,7 +712,15 @@ class MainFormController : Initializable {
         }
     }
 
+    fun onExit() {
+        movieDAO.save(Data.username)
+    }
+
     override fun initialize(location: URL?, resources: ResourceBundle?) {
+
+        movieDAO.load(Data.username)
+
+
         initializeComboBoxes()
         initializeAudioTypeList()
         intializeProductionTypeList()
@@ -743,6 +756,13 @@ class MainFormController : Initializable {
         }
 
         movies_tableView.items = movieList
+
+        val movie = Movie(1, "Inception", 10, "teds", "sim", 100.0, "original", "sim", "null")
+        val jsonString = Json.encodeToString(movie)
+        println(jsonString)
+
+        val decodedMovie = Json.decodeFromString<Movie>(jsonString)
+        println(decodedMovie)
 
         /*movies_movieId.setOnKeyPressed { event ->
             if (event.code == KeyCode.ENTER) {

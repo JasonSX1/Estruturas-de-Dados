@@ -2,6 +2,9 @@ package com.ed.cinemamanagementsystem
 
 class DynamicMoviesList : MovieDAO {
 
+    private val movies = mutableListOf<Movie>()
+
+
     private var ponteiroInicio: DoubleNode? = null
     private var ponteiroFim: DoubleNode? = null
     private var quantidade = 0
@@ -158,5 +161,19 @@ class DynamicMoviesList : MovieDAO {
             current = current.next
         }
         return allMovies
+    }
+
+    override fun save(username: String) {
+        MoviePersistenceService.saveMovies(movies, username)
+    }
+
+    override fun load(username: String) {
+        val loadedMovies = MoviePersistenceService.loadMovies(username)
+        movies.clear()
+        movies.addAll(loadedMovies)
+    }
+
+    fun getMovies(): List<Movie> {
+        return movies
     }
 }

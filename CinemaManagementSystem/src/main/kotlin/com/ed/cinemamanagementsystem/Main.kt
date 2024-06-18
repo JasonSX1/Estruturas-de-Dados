@@ -5,6 +5,9 @@ import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.stage.Stage
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 class HelloApplication : Application() {
     override fun start(stage: Stage) {
