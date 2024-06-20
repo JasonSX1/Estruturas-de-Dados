@@ -536,7 +536,7 @@ class MainFormController : Initializable {
     }
 
     fun clearForm() {
-        //movies_movieId.clear() seria interessante resetar o ID?
+        movies_movieId.clear()
         movies_title.clear()
         movies_duration.clear()
         movies_price.clear()

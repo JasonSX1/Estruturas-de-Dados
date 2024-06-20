@@ -114,34 +114,6 @@ class DynamicMoviesList : MovieDAO {
         return null
     }
 
-    override fun deleteMovieByPosition(position: Int): Movie? {
-        if (position < 0 || position >= quantidade) {
-            println("Índice inválido!")
-            return null
-        }
-
-        var current = ponteiroInicio
-        for (i in 0 until position) {
-            current = current?.next
-        }
-
-        val movie = current?.movie
-        if (current != null) {
-            if (current.previous != null) {
-                current.previous?.next = current.next
-            } else {
-                ponteiroInicio = current.next
-            }
-            if (current.next != null) {
-                current.next?.previous = current.previous
-            } else {
-                ponteiroFim = current.previous
-            }
-            quantidade--
-        }
-        return movie
-    }
-
     override fun isEmpty(): Boolean {
         return quantidade == 0
     }
