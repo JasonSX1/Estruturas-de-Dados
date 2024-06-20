@@ -90,6 +90,9 @@ class LoginAndSignupController {
     @FXML
     private lateinit var fp_username: TextField
 
+    @FXML
+    private lateinit var si_guestLogin: Button
+
     private val questionList = arrayOf("Onde você cursou o ensino médio?", "Qual o nome da sua mãe?", "Qual sua data de nascimento?")
 
     private lateinit var alert: Alert
@@ -161,6 +164,20 @@ class LoginAndSignupController {
             println("Erro de banco de dados: ${e.message}")
             showAlert("Mensagem de erro!", "Erro de banco de dados: ${e.message}", Alert.AlertType.ERROR)
         }
+    }
+
+    fun guestLoginBtn(){
+        Data.username = "Visitante"
+
+        val fxmlLoader = FXMLLoader(javaClass.getResource("MainForm.fxml"))
+        val root: Parent = fxmlLoader.load()
+        val scene = Scene(root, 1100.0, 600.0)
+        val stage = si_user.scene.window as Stage
+        stage.scene = scene
+        stage.title = "Software de gerenciamento de sessões de cinema"
+        stage.minWidth = 1100.0
+        stage.minHeight = 650.0
+        stage.centerOnScreen()
     }
 
     fun regBtn() {

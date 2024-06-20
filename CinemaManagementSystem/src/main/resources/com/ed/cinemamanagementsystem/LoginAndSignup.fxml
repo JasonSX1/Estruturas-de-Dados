@@ -42,6 +42,7 @@
                   <PasswordField fx:id="si_password" layoutX="44.0" layoutY="160.0" prefHeight="30.0" prefWidth="220.0" promptText="Senha" styleClass="textfield" stylesheets="@../../../Values/LoginDesign.css" />
                   <Button fx:id="si_loginBtn" layoutX="44.0" layoutY="233.0" mnemonicParsing="false" onAction="#loginBtn" prefHeight="30.0" prefWidth="220.0" styleClass="login-btn" text="Login" />
                   <Hyperlink fx:id="si_forgotPass" layoutX="44.0" layoutY="200.0" onAction="#switchforgotPass" text="Esqueci a senha" />
+                  <Button fx:id="si_guestLogin" layoutX="47.0" layoutY="285.0" mnemonicParsing="false" onAction="#guestLoginBtn" prefHeight="30.0" prefWidth="220.0" styleClass="guest-btn" stylesheets="@../../../Values/LoginDesign.css" text="Continuar como Convidado" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="fp_questionForm" layoutX="300.0" prefHeight="400.0" prefWidth="300.0" styleClass="white-form" stylesheets="@../../../Values/LoginDesign.css" visible="false">

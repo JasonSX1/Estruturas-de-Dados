@@ -36,6 +36,17 @@
     -fx-border-width: 1px;
 }
 
+.guest-btn{
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+    -fx-border-width: .8px;
+    -fx-border-color:linear-gradient(to bottom right, #13F0C0, #230465);
+}
+
+.guest-btn:hover{
+    -fx-background-color: #DDDEDB;
+}
+
 .create-btn{
     -fx-background-color: transparent;
     -fx-cursor: hand;

@@ -396,6 +396,7 @@ class MainFormController : Initializable {
             e.printStackTrace()
         }
     }
+
     fun showAddDialog() {
         val dialog = Dialog<String>().apply {
             title = "Escolher posição"
@@ -535,7 +536,7 @@ class MainFormController : Initializable {
     }
 
     fun clearForm() {
-        movies_movieId.clear()
+        //movies_movieId.clear() seria interessante resetar o ID?
         movies_title.clear()
         movies_duration.clear()
         movies_price.clear()
