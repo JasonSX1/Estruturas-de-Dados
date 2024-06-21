@@ -8,4 +8,6 @@ interface SessionDAO {
     fun updateSession(sessao: Session)
     fun listSessions(): List<Session>
     fun searchSessionByID(id: Int): Session?
+    fun getAllSessions(): List<Session> //Função para salvar a lista de sessões posteriormente
+    fun isEmpty(): Boolean
 }
