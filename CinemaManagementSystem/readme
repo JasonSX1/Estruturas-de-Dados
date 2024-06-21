@@ -1,0 +1,7 @@
+Erros percebidos no diagrama de classes criado antes do inicio do desenvolvimento:
+
+- Falta de uso de interfaces
+- Falta de uso de dataClasses
+- As classes criadas para comportar a lista de filmes e a lista de sessões poderiam ser unificadas em uma única classe de lista dinamica genérica feita para garantir uma maior clareza e otimização do código
+- A definição das classes de usuário comum e administrador está horrível
+- Não é necessário ter uma classe específica para o tratamento de exceções
