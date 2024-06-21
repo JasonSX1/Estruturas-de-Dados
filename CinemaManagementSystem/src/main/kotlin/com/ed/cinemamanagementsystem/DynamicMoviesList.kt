@@ -2,8 +2,8 @@ package com.ed.cinemamanagementsystem
 
 class DynamicMoviesList : MovieDAO {
 
-    private var ponteiroInicio: DoubleNode? = null
-    private var ponteiroFim: DoubleNode? = null
+    private var ponteiroInicio: DoubleNode<Movie>? = null
+    private var ponteiroFim: DoubleNode<Movie>? = null
     private var quantidade = 0
 
     override fun addMovieStart(movie: Movie) {
@@ -61,8 +61,8 @@ class DynamicMoviesList : MovieDAO {
     override fun removeMovie(id: Int): Movie? {
         var current = ponteiroInicio
         while (current != null) {
-            if (current.movie.id == id) {
-                val movie = current.movie
+            if (current.data.id == id) {
+                val movie = current.data
                 if (current.previous != null) {
                     current.previous?.next = current.next
                 } else {
@@ -84,8 +84,8 @@ class DynamicMoviesList : MovieDAO {
     override fun updateMovie(id: Int, novoFilme: Movie) {
         var current = ponteiroInicio
         while (current != null) {
-            if (current.movie.id == id) {
-                current.movie = novoFilme
+            if (current.data.id == id) {
+                current.data = novoFilme
                 return
             }
             current = current.next
@@ -97,7 +97,7 @@ class DynamicMoviesList : MovieDAO {
         val listaFilmes = mutableListOf<Movie>()
         var current = ponteiroInicio
         while (current != null) {
-            listaFilmes.add(current.movie)
+            listaFilmes.add(current.data)
             current = current.next
         }
         return listaFilmes
@@ -106,8 +106,8 @@ class DynamicMoviesList : MovieDAO {
     override fun searchMovieByID(id: Int): Movie? {
         var current = ponteiroInicio
         while (current != null) {
-            if (current.movie.id == id) {
-                return current.movie
+            if (current.data.id == id) {
+                return current.data
             }
             current = current.next
         }
@@ -126,7 +126,7 @@ class DynamicMoviesList : MovieDAO {
         val allMovies = mutableListOf<Movie>()
         var current = ponteiroInicio
         while (current != null) {
-            allMovies.add(current.movie)
+            allMovies.add(current.data)
             current = current.next
         }
         return allMovies

@@ -19,5 +19,28 @@ class DynamicSessionList: SessionDAO {
         quantidade++
     }
 
+    override fun removeSession(id: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun updateSession(sessao: Session) {
+        TODO("Not yet implemented")
+    }
+
+    override fun listSessions(): List<Session> {
+        TODO("Not yet implemented")
+    }
+
+    override fun searchSessionByID(id: Int): Session? {
+        TODO("Not yet implemented")
+    }
+
+    override fun getAllSessions(): List<Session>{
+        TODO("Not yet implemented")
+    }
+
+    override fun isEmpty(): Boolean{
+        TODO("Not yet implemented")
+    }
 
 }
