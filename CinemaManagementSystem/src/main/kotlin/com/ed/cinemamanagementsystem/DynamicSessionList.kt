@@ -2,45 +2,90 @@ package com.ed.cinemamanagementsystem
 
 class DynamicSessionList: SessionDAO {
 
-    private var ponteiroInicio: DoubleNode? = null
-    private var ponteiroFim: DoubleNode? = null
-    private var quantidade = 0
+    private var startPointer: DoubleNode<Session>? = null
+    private var endPointer: DoubleNode<Session>? = null
+    private var quantity = 0
 
     override fun addSession(session: Session) {
         val tempNode = DoubleNode(session)
         tempNode.previous = null
         if (!isEmpty()) {
-            tempNode.next = ponteiroInicio
-            ponteiroInicio?.previous = tempNode
+            tempNode.next = startPointer
+            startPointer?.previous = tempNode
         } else {
-            ponteiroFim = tempNode
+            endPointer = tempNode
         }
-        ponteiroInicio = tempNode
-        quantidade++
+        startPointer = tempNode
+        quantity++
     }
 
-    override fun removeSession(id: Int) {
-        TODO("Not yet implemented")
+    override fun removeSession(id: Int): Session? {
+        var current = startPointer
+        while (current != null) {
+            if (current.data.id == id) {
+                val session = current.data
+                if (current.previous != null) {
+                    current.previous?.next = current.next
+                } else {
+                    startPointer = current.next
+                }
+                if (current.next != null) {
+                    current.next?.previous = current.previous
+                } else {
+                    endPointer = current.previous
+                }
+                quantity--
+                return session
+            }
+            current = current.next
+        }
+        return null
     }
 
-    override fun updateSession(sessao: Session) {
-        TODO("Not yet implemented")
+    override fun updateSession(id: Int, newSession: Session) {
+        var current = startPointer
+        while (current != null) {
+            if (current.data.id == id) {
+                current.data = newSession
+                return
+            }
+            current = current.next
+        }
     }
 
     override fun listSessions(): List<Session> {
-        TODO("Not yet implemented")
+        val sessionsList = mutableListOf<Session>()
+        var current = startPointer
+        while (current != null) {
+            sessionsList.add(current.data)
+            current = current.next
+        }
+        return sessionsList
     }
 
     override fun searchSessionByID(id: Int): Session? {
-        TODO("Not yet implemented")
+        var current = startPointer
+        while (current != null) {
+            if (current.data.id == id) {
+                return current.data
+            }
+            current = current.next
+        }
+        return null
     }
 
     override fun getAllSessions(): List<Session>{
-        TODO("Not yet implemented")
+        val allSessions = mutableListOf<Session>()
+        var current = startPointer
+        while (current != null) {
+            allSessions.add(current.data)
+            current = current.next
+        }
+        return allSessions
     }
 
     override fun isEmpty(): Boolean{
-        TODO("Not yet implemented")
+        return quantity == 0
     }
 
 }
