@@ -4,8 +4,8 @@ package com.ed.cinemamanagementsystem
 
 interface SessionDAO {
     fun addSession(session: Session)
-    fun removeSession(id: Int)
-    fun updateSession(sessao: Session)
+    fun removeSession(id: Int): Session?
+    fun updateSession(id: Int, newSession: Session)
     fun listSessions(): List<Session>
     fun searchSessionByID(id: Int): Session?
     fun getAllSessions(): List<Session> //Função para salvar a lista de sessões posteriormente
