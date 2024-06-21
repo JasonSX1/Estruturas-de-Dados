@@ -4,7 +4,7 @@ import java.time.LocalDateTime
 
 data class Session(
     val id: Int,
-    val numberRoom: Int,
+    val numberRoom: String,
     val sessionCapacity: Int,
     val movie: Movie,
     val startTime: LocalDateTime,
