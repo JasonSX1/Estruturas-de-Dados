@@ -784,11 +784,10 @@ class MainFormController : Initializable {
             SimpleStringProperty(hasCover)
         }
 
-        sessions_col_sessionId.cellValueFactory = PropertyValueFactory("sessionId")
-        sessions_col_number.cellValueFactory = PropertyValueFactory("sessions_roomNumber")
-        sessions_col_currentMovie.cellValueFactory = PropertyValueFactory("currentMovie")
-        sessions_col_nextMovie.cellValueFactory = PropertyValueFactory("nextMovie")
-        sessions_col_capacity.cellValueFactory = PropertyValueFactory("capacity")
+        sessions_col_sessionId.cellValueFactory = PropertyValueFactory<Session, Int>("id")
+        sessions_col_number.cellValueFactory = PropertyValueFactory<Session, String>("numberRoom")
+        sessions_col_currentMovie.cellValueFactory = PropertyValueFactory<Session, Movie>("movie")
+        sessions_col_capacity.cellValueFactory = PropertyValueFactory<Session, Int>("sessionCapacity")
 
         sessions_movie.setCellFactory { _ ->
             object : ListCell<Movie>() {
