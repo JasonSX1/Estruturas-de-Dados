@@ -209,6 +209,9 @@ class MainFormController : Initializable {
     @FXML
     private lateinit var movies_imageLabel2: Label
 
+    @FXML
+    private lateinit var sessions_programation: Button
+
     private var imagePath: String? = null
 
     private lateinit var image: Image
