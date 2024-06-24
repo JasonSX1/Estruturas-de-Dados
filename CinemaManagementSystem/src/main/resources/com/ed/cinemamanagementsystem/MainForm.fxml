@@ -617,7 +617,7 @@
                                        </children>
                                     </AnchorPane>
                                     <Button disable="true" layoutX="778.0" layoutY="253.0" mnemonicParsing="false" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Configurar poltronas" AnchorPane.bottomAnchor="19.799999999999955" AnchorPane.rightAnchor="20.40000000000009" />
-                                    <Button fx:id="sessions_addBtn" layoutX="20.0" layoutY="233.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="80.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Adicionar" />
+                                    <Button fx:id="sessions_addBtn" layoutX="20.0" layoutY="233.0" mnemonicParsing="false" onAction="#addSession" prefHeight="40.0" prefWidth="80.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Adicionar" />
                                     <Button fx:id="sessions_updateBtn" layoutX="130.0" layoutY="233.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="80.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Atualizar" />
                                     <Button fx:id="sessions_clearBtn" layoutX="240.0" layoutY="233.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="80.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Limpar" />
                                     <Button fx:id="sessions_deleteBtn" layoutX="350.0" layoutY="233.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="80.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Deletar" />

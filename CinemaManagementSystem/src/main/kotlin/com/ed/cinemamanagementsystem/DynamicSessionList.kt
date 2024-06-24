@@ -6,7 +6,7 @@ class DynamicSessionList: SessionDAO {
     private var endPointer: DoubleNode<Session>? = null
     private var quantity = 0
 
-    override fun addSession(session: Session) {
+    override fun addSession(session: Session): Boolean {
         val tempNode = DoubleNode(session)
         tempNode.previous = null
         if (!isEmpty()) {
@@ -17,7 +17,9 @@ class DynamicSessionList: SessionDAO {
         }
         startPointer = tempNode
         quantity++
+        return true
     }
+
 
     override fun removeSession(id: Int): Session? {
         var current = startPointer

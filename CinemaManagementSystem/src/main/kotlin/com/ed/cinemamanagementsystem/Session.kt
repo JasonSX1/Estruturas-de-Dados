@@ -6,7 +6,7 @@ data class Session(
     val id: Int,
     val numberRoom: String,
     val sessionCapacity: Int,
-    val movie: Movie,
-    val startTime: LocalDateTime,
+    val movie: Movie?,
+    val startTime: Int?,
     val status: SessionStatus
 )

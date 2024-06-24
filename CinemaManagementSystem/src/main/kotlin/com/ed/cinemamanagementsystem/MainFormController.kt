@@ -180,7 +180,7 @@ class MainFormController : Initializable {
     private lateinit var sessions_id: TextField
 
     @FXML
-    private lateinit var sessions_movie: ComboBox<String>
+    private lateinit var sessions_movie: ComboBox<Movie>
 
     @FXML
     private lateinit var sessions_roomNumber: TextField
@@ -217,13 +217,17 @@ class MainFormController : Initializable {
 
     private val movieList: ObservableList<Movie> = FXCollections.observableArrayList()
 
+    private val sessionList: ObservableList<Session> = FXCollections.observableArrayList()
+
     private val comboList = arrayOf("Sim", "Não")
 
     private val productionTypeList = arrayOf("Nacional", "Estrangeira")
 
     private val audioTypeList = arrayOf("Original", "Original com Legenda", "Dublado")
 
-    private val movieDAO: MovieDAO = DynamicMoviesList()
+    private val movieDAO: MovieDAO = DynamicMoviesList() // Seria uma boa pratica utilizar movie e sessionDAO como nomes das variaveis???
+
+    private val sessionDAO: SessionDAO = DynamicSessionList()
 
     private fun connectToDatabase(): Connection? {
         return try {
@@ -255,22 +259,19 @@ class MainFormController : Initializable {
         movies_has3d.items = listData
     }
 
-    private fun loadMovieNames() {
+    private fun loadMoviesToSessions() {
         try {
             // Obter a lista de filmes a partir do DAO
             val moviesList = movieDAO.listMovies()
 
-            // Extrair os nomes dos filmes
-            val movieNames = moviesList.map { it.title }
-
             // Atualizar o ComboBox na thread da UI
             Platform.runLater {
                 sessions_movie.items.clear()
-                sessions_movie.items.addAll(movieNames)
+                sessions_movie.items.addAll(moviesList)
             }
 
         } catch (e: Exception) {
-            showAlert("Mensagem de erro!", "Erro ao carregar os nomes dos filmes: ${e.message}", Alert.AlertType.ERROR)
+            showAlert("Mensagem de erro!", "Erro ao carregar os filmes: ${e.message}", Alert.AlertType.ERROR)
         }
     }
 
@@ -385,7 +386,7 @@ class MainFormController : Initializable {
                     if (sucesso) {
                         showAlert("Sucesso", "Filme adicionado com sucesso!", Alert.AlertType.INFORMATION)
                         loadMoviesToTableView()
-                        clearForm()
+                        clearMoviesForm()
                     }
                 }
             } else {
@@ -397,7 +398,44 @@ class MainFormController : Initializable {
         }
     }
 
-    fun showAddDialog() {
+    fun addSession() {
+        try {
+            val sessionId = sessions_id.text.toIntOrNull()
+            val roomNumber = sessions_roomNumber.text
+            val capacity = sessions_capacity.text.toIntOrNull()
+            val movie = sessions_movie.value
+            val startTime = sessions_startTime.text.toIntOrNull()
+
+            if (sessionId != null && roomNumber.isNotBlank() && capacity != null) {
+                val existingSession = sessionDAO.searchSessionByID(sessionId)
+                if (existingSession != null) {
+                    showAlert("Erro", "ID da sessão já está cadastrado!", Alert.AlertType.ERROR)
+                    return
+                }
+
+                // Cria uma nova sessão com status padrão WAITING
+                val session = Session(sessionId, roomNumber, capacity, movie, startTime, SessionStatus.WAITING)
+                val successful = sessionDAO.addSession(session)
+
+                if (successful) {
+                    showAlert("Sucesso", "Sessão adicionada com sucesso!", Alert.AlertType.INFORMATION)
+                    println("Sessão cadastrada: $session")
+                    loadSessionsToTableView()
+                    clearSessionsForm()
+                } else {
+                    showAlert("Erro", "Falha ao adicionar a sessão!", Alert.AlertType.ERROR)
+                }
+
+            } else {
+                showAlert("Erro", "Por favor, preencha todos os campos corretamente!", Alert.AlertType.ERROR)
+            }
+        } catch (e: Exception) {
+            showAlert("Erro", "Ocorreu um erro ao adicionar a sessão: ${e.message}", Alert.AlertType.ERROR)
+            e.printStackTrace()
+        }
+    }
+
+    private fun showAddDialog() {
         val dialog = Dialog<String>().apply {
             title = "Escolher posição"
             headerText = "Escolha onde adicionar o filme"
@@ -488,7 +526,7 @@ class MainFormController : Initializable {
             val removedMovie = movieDAO.removeMovie(movieId)
             if (removedMovie != null) {
                 showAlert("Sucesso", "Filme removido com sucesso!", Alert.AlertType.INFORMATION)
-                clearForm()
+                clearMoviesForm()
             } else {
                 showAlert("Erro", "Filme com ID $movieId não encontrado!", Alert.AlertType.ERROR)
             }
@@ -531,11 +569,18 @@ class MainFormController : Initializable {
     private fun loadMoviesToTableView() {
         movies_tableView.items.clear()
         val moviesList = movieDAO.listMovies()
-        val observableList = FXCollections.observableList(moviesList)
-        movies_tableView.items = observableList
+        val observableMovieList = FXCollections.observableList(moviesList)
+        movies_tableView.items = observableMovieList
     }
 
-    fun clearForm() {
+    private fun loadSessionsToTableView(){
+        sessions_tableView.items.clear()
+        val sessionsList = sessionDAO.listSessions()
+        val observableSessionList = FXCollections.observableArrayList(sessionsList)
+        sessions_tableView.items = observableSessionList
+    } //FALTA TESTAAAAAAAAAAAAARRRRRR
+
+    fun clearMoviesForm() {
         movies_movieId.clear()
         movies_title.clear()
         movies_duration.clear()
@@ -549,6 +594,14 @@ class MainFormController : Initializable {
         movies_imageLabel2.isVisible = false
         imagePath = null
     }
+
+    fun clearSessionsForm(){
+        sessions_id.clear()
+        sessions_roomNumber.clear()
+        sessions_capacity.clear()
+        sessions_movie.value = null
+        sessions_startTime.clear()
+    } //FALTA TESTAAAAAAAAAAAAARRRRRR
 
     fun switchMenu(event: javafx.event.ActionEvent) {
         DashboardForm.isVisible = false
@@ -599,7 +652,7 @@ class MainFormController : Initializable {
             movieDAO.updateMovie(movieId, updatedMovie)
             showAlert("Sucesso", "Filme atualizado com sucesso!", Alert.AlertType.INFORMATION)
             loadMoviesToTableView()
-            clearForm()
+            clearMoviesForm()
         }
     }
 
@@ -715,7 +768,7 @@ class MainFormController : Initializable {
         displayUsername()
 
         movies_addBtn.setOnAction { addMovie() }
-        movies_clearBtn.setOnAction { clearForm() }
+        movies_clearBtn.setOnAction { clearMoviesForm() }
 
         movies_col_movieId.cellValueFactory = PropertyValueFactory("id")
         movies_col_movieTitle.cellValueFactory = PropertyValueFactory("title")
@@ -731,19 +784,42 @@ class MainFormController : Initializable {
             SimpleStringProperty(hasCover)
         }
 
+        sessions_col_sessionId.cellValueFactory = PropertyValueFactory("sessionId")
+        sessions_col_number.cellValueFactory = PropertyValueFactory("sessions_roomNumber")
+        sessions_col_currentMovie.cellValueFactory = PropertyValueFactory("currentMovie")
+        sessions_col_nextMovie.cellValueFactory = PropertyValueFactory("nextMovie")
+        sessions_col_capacity.cellValueFactory = PropertyValueFactory("capacity")
+
+        sessions_movie.setCellFactory { _ ->
+            object : ListCell<Movie>() {
+                override fun updateItem(movie: Movie?, empty: Boolean) {
+                    super.updateItem(movie, empty)
+                    text = if (empty || movie == null) {
+                        null
+                    } else {
+                        //Teste de formatação dos dados no filme na combobox de sessões
+                        "${movie.title} - ${movie.duration} - ${movie.price}"
+                    }
+                }
+            }
+        }
+
+
+
         movies_tableView.selectionModel.selectedItemProperty().addListener { _, _, newValue ->
             if (newValue != null) {
                 loadMovieData(newValue)
                 movies_imageLabel.isVisible = false
                 movies_imageLabel2.isVisible = true
             } else {
-                clearForm()
+                clearMoviesForm()
                 movies_imageLabel.isVisible = true
                 movies_imageLabel2.isVisible = false
             }
         }
 
         movies_tableView.items = movieList
+        sessions_tableView.items = sessionList
 
         /*movies_movieId.setOnKeyPressed { event ->
             if (event.code == KeyCode.ENTER) {
@@ -771,7 +847,7 @@ class MainFormController : Initializable {
         //Função que carrega os nomes dos filmes à comboBox do menu de sesões
         sessions_form.visibleProperty().addListener { _, _, newValue ->
             if (newValue) {
-                loadMovieNames()
+                loadMoviesToSessions()
             }
         }
 
