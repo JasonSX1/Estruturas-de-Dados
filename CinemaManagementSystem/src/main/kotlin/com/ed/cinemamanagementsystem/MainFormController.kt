@@ -17,6 +17,7 @@ import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.GridPane
 import javafx.stage.FileChooser
 import javafx.stage.Stage
+import javafx.util.StringConverter
 import java.awt.Image
 import java.io.File
 import java.net.URL
@@ -111,22 +112,23 @@ class MainFormController : Initializable {
     private lateinit var sessions_btn: Button
 
     @FXML
-    private lateinit var sessions_col_capacity: TableColumn<*, *>
+    private lateinit var sessions_col_capacity: TableColumn<Session, Int>
 
     @FXML
-    private lateinit var sessions_col_currentMovie: TableColumn<*, *>
+    private lateinit var sessions_col_currentMovie: TableColumn<Session, Movie>
 
     @FXML
-    private lateinit var sessions_col_nextMovie: TableColumn<*, *>
+    private lateinit var sessions_col_nextMovie: TableColumn<Session, Movie>
 
     @FXML
-    private lateinit var sessions_col_number: TableColumn<*, *>
+    private lateinit var sessions_col_number: TableColumn<Session, String>
 
     @FXML
-    private lateinit var sessions_col_ocupation: TableColumn<*, *>
+    private lateinit var sessions_col_occupation: TableColumn<Session, Double>
 
     @FXML
-    private lateinit var sessions_col_sessionId: TableColumn<*, *>
+    private lateinit var sessions_col_sessionId: TableColumn<Session, Int>
+
 
     @FXML
     private lateinit var sessions_tableView: TableView<*>
@@ -271,6 +273,7 @@ class MainFormController : Initializable {
             Platform.runLater {
                 sessions_movie.items.clear()
                 sessions_movie.items.addAll(moviesList)
+                setupSessionsMovieComboBox()
             }
 
         } catch (e: Exception) {
@@ -422,7 +425,6 @@ class MainFormController : Initializable {
 
                 if (successful) {
                     showAlert("Sucesso", "Sessão adicionada com sucesso!", Alert.AlertType.INFORMATION)
-                    println("Sessão cadastrada: $session")
                     loadSessionsToTableView()
                     clearSessionsForm()
                 } else {
@@ -581,7 +583,7 @@ class MainFormController : Initializable {
         val sessionsList = sessionDAO.listSessions()
         val observableSessionList = FXCollections.observableArrayList(sessionsList)
         sessions_tableView.items = observableSessionList
-    } //FALTA TESTAAAAAAAAAAAAARRRRRR
+    }
 
     fun clearMoviesForm() {
         movies_movieId.clear()
@@ -764,6 +766,38 @@ class MainFormController : Initializable {
         }
     }
 
+    fun setupSessionsMovieComboBox() {
+        // Define a StringConverter for the ComboBox
+        sessions_movie.converter = object : StringConverter<Movie>() {
+            override fun toString(movie: Movie?): String? {
+                return if (movie == null) {
+                    null
+                } else {
+                    "Filme: ${movie.title} - Duração: ${movie.duration}min. - Preço:  R$${movie.price} - Tipo de Áudio: ${movie.audio} - 3D: ${movie.has3d} - Meia: ${movie.hasHalf}"
+                }
+            }
+
+            override fun fromString(string: String?): Movie? {
+                // This method is not used in this context, you can return null or throw an UnsupportedOperationException
+                throw UnsupportedOperationException("Not supported")
+            }
+        }
+
+        // Set a custom cell factory to format the options in the ComboBox dropdown
+        sessions_movie.setCellFactory { _ ->
+            object : ListCell<Movie>() {
+                override fun updateItem(movie: Movie?, empty: Boolean) {
+                    super.updateItem(movie, empty)
+                    text = if (empty || movie == null) {
+                        null
+                    } else {
+                        "Filme: ${movie.title} - Duração: ${movie.duration}min. - Preço:  R$${movie.price} - Tipo de Áudio: ${movie.audio} - 3D: ${movie.has3d} - Meia: ${movie.hasHalf}"
+                    }
+                }
+            }
+        }
+    }
+
     override fun initialize(location: URL?, resources: ResourceBundle?) {
         initializeComboBoxes()
         initializeAudioTypeList()
@@ -791,22 +825,6 @@ class MainFormController : Initializable {
         sessions_col_number.cellValueFactory = PropertyValueFactory<Session, String>("numberRoom")
         sessions_col_currentMovie.cellValueFactory = PropertyValueFactory<Session, Movie>("movie")
         sessions_col_capacity.cellValueFactory = PropertyValueFactory<Session, Int>("sessionCapacity")
-
-        sessions_movie.setCellFactory { _ ->
-            object : ListCell<Movie>() {
-                override fun updateItem(movie: Movie?, empty: Boolean) {
-                    super.updateItem(movie, empty)
-                    text = if (empty || movie == null) {
-                        null
-                    } else {
-                        //Teste de formatação dos dados no filme na combobox de sessões
-                        "${movie.title} - ${movie.duration} - ${movie.price}"
-                    }
-                }
-            }
-        }
-
-
 
         movies_tableView.selectionModel.selectedItemProperty().addListener { _, _, newValue ->
             if (newValue != null) {
@@ -846,7 +864,7 @@ class MainFormController : Initializable {
             }
         }
 
-        //Função que carrega os nomes dos filmes à comboBox do menu de sesões
+        //Função que carrega os nomes dos filmes para a comboBox do menu de sesões
         sessions_form.visibleProperty().addListener { _, _, newValue ->
             if (newValue) {
                 loadMoviesToSessions()
