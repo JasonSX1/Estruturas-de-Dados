@@ -17,6 +17,7 @@ import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.GridPane
 import javafx.stage.FileChooser
 import javafx.stage.Stage
+import javafx.util.Callback
 import javafx.util.StringConverter
 import java.awt.Image
 import java.io.File
@@ -129,6 +130,8 @@ class MainFormController : Initializable {
     @FXML
     private lateinit var sessions_col_sessionId: TableColumn<Session, Int>
 
+    @FXML
+    private lateinit var sessions_col_sessionStatus: TableColumn<Session, SessionStatus>
 
     @FXML
     private lateinit var sessions_tableView: TableView<*>
@@ -606,7 +609,7 @@ class MainFormController : Initializable {
         sessions_capacity.clear()
         sessions_movie.value = null
         sessions_startTime.clear()
-    } //FALTA TESTAAAAAAAAAAAAARRRRRR
+    }
 
     fun switchMenu(event: javafx.event.ActionEvent) {
         DashboardForm.isVisible = false
@@ -798,12 +801,7 @@ class MainFormController : Initializable {
         }
     }
 
-    override fun initialize(location: URL?, resources: ResourceBundle?) {
-        initializeComboBoxes()
-        initializeAudioTypeList()
-        intializeProductionTypeList()
-        displayUsername()
-
+    private fun setupMovieParameters(){
         movies_addBtn.setOnAction { addMovie() }
         movies_clearBtn.setOnAction { clearMoviesForm() }
 
@@ -815,16 +813,12 @@ class MainFormController : Initializable {
         movies_col_audType.cellValueFactory = PropertyValueFactory("audio")
         movies_col_has3d.cellValueFactory = PropertyValueFactory("has3d")
         movies_col_hasHalf.cellValueFactory = PropertyValueFactory("hasHalf")
+
         movies_col_hasCover.setCellValueFactory { cellData ->
             val movie = cellData.value
             val hasCover = if (movie.imagePath.isNullOrEmpty()) "Não" else "Sim"
             SimpleStringProperty(hasCover)
         }
-
-        sessions_col_sessionId.cellValueFactory = PropertyValueFactory<Session, Int>("id")
-        sessions_col_number.cellValueFactory = PropertyValueFactory<Session, String>("numberRoom")
-        sessions_col_currentMovie.cellValueFactory = PropertyValueFactory<Session, Movie>("movie")
-        sessions_col_capacity.cellValueFactory = PropertyValueFactory<Session, Int>("sessionCapacity")
 
         movies_tableView.selectionModel.selectedItemProperty().addListener { _, _, newValue ->
             if (newValue != null) {
@@ -839,23 +833,6 @@ class MainFormController : Initializable {
         }
 
         movies_tableView.items = movieList
-        sessions_tableView.items = sessionList
-
-        /*movies_movieId.setOnKeyPressed { event ->
-            if (event.code == KeyCode.ENTER) {
-                val id = movies_movieId.text.toIntOrNull()
-                if (id != null) {
-                    val movie = searchMovieByID(id)
-                    if (movie != null) {
-                        loadMovieData(movie)
-                    } else {
-                        showAlert("Mensagem de erro!", "Não foi possível encontrar um filme com o ID $id!", Alert.AlertType.ERROR)
-                    }
-                } else {
-                    println("ID inválido.")
-                }
-            }
-        }*/
 
         //Função de interação com o mouse do usuario com os filmes cadastrados
         movies_tableView.selectionModel.selectedItemProperty().addListener { _, _, selectedMovie ->
@@ -863,6 +840,26 @@ class MainFormController : Initializable {
                 loadMovieData(movie)
             }
         }
+    }
+
+    private fun setupSessionParameters(){
+        sessions_col_sessionId.cellValueFactory = PropertyValueFactory<Session, Int>("id")
+        sessions_col_number.cellValueFactory = PropertyValueFactory<Session, String>("numberRoom")
+        sessions_col_currentMovie.cellValueFactory = PropertyValueFactory<Session, Movie>("movie")
+        sessions_col_capacity.cellValueFactory = PropertyValueFactory<Session, Int>("sessionCapacity")
+
+        // Usando uma célula personalizada para a coluna de status
+        sessions_col_sessionStatus.setCellValueFactory(PropertyValueFactory<Session, SessionStatus>("status"))
+        sessions_col_sessionStatus.setCellFactory(Callback<TableColumn<Session, SessionStatus>, TableCell<Session, SessionStatus>> {
+            object : TableCell<Session, SessionStatus>() {
+                override fun updateItem(item: SessionStatus?, empty: Boolean) {
+                    super.updateItem(item, empty)
+                    text = item?.status ?: ""
+                }
+            }
+        })
+
+        sessions_tableView.items = sessionList
 
         //Função que carrega os nomes dos filmes para a comboBox do menu de sesões
         sessions_form.visibleProperty().addListener { _, _, newValue ->
@@ -870,7 +867,15 @@ class MainFormController : Initializable {
                 loadMoviesToSessions()
             }
         }
+    }
 
+    override fun initialize(location: URL?, resources: ResourceBundle?) {
+        initializeComboBoxes()
+        initializeAudioTypeList()
+        intializeProductionTypeList()
+        displayUsername()
+        setupMovieParameters()
+        setupSessionParameters()
         loadMoviesToTableView()
     }
 }

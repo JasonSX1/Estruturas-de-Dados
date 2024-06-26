@@ -558,7 +558,7 @@
                                           <TableColumn fx:id="sessions_col_nextMovie" prefWidth="239.99993896484375" text="Proximo Filme" />
                                           <TableColumn fx:id="sessions_col_capacity" prefWidth="85.33343505859375" text="Capacidade" />
                                           <TableColumn fx:id="sessions_col_ocupation" prefWidth="76.79998779296875" text="Ocupação" />
-                                          <TableColumn fx:id="movies_col_moviePrice1" prefWidth="120.8001708984375" text="Status" />
+                                          <TableColumn fx:id="sessions_col_sessionStatus" prefWidth="120.8001708984375" text="Status" />
                                        </columns>
                                        <columnResizePolicy>
                                           <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
