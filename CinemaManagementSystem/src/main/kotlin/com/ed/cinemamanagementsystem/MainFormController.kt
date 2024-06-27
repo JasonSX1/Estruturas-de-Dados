@@ -733,6 +733,15 @@ class MainFormController : Initializable {
         }
     }
 
+    private fun loadSessionData(session: Session) {
+        sessions_id.text = session.id.toString()
+        sessions_roomNumber.text = session.numberRoom
+        sessions_capacity.text = session.sessionCapacity.toString()
+        sessions_movie.value = session.movie
+        sessions_startTime.text = session.startTime?.toString() ?: "N/A"
+        sessions_statusLabel.text = session.status.status
+    }
+
     private fun loadMovieById() {
         val movieId = movies_movieId.text.toIntOrNull()
         if (movieId != null) {
