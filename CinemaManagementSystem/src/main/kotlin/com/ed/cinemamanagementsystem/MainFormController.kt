@@ -848,6 +848,44 @@ class MainFormController : Initializable {
         }
     }
 
+    fun openSales() {
+        val selectedSession = sessions_tableView.selectionModel.selectedItem
+        if (selectedSession == null) {
+            showAlert("Erro", "Nenhuma sessão selecionada!", Alert.AlertType.ERROR)
+            return
+        }
+
+        if (selectedSession.status == SessionStatus.SALE) {
+            showAlert("Erro", "As vendas já estão abertas para esta sessão!", Alert.AlertType.ERROR)
+            return
+        }
+
+        val updatedSession = selectedSession.copy(status = SessionStatus.SALE)
+        sessionDAO.updateSession(updatedSession.id, updatedSession)
+        showAlert("Sucesso", "Vendas abertas com sucesso!", Alert.AlertType.INFORMATION)
+        loadSessionsToTableView()
+        clearSessionsForm()
+    }
+
+    fun closeSales() {
+        val selectedSession = sessions_tableView.selectionModel.selectedItem
+        if (selectedSession == null) {
+            showAlert("Erro", "Nenhuma sessão selecionada!", Alert.AlertType.ERROR)
+            return
+        }
+
+        if (selectedSession.status == SessionStatus.CLOSED) {
+            showAlert("Erro", "As vendas já estão fechadas para esta sessão!", Alert.AlertType.ERROR)
+            return
+        }
+
+        val updatedSession = selectedSession.copy(status = SessionStatus.CLOSED)
+        sessionDAO.updateSession(updatedSession.id, updatedSession)
+        showAlert("Sucesso", "Vendas fechadas com sucesso!", Alert.AlertType.INFORMATION)
+        loadSessionsToTableView()
+        clearSessionsForm()
+    }
+    
     private fun getSessionStatusFromString(status: String): SessionStatus {
         return when (status) {
             "Espera" -> SessionStatus.WAITING

@@ -627,8 +627,8 @@
                                        </font>
                                     </Label>
                                     <TextField fx:id="sessions_startTime" layoutX="663.0" layoutY="100.0" prefWidth="165.0" />
-                                    <Button fx:id="sessions_startSales" layoutX="465.0" layoutY="233.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="107.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Iniciar Vendas" />
-                                    <Button fx:id="sessions_closeSales" layoutX="610.0" layoutY="233.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="115.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Fechar Vendas" />
+                                    <Button fx:id="sessions_startSales" layoutX="465.0" layoutY="233.0" mnemonicParsing="false" onAction="#openSales" prefHeight="40.0" prefWidth="107.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Iniciar Vendas" />
+                                    <Button fx:id="sessions_closeSales" layoutX="610.0" layoutY="233.0" mnemonicParsing="false" onAction="#closeSales" prefHeight="40.0" prefWidth="115.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Fechar Vendas" />
                                     <Label layoutX="409.0" layoutY="135.0" text="Status da Sessão" textFill="WHITE">
                                        <font>
                                           <Font size="14.0" />
