@@ -223,6 +223,8 @@ class MainFormController : Initializable {
 
     private var originalMovie: Movie? = null
 
+    private var originalSession: Session? = null
+
     private val movieList: ObservableList<Movie> = FXCollections.observableArrayList()
 
     private val sessionList: ObservableList<Session> = FXCollections.observableArrayList()
@@ -518,7 +520,7 @@ class MainFormController : Initializable {
                         }
                     }
                     showAlert("Sucesso", "Filme adicionado com sucesso!", Alert.AlertType.INFORMATION)
-                    updateTableView()
+                    updateMoviesTableView()
                     loadMoviesToTableView()
                 } else {
                     showAlert("Erro", "Por favor, preencha todos os campos corretamente!", Alert.AlertType.ERROR)
@@ -541,7 +543,24 @@ class MainFormController : Initializable {
         } else {
             showAlert("Erro", "Por favor, insira um ID de filme válido!", Alert.AlertType.ERROR)
         }
-        updateTableView()
+        updateMoviesTableView()
+    }
+
+    fun removeSession() {
+        val sessionId = sessions_id.text.toIntOrNull()
+
+        if (sessionId != null){
+            val removedSession = sessionDAO.removeSession(sessionId)
+            if (removedSession != null) {
+                showAlert("Sucesso", "Sessão removida com sucesso!", Alert.AlertType.INFORMATION)
+                clearSessionsForm()
+            } else {
+                showAlert("Erro", "Sessão com ID $sessionId não encontrada!", Alert.AlertType.ERROR)
+            }
+        } else {
+            showAlert("Erro", "Por favor, insira um ID de filme válido!", Alert.AlertType.ERROR)
+        }
+        updateSessionsTableView()
     }
 
     fun generateRandomData() {
@@ -569,9 +588,14 @@ class MainFormController : Initializable {
         movies_has3d.value = randomHas3d
     }//Metodo de geração aleatorio durante a fase de testes
 
-    fun updateTableView() {
+    fun updateMoviesTableView() {
         val movies = movieDAO.listMovies()
         movies_tableView.items = FXCollections.observableArrayList(movies)
+    }
+
+    fun updateSessionsTableView(){
+        val sessions = sessionDAO.listSessions()
+        sessions_tableView.items = FXCollections.observableArrayList(sessions)
     }
 
     private fun loadMoviesToTableView() {
@@ -664,6 +688,38 @@ class MainFormController : Initializable {
         }
     }
 
+    fun updateSession() {
+        val sessionId = sessions_id.text.toIntOrNull()
+
+        if (sessionId == null) {
+            showAlert("Erro", "ID de sessão inválido!", Alert.AlertType.ERROR)
+            return
+        }
+
+        val updatedSession = Session(
+            sessionId,
+            sessions_roomNumber.text,
+            sessions_capacity.text.toIntOrNull() ?: 0,
+            sessions_movie.value,
+            sessions_startTime.text.toIntOrNull() ?: 0,
+            getSessionStatusFromString(sessions_statusLabel.text)
+        )
+
+        val changes = getSessionChanges(updatedSession)
+        if (changes.isEmpty()) {
+            showAlert("Sem alterações", "Nenhuma alteração foi feita.", Alert.AlertType.INFORMATION)
+            return
+        }
+
+        val confirmation = showConfirmationDialog(changes)
+        if (confirmation) {
+            sessionDAO.updateSession(sessionId, updatedSession)
+            showAlert("Sucesso", "Sessão atualizada com sucesso!", Alert.AlertType.INFORMATION)
+            loadSessionsToTableView()
+            clearSessionsForm()
+        }
+    }
+
     private fun getMovieChanges(updatedMovie: Movie): String {
         val changes = mutableListOf<String>()
         originalMovie?.let {
@@ -675,6 +731,19 @@ class MainFormController : Initializable {
             if (it.audio != updatedMovie.audio) changes.add("Áudio: ${it.audio} -> ${updatedMovie.audio}")
             if (it.has3d != updatedMovie.has3d) changes.add("3D: ${it.has3d} -> ${updatedMovie.has3d}")
             if (it.imagePath != updatedMovie.imagePath) changes.add("Imagem: ${it.imagePath} -> ${updatedMovie.imagePath}")
+        }
+        return changes.joinToString("\n")
+    }
+
+    private fun getSessionChanges(updatedSession: Session): String {
+        val changes = mutableListOf<String>()
+        originalSession?.let {
+            if (it.id != updatedSession.id) changes.add("ID: ${it.id} -> ${updatedSession.id}")
+            if (it.numberRoom != updatedSession.numberRoom) changes.add("Número da Sala: ${it.numberRoom} -> ${updatedSession.numberRoom}")
+            if (it.sessionCapacity != updatedSession.sessionCapacity) changes.add("Capacidade: ${it.sessionCapacity} -> ${updatedSession.sessionCapacity}")
+            if (it.movie?.id != updatedSession.movie?.id) changes.add("Filme: ${it.movie?.title} -> ${updatedSession.movie?.title}")
+            if (it.startTime != updatedSession.startTime) changes.add("Horário de Início: ${it.startTime} -> ${updatedSession.startTime}")
+            if (it.status != updatedSession.status) changes.add("Status: ${it.status.status} -> ${updatedSession.status.status}")
         }
         return changes.joinToString("\n")
     }
@@ -734,6 +803,7 @@ class MainFormController : Initializable {
     }
 
     private fun loadSessionData(session: Session) {
+        originalSession = session
         sessions_id.text = session.id.toString()
         sessions_roomNumber.text = session.numberRoom
         sessions_capacity.text = session.sessionCapacity.toString()
@@ -778,7 +848,17 @@ class MainFormController : Initializable {
         }
     }
 
-    fun setupSessionsMovieComboBox() {
+    private fun getSessionStatusFromString(status: String): SessionStatus {
+        return when (status) {
+            "Espera" -> SessionStatus.WAITING
+            "Venda" -> SessionStatus.SALE
+            "Cancelada" -> SessionStatus.CANCELLED
+            "Fechada" -> SessionStatus.CLOSED
+            else -> SessionStatus.WAITING // Valor padrão
+        }
+    }
+
+    private fun setupSessionsMovieComboBox() {
         // Define a StringConverter for the ComboBox
         sessions_movie.converter = object : StringConverter<Movie>() {
             override fun toString(movie: Movie?): String? {
@@ -790,7 +870,6 @@ class MainFormController : Initializable {
             }
 
             override fun fromString(string: String?): Movie? {
-                // This method is not used in this context, you can return null or throw an UnsupportedOperationException
                 throw UnsupportedOperationException("Not supported")
             }
         }
@@ -808,7 +887,7 @@ class MainFormController : Initializable {
                 }
             }
         }
-    }
+    } //Não é possível instanciar diretamente um enum com um construtor em kotlin, então preciso usar uma das constantes definidas no enum, para isso verifico o texto do status e correspondendo-o ao valor correto do enum
 
     private fun setupMovieParameters(){
         movies_addBtn.setOnAction { addMovie() }
