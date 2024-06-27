@@ -134,7 +134,7 @@ class MainFormController : Initializable {
     private lateinit var sessions_col_sessionStatus: TableColumn<Session, SessionStatus>
 
     @FXML
-    private lateinit var sessions_tableView: TableView<*>
+    private lateinit var sessions_tableView: TableView<Session>
 
     @FXML
     private lateinit var wishlist_btn: Button
@@ -649,7 +649,7 @@ class MainFormController : Initializable {
             imagePath ?: originalMovie?.imagePath ?: "" // Atualiza o imagePath
         )
 
-        val changes = getChanges(updatedMovie)
+        val changes = getMovieChanges(updatedMovie)
         if (changes.isEmpty()) {
             showAlert("Sem alterações", "Nenhuma alteração foi feita.", Alert.AlertType.INFORMATION)
             return
@@ -664,7 +664,7 @@ class MainFormController : Initializable {
         }
     }
 
-    private fun getChanges(updatedMovie: Movie): String {
+    private fun getMovieChanges(updatedMovie: Movie): String {
         val changes = mutableListOf<String>()
         originalMovie?.let {
             if (it.title != updatedMovie.title) changes.add("Título: ${it.title} -> ${updatedMovie.title}")
@@ -874,6 +874,13 @@ class MainFormController : Initializable {
         sessions_form.visibleProperty().addListener { _, _, newValue ->
             if (newValue) {
                 loadMoviesToSessions()
+            }
+        }
+
+        // Adiciona o listener para a TableView de sessões
+        sessions_tableView.selectionModel.selectedItemProperty().addListener { _, _, selectedSession ->
+            selectedSession?.let { session ->
+                loadSessionData(session)
             }
         }
     }
