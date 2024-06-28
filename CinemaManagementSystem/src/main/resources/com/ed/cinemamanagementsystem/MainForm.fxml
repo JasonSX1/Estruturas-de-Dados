@@ -453,7 +453,7 @@
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <ComboBox fx:id="movies_typeProd" layoutX="202.0" layoutY="170.0" prefWidth="165.0" promptText="Selecione um tipo...">
+                                    <ComboBox fx:id="movies_typeProd" layoutX="202.0" layoutY="170.0" prefWidth="165.0" promptText="Selecione um tipo..." style="-fx-background-color: fff;">
                                        <stylesheets>
                                           <URL value="@../../../Values/mainForm.css" />
                                           <URL value="@../../../Values/mainForm.css" />
@@ -464,7 +464,7 @@
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <ComboBox fx:id="movies_audio" layoutX="521.0" layoutY="135.0" prefWidth="165.0" promptText="Selecione uma opção...">
+                                    <ComboBox fx:id="movies_audio" layoutX="521.0" layoutY="135.0" prefWidth="165.0" promptText="Selecione uma opção..." style="-fx-background-color: fff;">
                                        <stylesheets>
                                           <URL value="@../../../Values/mainForm.css" />
                                           <URL value="@../../../Values/mainForm.css" />
@@ -475,7 +475,7 @@
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <ComboBox fx:id="movies_has3d" layoutX="520.0" layoutY="170.0" prefHeight="26.0" prefWidth="165.0" promptText="Selecione uma opção...">
+                                    <ComboBox fx:id="movies_has3d" layoutX="520.0" layoutY="170.0" prefHeight="26.0" prefWidth="165.0" promptText="Selecione uma opção..." style="-fx-background-color: fff;">
                                        <stylesheets>
                                           <URL value="@../../../Values/mainForm.css" />
                                           <URL value="@../../../Values/mainForm.css" />
@@ -486,7 +486,7 @@
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <ComboBox fx:id="movies_hasHalf" layoutX="521.0" layoutY="65.0" prefWidth="165.0" promptText="Selecione uma opção...">
+                                    <ComboBox fx:id="movies_hasHalf" layoutX="521.0" layoutY="65.0" prefWidth="165.0" promptText="Selecione uma opção..." style="-fx-background-color: fff;">
                                        <stylesheets>
                                           <URL value="@../../../Values/mainForm.css" />
                                           <URL value="@../../../Values/mainForm.css" />
@@ -498,16 +498,16 @@
                                        </font>
                                     </Label>
                                     <TextField fx:id="movies_price" layoutX="521.0" layoutY="100.0" prefWidth="165.0" promptText="R$ 0.0" />
-                                    <AnchorPane layoutX="772.0" layoutY="8.0" prefHeight="236.0" prefWidth="160.0" styleClass="white-bg" stylesheets="@../../../Values/mainForm.css" AnchorPane.bottomAnchor="58.39999999999998" AnchorPane.rightAnchor="14.400000000000091">
+                                    <AnchorPane layoutX="772.0" layoutY="8.0" prefHeight="236.0" prefWidth="160.0" style="-fx-background-color: fff;" styleClass="white-bg" stylesheets="@../../../Values/mainForm.css" AnchorPane.bottomAnchor="58.39999999999998" AnchorPane.rightAnchor="14.400000000000091">
                                        <children>
-                                          <ImageView fx:id="movies_imageView" fitHeight="236.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true" />
-                                          <Label fx:id="movies_imageLabel" layoutX="11.0" layoutY="22.0" prefHeight="191.0" prefWidth="138.0" text="Envie a capa do seu filme aqui (Res. recomendada: 260x385)" textAlignment="CENTER" wrapText="true">
+                                          <ImageView fx:id="movies_imageView" fitHeight="236.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: fff;" />
+                                          <Label fx:id="movies_imageLabel" layoutX="11.0" layoutY="22.0" prefHeight="191.0" prefWidth="138.0" style="-fx-background-color: fff;" text="Envie a capa do seu filme aqui (Res. recomendada: 260x385)" textAlignment="CENTER" wrapText="true">
                                              <stylesheets>
                                                 <URL value="@../../../Values/mainForm.css" />
                                                 <URL value="@../../../Values/mainForm.css" />
                                              </stylesheets>
                                           </Label>
-                                          <Label fx:id="movies_imageLabel2" layoutX="11.0" layoutY="22.0" prefHeight="191.0" prefWidth="138.0" text="Este filme ainda não possui uma capa." textAlignment="CENTER" visible="false" wrapText="true">
+                                          <Label fx:id="movies_imageLabel2" layoutX="11.0" layoutY="22.0" prefHeight="191.0" prefWidth="138.0" style="-fx-background-color: fff;" text="Este filme ainda não possui uma capa." textAlignment="CENTER" visible="false" wrapText="true">
                                              <stylesheets>
                                                 <URL value="@../../../Values/mainForm.css" />
                                                 <URL value="@../../../Values/mainForm.css" />
@@ -516,10 +516,9 @@
                                        </children>
                                     </AnchorPane>
                                     <Button fx:id="movies_importBtn" layoutX="798.0" layoutY="253.0" mnemonicParsing="false" onAction="#importImage" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Importar capa" AnchorPane.bottomAnchor="19.799999999999955" AnchorPane.rightAnchor="42.000000000000114" />
-                                    <Button fx:id="movies_addBtn" layoutX="187.0" layoutY="233.0" mnemonicParsing="false" onAction="#addMovie" prefHeight="40.0" prefWidth="80.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Adicionar" />
-                                    <Button fx:id="movies_updateBtn" layoutX="561.0" layoutY="233.0" mnemonicParsing="false" onAction="#updateMovie" prefHeight="40.0" prefWidth="80.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Atualizar" />
-                                    <Button fx:id="movies_clearBtn" layoutX="437.0" layoutY="233.0" mnemonicParsing="false" onAction="#clearMoviesForm" prefHeight="40.0" prefWidth="80.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Limpar" />
-                                    <Button fx:id="movies_deleteBtn" layoutX="312.0" layoutY="233.0" mnemonicParsing="false" onAction="#removeMovie" prefHeight="40.0" prefWidth="80.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Deletar" />
+                                    <Button fx:id="movies_addBtn" layoutX="245.0" layoutY="233.0" mnemonicParsing="false" onAction="#addMovie" prefHeight="40.0" prefWidth="80.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Adicionar" />
+                                    <Button fx:id="movies_updateBtn" layoutX="563.0" layoutY="232.0" mnemonicParsing="false" onAction="#updateMovie" prefHeight="40.0" prefWidth="80.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Atualizar" />
+                                    <Button fx:id="movies_deleteBtn" layoutX="407.0" layoutY="233.0" mnemonicParsing="false" onAction="#removeMovie" prefHeight="40.0" prefWidth="80.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Deletar" />
                                     <Button fx:id="movies_randomizerBtn" layoutX="120.0" layoutY="233.0" mnemonicParsing="false" onAction="#generateRandomData" prefHeight="40.0" prefWidth="32.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css">
                                        <graphic>
                                           <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
@@ -600,7 +599,7 @@
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <ComboBox fx:id="sessions_movie" layoutX="559.0" layoutY="62.0" prefHeight="26.0" prefWidth="356.0" promptText="Selecione um filme...">
+                                    <ComboBox fx:id="sessions_movie" layoutX="559.0" layoutY="62.0" prefHeight="26.0" prefWidth="356.0" promptText="Selecione um filme..." style="-fx-background-color: fff;">
                                        <stylesheets>
                                           <URL value="@../../../Values/mainForm.css" />
                                           <URL value="@../../../Values/mainForm.css" />
@@ -619,16 +618,15 @@
                                     <Button disable="true" layoutX="778.0" layoutY="253.0" mnemonicParsing="false" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Configurar poltronas" visible="false" AnchorPane.bottomAnchor="19.799999999999955" AnchorPane.rightAnchor="20.40000000000009" />
                                     <Button fx:id="sessions_addBtn" layoutX="20.0" layoutY="233.0" mnemonicParsing="false" onAction="#addSession" prefHeight="40.0" prefWidth="80.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Adicionar" />
                                     <Button fx:id="sessions_updateBtn" layoutX="130.0" layoutY="233.0" mnemonicParsing="false" onAction="#updateSession" prefHeight="40.0" prefWidth="80.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Atualizar" />
-                                    <Button fx:id="sessions_clearBtn" layoutX="240.0" layoutY="233.0" mnemonicParsing="false" onAction="#clearSessionsForm" prefHeight="40.0" prefWidth="80.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Limpar" />
-                                    <Button fx:id="sessions_deleteBtn" layoutX="350.0" layoutY="233.0" mnemonicParsing="false" onAction="#removeSession" prefHeight="40.0" prefWidth="80.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Deletar" />
+                                    <Button fx:id="sessions_deleteBtn" layoutX="519.0" layoutY="232.0" mnemonicParsing="false" onAction="#removeSession" prefHeight="40.0" prefWidth="80.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Deletar" />
                                     <Label layoutX="394.0" layoutY="103.0" text="Horario de inicio do filme" textFill="WHITE">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
                                     <TextField fx:id="sessions_startTime" layoutX="663.0" layoutY="100.0" prefWidth="165.0" />
-                                    <Button fx:id="sessions_startSales" layoutX="465.0" layoutY="233.0" mnemonicParsing="false" onAction="#openSales" prefHeight="40.0" prefWidth="107.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Iniciar Vendas" />
-                                    <Button fx:id="sessions_closeSales" layoutX="610.0" layoutY="233.0" mnemonicParsing="false" onAction="#closeSales" prefHeight="40.0" prefWidth="115.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Fechar Vendas" />
+                                    <Button fx:id="sessions_startSales" layoutX="811.0" layoutY="181.0" mnemonicParsing="false" onAction="#openSales" prefHeight="40.0" prefWidth="107.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Iniciar Vendas" />
+                                    <Button fx:id="sessions_closeSales" layoutX="807.0" layoutY="232.0" mnemonicParsing="false" onAction="#closeSales" prefHeight="40.0" prefWidth="115.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Fechar Vendas" />
                                     <Label layoutX="409.0" layoutY="135.0" text="Status da Sessão" textFill="WHITE">
                                        <font>
                                           <Font size="14.0" />
@@ -639,7 +637,8 @@
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <Button fx:id="sessions_programation" layoutX="746.0" layoutY="233.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="169.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Visualizar programação" />
+                                    <Button fx:id="sessions_programation" layoutX="619.0" layoutY="233.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="169.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Visualizar programação" />
+                                    <Button fx:id="sessions_add_nextMovie" layoutX="273.0" layoutY="232.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="188.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Adicionar próximos filmes" />
                                  </children>
                               </AnchorPane>
                            </children>

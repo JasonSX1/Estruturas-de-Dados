@@ -1,5 +1,6 @@
 package com.ed.cinemamanagementsystem
 
+import javafx.application.Application.launch
 import javafx.application.Platform
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.FXCollections
@@ -15,7 +16,9 @@ import javafx.scene.control.cell.PropertyValueFactory
 import javafx.scene.image.ImageView
 import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.GridPane
+import javafx.scene.layout.VBox
 import javafx.stage.FileChooser
+import javafx.stage.Modality
 import javafx.stage.Stage
 import javafx.util.Callback
 import javafx.util.StringConverter
@@ -60,9 +63,6 @@ class MainFormController : Initializable {
 
     @FXML
     private lateinit var movies_addBtn: Button
-
-    @FXML
-    private lateinit var movies_clearBtn: Button
 
     @FXML
     private lateinit var movies_tableView: TableView<Movie>
@@ -171,9 +171,6 @@ class MainFormController : Initializable {
 
     @FXML
     private lateinit var sessions_capacity: TextField
-
-    @FXML
-    private lateinit var sessions_clearBtn: Button
 
     @FXML
     private lateinit var sessions_closeSales: Button
@@ -445,90 +442,6 @@ class MainFormController : Initializable {
         }
     }
 
-    private fun showAddDialog() {
-        val dialog = Dialog<String>().apply {
-            title = "Escolher posição"
-            headerText = "Escolha onde adicionar o filme"
-            dialogPane.stylesheets.add(javaClass.getResource("dialog-styles.css").toExternalForm())
-        }
-
-        val addButtonType = ButtonType("Adicionar", ButtonBar.ButtonData.OK_DONE)
-        dialog.dialogPane.buttonTypes.addAll(addButtonType, ButtonType.CANCEL)
-
-        val grid = GridPane().apply {
-            styleClass.add("dialog-grid")
-            hgap = 10.0
-            vgap = 10.0
-            padding = Insets(20.0, 150.0, 10.0, 10.0)
-        }
-
-        val comboBox = ComboBox<String>(FXCollections.observableArrayList("Início", "Fim", "Posição Personalizada")).apply {
-            styleClass.add("dialog-combo-box")
-            selectionModel.selectFirst()
-        }
-        val positionField = TextField().apply {
-            styleClass.add("dialog-text-field")
-            isDisable = true
-        }
-
-        comboBox.selectionModel.selectedItemProperty().addListener { _, _, newValue ->
-            positionField.isDisable = newValue != "Posição Personalizada"
-        }
-
-        grid.add(Label("Posição:").apply { styleClass.add("dialog-label") }, 0, 0)
-        grid.add(comboBox, 1, 0)
-        grid.add(Label("Posição Personalizada:").apply { styleClass.add("dialog-label") }, 0, 1)
-        grid.add(positionField, 1, 1)
-
-        dialog.dialogPane.content = grid
-
-        dialog.setResultConverter { dialogButton ->
-            if (dialogButton == addButtonType) {
-                val selectedPosition = comboBox.selectionModel.selectedItem
-                if (selectedPosition == "Posição Personalizada") {
-                    positionField.text
-                } else {
-                    selectedPosition
-                }
-            } else {
-                null
-            }
-        }
-
-        val result = dialog.showAndWait()
-
-        result.ifPresent { selectedPosition ->
-            if (selectedPosition != null) { // Verifica se o usuário clicou em "Adicionar"
-                val movieId = movies_movieId.text.toIntOrNull()
-                val title = movies_title.text
-                val duration = movies_duration.text.toIntOrNull()
-                val price = movies_price.text.toDoubleOrNull()
-
-                if (movieId != null && title.isNotBlank() && duration != null && price != null) {
-                    val movie = Movie(movieId, title, duration, "Type", "HasHalf", price, "AudioType", "Has3d", "ImagePath")
-
-                    when (selectedPosition) {
-                        "Início" -> movieDAO.addMovieStart(movie)
-                        "Fim" -> movieDAO.addMovieEnd(movie)
-                        else -> {
-                            val posInt = selectedPosition.toIntOrNull()
-                            if (posInt != null && posInt >= 0 && posInt <= movieDAO.qtdMovies()) {
-                                movieDAO.addMovieCustomP(movie, posInt)
-                            } else {
-                                showAlert("Erro", "Posição inválida!", Alert.AlertType.ERROR)
-                            }
-                        }
-                    }
-                    showAlert("Sucesso", "Filme adicionado com sucesso!", Alert.AlertType.INFORMATION)
-                    updateMoviesTableView()
-                    loadMoviesToTableView()
-                } else {
-                    showAlert("Erro", "Por favor, preencha todos os campos corretamente!", Alert.AlertType.ERROR)
-                }
-            }
-        }
-    } // falta corrigir o css
-
     fun removeMovie() {
         val movieId = movies_movieId.text.toIntOrNull()
 
@@ -593,7 +506,7 @@ class MainFormController : Initializable {
         movies_tableView.items = FXCollections.observableArrayList(movies)
     }
 
-    fun updateSessionsTableView(){
+    private fun updateSessionsTableView(){
         val sessions = sessionDAO.listSessions()
         sessions_tableView.items = FXCollections.observableArrayList(sessions)
     }
@@ -612,7 +525,7 @@ class MainFormController : Initializable {
         sessions_tableView.items = observableSessionList
     }
 
-    fun clearMoviesForm() {
+    private fun clearMoviesForm() {
         movies_movieId.clear()
         movies_title.clear()
         movies_duration.clear()
@@ -627,7 +540,7 @@ class MainFormController : Initializable {
         imagePath = null
     }
 
-    fun clearSessionsForm(){
+    private fun clearSessionsForm(){
         sessions_id.clear()
         sessions_roomNumber.clear()
         sessions_capacity.clear()
@@ -647,10 +560,6 @@ class MainFormController : Initializable {
         } else if(event.source == movies_btn){
             MoviesForm.isVisible = true
         }
-    }
-
-    private fun searchMovieByID(id: Int): Movie? {
-        return movieDAO.searchMovieByID(id)
     }
 
     fun updateMovie() {
@@ -812,22 +721,6 @@ class MainFormController : Initializable {
         sessions_statusLabel.text = session.status.status
     }
 
-    private fun loadMovieById() {
-        val movieId = movies_movieId.text.toIntOrNull()
-        if (movieId != null) {
-            val movie = movieDAO.searchMovieByID(movieId)
-            if (movie != null) {
-                originalMovie = movie
-                loadMovieData(movie)
-                movies_alertIcon.isVisible = false
-            } else {
-                showAlert("Erro", "Filme não encontrado!", Alert.AlertType.ERROR)
-            }
-        } else {
-            showAlert("Erro", "ID inválido!", Alert.AlertType.ERROR)
-        }
-    }
-
     fun importImage() {
         val fileChooser = FileChooser().apply {
             extensionFilters.addAll(
@@ -929,7 +822,6 @@ class MainFormController : Initializable {
 
     private fun setupMovieParameters(){
         movies_addBtn.setOnAction { addMovie() }
-        movies_clearBtn.setOnAction { clearMoviesForm() }
 
         movies_col_movieId.cellValueFactory = PropertyValueFactory("id")
         movies_col_movieTitle.cellValueFactory = PropertyValueFactory("title")
