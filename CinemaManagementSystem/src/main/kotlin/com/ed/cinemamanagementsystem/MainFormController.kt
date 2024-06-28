@@ -27,6 +27,9 @@ import java.io.File
 import java.net.URL
 import java.sql.Connection
 import java.sql.SQLException
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 import java.util.*
 
 class MainFormController : Initializable {
@@ -213,6 +216,9 @@ class MainFormController : Initializable {
 
     @FXML
     private lateinit var sessions_programation: Button
+
+    @FXML
+    private lateinit var sessions_clearMoviesBox: Button
 
     private var imagePath: String? = null
 
@@ -412,12 +418,18 @@ class MainFormController : Initializable {
             val roomNumber = sessions_roomNumber.text
             val capacity = sessions_capacity.text.toIntOrNull()
             val movie = sessions_movie.value
-            val startTime = sessions_startTime.text.toIntOrNull()
 
             if (sessionId != null && roomNumber.isNotBlank() && capacity != null) {
                 val existingSession = sessionDAO.searchSessionByID(sessionId)
                 if (existingSession != null) {
                     showAlert("Erro", "ID da sessão já está cadastrado!", Alert.AlertType.ERROR)
+                    return
+                }
+
+                val startTime = try {
+                    LocalTime.parse(sessions_startTime.text, DateTimeFormatter.ofPattern("HH:mm"))
+                } catch (e: DateTimeParseException) {
+                    showAlert("Erro", "Hora de início inválida!", Alert.AlertType.ERROR)
                     return
                 }
 
@@ -429,6 +441,7 @@ class MainFormController : Initializable {
                     showAlert("Sucesso", "Sessão adicionada com sucesso!", Alert.AlertType.INFORMATION)
                     loadSessionsToTableView()
                     clearSessionsForm()
+                    println("$session")
                 } else {
                     showAlert("Erro", "Falha ao adicionar a sessão!", Alert.AlertType.ERROR)
                 }
@@ -598,34 +611,40 @@ class MainFormController : Initializable {
     }
 
     fun updateSession() {
-        val sessionId = sessions_id.text.toIntOrNull()
+        try {
+            val sessionId = sessions_id.text.toIntOrNull()
+            val roomNumber = sessions_roomNumber.text
+            val capacity = sessions_capacity.text.toIntOrNull()
+            val movie = sessions_movie.value
+            val startTime = try {
+                LocalTime.parse(sessions_startTime.text, DateTimeFormatter.ofPattern("HH:mm"))
+            } catch (e: DateTimeParseException) {
+                showAlert("Erro", "Hora de início inválida!", Alert.AlertType.ERROR)
+                return
+            }
 
-        if (sessionId == null) {
-            showAlert("Erro", "ID de sessão inválido!", Alert.AlertType.ERROR)
-            return
-        }
+            if (sessionId != null && roomNumber.isNotBlank() && capacity != null) {
+                val updatedSession = Session(sessionId, roomNumber, capacity, movie, startTime, getSessionStatusFromString(sessions_statusLabel.text))
 
-        val updatedSession = Session(
-            sessionId,
-            sessions_roomNumber.text,
-            sessions_capacity.text.toIntOrNull() ?: 0,
-            sessions_movie.value,
-            sessions_startTime.text.toIntOrNull() ?: 0,
-            getSessionStatusFromString(sessions_statusLabel.text)
-        )
+                val changes = getSessionChanges(updatedSession)
+                if (changes.isEmpty()) {
+                    showAlert("Sem alterações", "Nenhuma alteração foi feita.", Alert.AlertType.INFORMATION)
+                    return
+                }
 
-        val changes = getSessionChanges(updatedSession)
-        if (changes.isEmpty()) {
-            showAlert("Sem alterações", "Nenhuma alteração foi feita.", Alert.AlertType.INFORMATION)
-            return
-        }
-
-        val confirmation = showConfirmationDialog(changes)
-        if (confirmation) {
-            sessionDAO.updateSession(sessionId, updatedSession)
-            showAlert("Sucesso", "Sessão atualizada com sucesso!", Alert.AlertType.INFORMATION)
-            loadSessionsToTableView()
-            clearSessionsForm()
+                val confirmation = showConfirmationDialog(changes)
+                if (confirmation) {
+                    sessionDAO.updateSession(sessionId, updatedSession)
+                    showAlert("Sucesso", "Sessão atualizada com sucesso!", Alert.AlertType.INFORMATION)
+                    loadSessionsToTableView()
+                    clearSessionsForm()
+                }
+            } else {
+                showAlert("Erro", "Por favor, preencha todos os campos corretamente!", Alert.AlertType.ERROR)
+            }
+        } catch (e: Exception) {
+            showAlert("Erro", "Ocorreu um erro ao atualizar a sessão: ${e.message}", Alert.AlertType.ERROR)
+            e.printStackTrace()
         }
     }
 
@@ -650,9 +669,9 @@ class MainFormController : Initializable {
             if (it.id != updatedSession.id) changes.add("ID: ${it.id} -> ${updatedSession.id}")
             if (it.numberRoom != updatedSession.numberRoom) changes.add("Número da Sala: ${it.numberRoom} -> ${updatedSession.numberRoom}")
             if (it.sessionCapacity != updatedSession.sessionCapacity) changes.add("Capacidade: ${it.sessionCapacity} -> ${updatedSession.sessionCapacity}")
-            if (it.movie?.id != updatedSession.movie?.id) changes.add("Filme: ${it.movie?.title} -> ${updatedSession.movie?.title}")
-            if (it.startTime != updatedSession.startTime) changes.add("Horário de Início: ${it.startTime} -> ${updatedSession.startTime}")
-            if (it.status != updatedSession.status) changes.add("Status: ${it.status.status} -> ${updatedSession.status.status}")
+            if (it.movie != updatedSession.movie) changes.add("Filme: ${it.movie?.title} -> ${updatedSession.movie?.title}")
+            if (it.startTime != updatedSession.startTime) changes.add("Hora de Início: ${it.startTime} -> ${updatedSession.startTime}")
+            if (it.status != updatedSession.status) changes.add("Status: ${it.status} -> ${updatedSession.status}")
         }
         return changes.joinToString("\n")
     }
@@ -713,11 +732,12 @@ class MainFormController : Initializable {
 
     private fun loadSessionData(session: Session) {
         originalSession = session
+
         sessions_id.text = session.id.toString()
         sessions_roomNumber.text = session.numberRoom
         sessions_capacity.text = session.sessionCapacity.toString()
         sessions_movie.value = session.movie
-        sessions_startTime.text = session.startTime?.toString() ?: "N/A"
+        sessions_startTime.text = session.startTime?.format(DateTimeFormatter.ofPattern("HH:mm")) ?: "N/A"
         sessions_statusLabel.text = session.status.status
     }
 
@@ -894,6 +914,46 @@ class MainFormController : Initializable {
         }
     }
 
+    private fun setupTimeFormatter() {
+        val timeFormatter = TextFormatter<String>({ change ->
+            val newText = change.controlNewText
+
+            // Permitir apenas números e o caractere ":"
+            if (!newText.matches(Regex("\\d{0,2}:?\\d{0,2}"))) {
+                return@TextFormatter null
+            }
+
+            val caretPosition = change.caretPosition
+            val anchor = change.anchor
+
+            // Adicionar ':' automaticamente após os dois primeiros dígitos
+            if (newText.length == 2 && !newText.contains(":")) {
+                change.text += ":"
+                change.caretPosition = caretPosition + 1
+                change.anchor = anchor + 1
+            }
+
+            change
+        })
+
+        sessions_startTime.textFormatter = timeFormatter
+    }
+
+    fun clearMovieBox(){
+        sessions_movie.value = null
+    }
+
+    private fun validateTimeInput(): Boolean {
+        val text = sessions_startTime.text
+        val parts = text.split(":")
+        if (parts.size == 2) {
+            val hours = parts[0].toIntOrNull() ?: return false
+            val minutes = parts[1].toIntOrNull() ?: return false
+            return hours in 0..23 && minutes in 0..59
+        }
+        return false
+    }
+
     override fun initialize(location: URL?, resources: ResourceBundle?) {
         initializeComboBoxes()
         initializeAudioTypeList()
@@ -902,5 +962,6 @@ class MainFormController : Initializable {
         setupMovieParameters()
         setupSessionParameters()
         loadMoviesToTableView()
+        setupTimeFormatter()
     }
 }

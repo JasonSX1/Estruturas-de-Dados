@@ -599,7 +599,7 @@
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <ComboBox fx:id="sessions_movie" layoutX="559.0" layoutY="62.0" prefHeight="26.0" prefWidth="356.0" promptText="Selecione um filme..." style="-fx-background-color: fff;">
+                                    <ComboBox fx:id="sessions_movie" layoutX="526.0" layoutY="62.0" prefHeight="26.0" prefWidth="356.0" promptText="Selecione um filme..." style="-fx-background-color: fff;">
                                        <stylesheets>
                                           <URL value="@../../../Values/mainForm.css" />
                                           <URL value="@../../../Values/mainForm.css" />
@@ -632,13 +632,22 @@
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="sessions_statusLabel" layoutX="722.0" layoutY="135.0" text="STATUS" textFill="WHITE">
+                                    <Label fx:id="sessions_statusLabel" layoutX="698.0" layoutY="135.0" text="NÃO DEFINIDO" textFill="WHITE">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
                                     <Button fx:id="sessions_programation" layoutX="619.0" layoutY="233.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="169.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Visualizar programação" />
                                     <Button fx:id="sessions_add_nextMovie" layoutX="273.0" layoutY="232.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="188.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Adicionar próximos filmes" />
+                                    <Button fx:id="sessions_clearMoviesBox" layoutX="892.0" layoutY="60.0" mnemonicParsing="false" onAction="#clearMovieBox" prefHeight="20.0" prefWidth="20.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css">
+                                       <graphic>
+                                          <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../../Values/Pngs/Icons/clearIcon.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </Button>
                                  </children>
                               </AnchorPane>
                            </children>
