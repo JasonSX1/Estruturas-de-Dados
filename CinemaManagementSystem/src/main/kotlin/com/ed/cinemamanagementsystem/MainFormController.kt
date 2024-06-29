@@ -426,11 +426,15 @@ class MainFormController : Initializable {
                     return
                 }
 
-                val startTime = try {
-                    LocalTime.parse(sessions_startTime.text, DateTimeFormatter.ofPattern("HH:mm"))
-                } catch (e: DateTimeParseException) {
-                    showAlert("Erro", "Hora de início inválida!", Alert.AlertType.ERROR)
-                    return
+                val startTime = if (movie != null) {
+                    try {
+                        LocalTime.parse(sessions_startTime.text, DateTimeFormatter.ofPattern("HH:mm"))
+                    } catch (e: DateTimeParseException) {
+                        showAlert("Erro", "Hora de início inválida!", Alert.AlertType.ERROR)
+                        return
+                    }
+                } else {
+                    null // startTime será null se nenhum filme for selecionado
                 }
 
                 // Cria uma nova sessão com status padrão WAITING
