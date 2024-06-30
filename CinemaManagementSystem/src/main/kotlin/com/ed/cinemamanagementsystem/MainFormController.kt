@@ -220,6 +220,9 @@ class MainFormController : Initializable {
     @FXML
     private lateinit var sessions_clearMoviesBox: Button
 
+    @FXML
+    private lateinit var sessions_datePicker: DatePicker
+
     private var imagePath: String? = null
 
     private lateinit var image: Image
