@@ -27,6 +27,8 @@ import java.io.File
 import java.net.URL
 import java.sql.Connection
 import java.sql.SQLException
+import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
@@ -429,26 +431,29 @@ class MainFormController : Initializable {
                     return
                 }
 
-                val startTime = if (movie != null) {
+                val startDateTime = if (sessions_startTime.text.isNotBlank() && sessions_datePicker.value != null) {
+                    val dateString = sessions_datePicker.value.toString() // Pega a data do DatePicker
+                    val timeString = sessions_startTime.text // Pega o tempo do campo de texto
+
+                    val dateTimeString = "$dateString $timeString" // Concatena data e hora
                     try {
-                        LocalTime.parse(sessions_startTime.text, DateTimeFormatter.ofPattern("HH:mm"))
+                        LocalDateTime.parse(dateTimeString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
                     } catch (e: DateTimeParseException) {
-                        showAlert("Erro", "Hora de início inválida!", Alert.AlertType.ERROR)
+                        showAlert("Erro", "Data e hora de início inválida!", Alert.AlertType.ERROR)
                         return
                     }
                 } else {
-                    null // startTime será null se nenhum filme for selecionado
+                    null // startDateTime será null se a data ou a hora não forem fornecidas
                 }
 
                 // Cria uma nova sessão com status padrão WAITING
-                val session = Session(sessionId, roomNumber, capacity, movie, startTime, SessionStatus.WAITING)
+                val session = Session(sessionId, roomNumber, capacity, movie, startDateTime, SessionStatus.WAITING)
                 val successful = sessionDAO.addSession(session)
 
                 if (successful) {
                     showAlert("Sucesso", "Sessão adicionada com sucesso!", Alert.AlertType.INFORMATION)
                     loadSessionsToTableView()
                     clearSessionsForm()
-                    println("$session")
                 } else {
                     showAlert("Erro", "Falha ao adicionar a sessão!", Alert.AlertType.ERROR)
                 }
@@ -461,7 +466,6 @@ class MainFormController : Initializable {
             e.printStackTrace()
         }
     }
-
     fun removeMovie() {
         val movieId = movies_movieId.text.toIntOrNull()
 
@@ -478,7 +482,6 @@ class MainFormController : Initializable {
         }
         updateMoviesTableView()
     }
-
     fun removeSession() {
         val sessionId = sessions_id.text.toIntOrNull()
 
@@ -495,7 +498,6 @@ class MainFormController : Initializable {
         }
         updateSessionsTableView()
     }
-
     fun generateRandomData() {
         val quantidadeTemp = movieDAO.qtdMovies()
         val randomId = quantidadeTemp + 1
@@ -520,31 +522,26 @@ class MainFormController : Initializable {
         movies_audio.value = randomAudio
         movies_has3d.value = randomHas3d
     }//Metodo de geração aleatorio durante a fase de testes
-
     fun updateMoviesTableView() {
         val movies = movieDAO.listMovies()
         movies_tableView.items = FXCollections.observableArrayList(movies)
     }
-
     private fun updateSessionsTableView(){
         val sessions = sessionDAO.listSessions()
         sessions_tableView.items = FXCollections.observableArrayList(sessions)
     }
-
     private fun loadMoviesToTableView() {
         movies_tableView.items.clear()
         val moviesList = movieDAO.listMovies()
         val observableMovieList = FXCollections.observableList(moviesList)
         movies_tableView.items = observableMovieList
     }
-
     private fun loadSessionsToTableView(){
         sessions_tableView.items.clear()
         val sessionsList = sessionDAO.listSessions()
         val observableSessionList = FXCollections.observableArrayList(sessionsList)
         sessions_tableView.items = observableSessionList
     }
-
     private fun clearMoviesForm() {
         movies_movieId.clear()
         movies_title.clear()
@@ -558,16 +555,22 @@ class MainFormController : Initializable {
         movies_imageLabel.isVisible = true
         movies_imageLabel2.isVisible = false
         imagePath = null
+
+        // Limpar o item selecionado na tabela de filmes
+        movies_tableView.selectionModel.clearSelection()
     }
 
-    private fun clearSessionsForm(){
+    private fun clearSessionsForm() {
         sessions_id.clear()
         sessions_roomNumber.clear()
         sessions_capacity.clear()
         sessions_movie.value = null
         sessions_startTime.clear()
-    }
+        sessions_datePicker.value = null
 
+        // Limpar o item selecionado na tabela de sessões
+        sessions_tableView.selectionModel.clearSelection()
+    }
     fun switchMenu(event: javafx.event.ActionEvent) {
         DashboardForm.isVisible = false
         sessions_form.isVisible = false
@@ -580,8 +583,10 @@ class MainFormController : Initializable {
         } else if(event.source == movies_btn){
             MoviesForm.isVisible = true
         }
-    }
 
+        clearMoviesForm()
+        clearSessionsForm()
+    }
     fun updateMovie() {
         val movieId = movies_movieId.text.toIntOrNull()
 
@@ -616,22 +621,26 @@ class MainFormController : Initializable {
             clearMoviesForm()
         }
     }
-
     fun updateSession() {
         try {
             val sessionId = sessions_id.text.toIntOrNull()
             val roomNumber = sessions_roomNumber.text
             val capacity = sessions_capacity.text.toIntOrNull()
             val movie = sessions_movie.value
-            val startTime = try {
-                LocalTime.parse(sessions_startTime.text, DateTimeFormatter.ofPattern("HH:mm"))
-            } catch (e: DateTimeParseException) {
-                showAlert("Erro", "Hora de início inválida!", Alert.AlertType.ERROR)
-                return
-            }
 
             if (sessionId != null && roomNumber.isNotBlank() && capacity != null) {
-                val updatedSession = Session(sessionId, roomNumber, capacity, movie, startTime, getSessionStatusFromString(sessions_statusLabel.text))
+                val dateString = sessions_datePicker.value.toString() // Pega a data do DatePicker
+                val timeString = sessions_startTime.text // Pega o tempo do campo de texto
+
+                val dateTimeString = "$dateString $timeString" // Concatena data e hora
+                val startDateTime = try {
+                    LocalDateTime.parse(dateTimeString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
+                } catch (e: DateTimeParseException) {
+                    showAlert("Erro", "Data e hora de início inválida!", Alert.AlertType.ERROR)
+                    return
+                }
+
+                val updatedSession = Session(sessionId, roomNumber, capacity, movie, startDateTime, getSessionStatusFromString(sessions_statusLabel.text))
 
                 val changes = getSessionChanges(updatedSession)
                 if (changes.isEmpty()) {
@@ -744,8 +753,23 @@ class MainFormController : Initializable {
         sessions_roomNumber.text = session.numberRoom
         sessions_capacity.text = session.sessionCapacity.toString()
         sessions_movie.value = session.movie
-        sessions_startTime.text = session.startTime?.format(DateTimeFormatter.ofPattern("HH:mm")) ?: "N/A"
         sessions_statusLabel.text = session.status.status
+
+        // Carregar data e hora somente se houver um filme
+        if (session.movie != null) {
+            // Separar a data e a hora
+            val date = session.startTime?.toLocalDate() // Usar a data da sessão ou null
+            val time = session.startTime?.toLocalTime()?.format(DateTimeFormatter.ofPattern("HH:mm")) ?: "N/A" // Usar a hora da sessão ou "N/A"
+
+            // Carregar a data no DatePicker
+            sessions_datePicker.value = date
+
+            // Carregar a hora no campo de texto
+            sessions_startTime.text = if (time != "N/A") time else ""
+        } else {
+            sessions_datePicker.value = null
+            sessions_startTime.text = ""
+        }
     }
 
     fun importImage() {
