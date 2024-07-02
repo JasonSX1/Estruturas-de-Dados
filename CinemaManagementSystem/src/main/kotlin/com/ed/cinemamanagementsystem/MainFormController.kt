@@ -464,6 +464,7 @@ class MainFormController : Initializable {
             e.printStackTrace()
         }
     }
+
     fun removeMovie() {
         val movieId = movies_movieId.text.toIntOrNull()
 
@@ -480,6 +481,7 @@ class MainFormController : Initializable {
         }
         updateMoviesTableView()
     }
+
     fun removeSession() {
         val sessionId = sessions_id.text.toIntOrNull()
 
@@ -496,6 +498,7 @@ class MainFormController : Initializable {
         }
         updateSessionsTableView()
     }
+
     fun generateRandomData() {
         val quantidadeTemp = movieDAO.qtdMovies()
         val randomId = quantidadeTemp + 1
@@ -520,26 +523,31 @@ class MainFormController : Initializable {
         movies_audio.value = randomAudio
         movies_has3d.value = randomHas3d
     }//Metodo de geração aleatorio durante a fase de testes
+
     fun updateMoviesTableView() {
         val movies = movieDAO.listMovies()
         movies_tableView.items = FXCollections.observableArrayList(movies)
     }
+
     private fun updateSessionsTableView(){
         val sessions = sessionDAO.listSessions()
         sessions_tableView.items = FXCollections.observableArrayList(sessions)
     }
+
     private fun loadMoviesToTableView() {
         movies_tableView.items.clear()
         val moviesList = movieDAO.listMovies()
         val observableMovieList = FXCollections.observableList(moviesList)
         movies_tableView.items = observableMovieList
     }
+
     private fun loadSessionsToTableView(){
         sessions_tableView.items.clear()
         val sessionsList = sessionDAO.listSessions()
         val observableSessionList = FXCollections.observableArrayList(sessionsList)
         sessions_tableView.items = observableSessionList
     }
+
     private fun clearMoviesForm() {
         movies_movieId.clear()
         movies_title.clear()
@@ -569,6 +577,7 @@ class MainFormController : Initializable {
         // Limpar o item selecionado na tabela de sessões
         sessions_tableView.selectionModel.clearSelection()
     }
+
     fun switchMenu(event: javafx.event.ActionEvent) {
         DashboardForm.isVisible = false
         sessions_form.isVisible = false
@@ -585,6 +594,7 @@ class MainFormController : Initializable {
         clearMoviesForm()
         clearSessionsForm()
     }
+
     fun updateMovie() {
         val movieId = movies_movieId.text.toIntOrNull()
 
@@ -619,6 +629,7 @@ class MainFormController : Initializable {
             clearMoviesForm()
         }
     }
+
     fun updateSession() {
         try {
             val sessionId = sessions_id.text.toIntOrNull()
@@ -970,17 +981,6 @@ class MainFormController : Initializable {
 
     fun clearMovieBox(){
         sessions_movie.value = null
-    }
-
-    private fun validateTimeInput(): Boolean {
-        val text = sessions_startTime.text
-        val parts = text.split(":")
-        if (parts.size == 2) {
-            val hours = parts[0].toIntOrNull() ?: return false
-            val minutes = parts[1].toIntOrNull() ?: return false
-            return hours in 0..23 && minutes in 0..59
-        }
-        return false
     }
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
