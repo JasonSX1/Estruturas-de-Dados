@@ -11,6 +11,8 @@ import javafx.fxml.Initializable
 import javafx.geometry.Insets
 import javafx.scene.Parent
 import javafx.scene.Scene
+import javafx.scene.canvas.Canvas
+import javafx.scene.canvas.GraphicsContext
 import javafx.scene.control.*
 import javafx.scene.control.cell.PropertyValueFactory
 import javafx.scene.image.ImageView
@@ -21,6 +23,7 @@ import javafx.stage.Stage
 import javafx.util.Callback
 import javafx.util.StringConverter
 import java.awt.Image
+import java.awt.event.ActionEvent
 import java.io.File
 import java.net.URL
 import java.sql.Connection
@@ -30,6 +33,7 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
+import java.time.temporal.ChronoUnit
 import java.util.*
 
 class MainFormController : Initializable {
@@ -955,10 +959,10 @@ class MainFormController : Initializable {
     }
 
     private fun setupTimeFormatter() {
-        val timeFormatter = TextFormatter<String>({ change ->
+        val timeFormatter = TextFormatter<String> { change ->
             val newText = change.controlNewText
 
-            // Permitir apenas números e o caractere ":"
+            // Permitir apenas números e     o caractere ":"
             if (!newText.matches(Regex("\\d{0,2}:?\\d{0,2}"))) {
                 return@TextFormatter null
             }
@@ -974,7 +978,7 @@ class MainFormController : Initializable {
             }
 
             change
-        })
+        }
 
         sessions_startTime.textFormatter = timeFormatter
     }
