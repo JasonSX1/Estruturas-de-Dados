@@ -1,6 +1,5 @@
 package com.ed.cinemamanagementsystem
 
-import javafx.application.Application.launch
 import javafx.application.Platform
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.FXCollections
@@ -11,29 +10,22 @@ import javafx.fxml.Initializable
 import javafx.geometry.Insets
 import javafx.scene.Parent
 import javafx.scene.Scene
-import javafx.scene.canvas.Canvas
-import javafx.scene.canvas.GraphicsContext
 import javafx.scene.control.*
 import javafx.scene.control.cell.PropertyValueFactory
 import javafx.scene.image.ImageView
 import javafx.scene.layout.*
 import javafx.stage.FileChooser
-import javafx.stage.Modality
 import javafx.stage.Stage
 import javafx.util.Callback
 import javafx.util.StringConverter
 import java.awt.Image
-import java.awt.event.ActionEvent
 import java.io.File
 import java.net.URL
 import java.sql.Connection
 import java.sql.SQLException
-import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
-import java.time.temporal.ChronoUnit
 import java.util.*
 
 class MainFormController : Initializable {

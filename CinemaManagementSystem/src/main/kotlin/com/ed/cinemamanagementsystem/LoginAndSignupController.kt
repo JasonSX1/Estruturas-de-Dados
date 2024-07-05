@@ -26,9 +26,6 @@ class LoginAndSignupController {
     private lateinit var su_username: TextField
 
     @FXML
-    private lateinit var si_loginBtn: Button
-
-    @FXML
     private lateinit var side_CreateBtn: Button
 
     @FXML
@@ -50,33 +47,13 @@ class LoginAndSignupController {
     private lateinit var side_form: AnchorPane
 
     @FXML
-    private lateinit var su_signupForm: AnchorPane
-
-    @FXML
-    private lateinit var si_forgotPass: Hyperlink
-
-    //
-
-    @FXML
     private lateinit var fp_answer: TextField
-
-    @FXML
-    private lateinit var fp_backBtn: Button
-
-    @FXML
-    private lateinit var fp_proceedBtn: Button
 
     @FXML
     private lateinit var fp_question: ComboBox<*>
 
     @FXML
     private lateinit var fp_questionForm: AnchorPane
-
-    @FXML
-    private lateinit var np_back: Button
-
-    @FXML
-    private lateinit var np_changePassBtn: Button
 
     @FXML
     private lateinit var np_confirmPassword: PasswordField
@@ -90,12 +67,7 @@ class LoginAndSignupController {
     @FXML
     private lateinit var fp_username: TextField
 
-    @FXML
-    private lateinit var si_guestLogin: Button
-
     private val questionList = arrayOf("Onde você cursou o ensino médio?", "Qual o nome da sua mãe?", "Qual sua data de nascimento?")
-
-    private lateinit var alert: Alert
 
     // Função de conexão com o BD
     private fun connectToDatabase(): Connection? {
