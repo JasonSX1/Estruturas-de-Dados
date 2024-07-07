@@ -8,5 +8,7 @@ data class Session(
     val sessionCapacity: Int,
     val movie: Movie?,
     val startTime: LocalDateTime?,
-    val status: SessionStatus
+    val status: SessionStatus,
+    val rows: Int,
+    val cols: Int
 )
