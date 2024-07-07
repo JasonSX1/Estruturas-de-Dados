@@ -169,9 +169,6 @@ class MainFormController : Initializable {
     private lateinit var sessions_addBtn: Button
 
     @FXML
-    private lateinit var sessions_capacity: TextField
-
-    @FXML
     private lateinit var sessions_closeSales: Button
 
     @FXML
@@ -218,6 +215,12 @@ class MainFormController : Initializable {
 
     @FXML
     private lateinit var sessions_datePicker: DatePicker
+
+    @FXML
+    private lateinit var sessions_cols: TextField
+
+    @FXML
+    private lateinit var sessions_rows: TextField
 
     private var imagePath: String? = null
 
@@ -413,12 +416,19 @@ class MainFormController : Initializable {
 
     fun addSession() {
         try {
+            val dialogResult = showAddSessionDialog()
+            if (dialogResult == null) {
+                showAlert("Erro", "Por favor, preencha todos os campos corretamente!", Alert.AlertType.ERROR)
+                return
+            }
+
+            val (capacity, rows, cols) = dialogResult
+
             val sessionId = sessions_id.text.toIntOrNull()
             val roomNumber = sessions_roomNumber.text
-            val capacity = sessions_capacity.text.toIntOrNull()
             val movie = sessions_movie.value
 
-            if (sessionId != null && roomNumber.isNotBlank() && capacity != null) {
+            if (sessionId != null && roomNumber.isNotBlank() && capacity > 0 && rows > 0 && cols > 0) {
                 val existingSession = sessionDAO.searchSessionByID(sessionId)
                 if (existingSession != null) {
                     showAlert("Erro", "ID da sessão já está cadastrado!", Alert.AlertType.ERROR)
@@ -440,24 +450,110 @@ class MainFormController : Initializable {
                     null // startDateTime será null se a data ou a hora não forem fornecidas
                 }
 
-                // Cria uma nova sessão com status padrão WAITING
-                val session = Session(sessionId, roomNumber, capacity, movie, startDateTime, SessionStatus.WAITING)
+                val session = Session(sessionId, roomNumber, capacity, movie, startDateTime, SessionStatus.WAITING, rows, cols)
                 val successful = sessionDAO.addSession(session)
 
                 if (successful) {
                     showAlert("Sucesso", "Sessão adicionada com sucesso!", Alert.AlertType.INFORMATION)
                     loadSessionsToTableView()
                     clearSessionsForm()
+                    println("$session")
                 } else {
                     showAlert("Erro", "Falha ao adicionar a sessão!", Alert.AlertType.ERROR)
                 }
-
             } else {
                 showAlert("Erro", "Por favor, preencha todos os campos corretamente!", Alert.AlertType.ERROR)
             }
         } catch (e: Exception) {
             showAlert("Erro", "Ocorreu um erro ao adicionar a sessão: ${e.message}", Alert.AlertType.ERROR)
             e.printStackTrace()
+        }
+    }
+
+    fun showAddSessionDialog(): Triple<Int, Int, Int>? {
+        val dialog = Dialog<Triple<Int, Int, Int>>()
+        dialog.title = "Adicionar Sessão"
+        dialog.headerText = "Preencha os detalhes da sessão"
+
+        val capacityField = TextField()
+        capacityField.promptText = "Capacidade"
+
+        val rowsField = TextField()
+        rowsField.promptText = "Linhas"
+
+        val colsField = TextField()
+        colsField.promptText = "Colunas"
+
+        val previewGrid = GridPane()
+        previewGrid.gridLinesVisibleProperty().set(true)
+
+        // Atualizar colunas automaticamente ao inserir capacidade e linhas
+        rowsField.textProperty().addListener { _, _, newValue ->
+            val capacity = capacityField.text.toIntOrNull()
+            val rows = newValue.toIntOrNull()
+            if (capacity != null && rows != null && rows > 0) {
+                val cols = capacity / rows
+                colsField.text = cols.toString()
+                updatePreviewGrid(previewGrid, rows, cols)
+            }
+        }
+
+        colsField.textProperty().addListener { _, _, newValue ->
+            val capacity = capacityField.text.toIntOrNull()
+            val cols = newValue.toIntOrNull()
+            if (capacity != null && cols != null && cols > 0) {
+                val rows = capacity / cols
+                rowsField.text = rows.toString()
+                updatePreviewGrid(previewGrid, rows, cols)
+            }
+        }
+
+        val grid = GridPane()
+        grid.padding = Insets(10.0)
+        grid.hgap = 10.0
+        grid.vgap = 10.0
+
+        grid.addRow(0, Label("Capacidade:"), capacityField)
+        grid.addRow(1, Label("Linhas:"), rowsField)
+        grid.addRow(2, Label("Colunas:"), colsField)
+        grid.addRow(3, Label("Preview:"), previewGrid)
+
+        val scrollPane = ScrollPane(previewGrid)
+        scrollPane.isFitToWidth = true
+        scrollPane.isFitToHeight = true
+        scrollPane.prefViewportWidth = 300.0
+        scrollPane.prefViewportHeight = 200.0
+
+        grid.add(scrollPane, 0, 3, 2, 1)
+
+        dialog.dialogPane.content = grid
+
+        dialog.dialogPane.buttonTypes.addAll(ButtonType.OK, ButtonType.CANCEL)
+
+        dialog.setResultConverter { dialogButton ->
+            if (dialogButton == ButtonType.OK) {
+                val capacity = capacityField.text.toIntOrNull()
+                val rows = rowsField.text.toIntOrNull()
+                val cols = colsField.text.toIntOrNull()
+                if (capacity != null && rows != null && cols != null) {
+                    return@setResultConverter Triple(capacity, rows, cols)
+                }
+            }
+            null
+        }
+
+        val result = dialog.showAndWait()
+        return result.orElse(null)
+    }
+
+    fun updatePreviewGrid(previewGrid: GridPane, rows: Int, cols: Int) {
+        previewGrid.children.clear()
+        for (i in 0 until rows) {
+            for (j in 0 until cols) {
+                val seatButton = Button("[$i, $j]")
+                seatButton.style = "-fx-font-size: 10px; -fx-padding: 2px;"
+                previewGrid.add(seatButton, j, i)
+            }
         }
     }
 
@@ -565,7 +661,6 @@ class MainFormController : Initializable {
     private fun clearSessionsForm() {
         sessions_id.clear()
         sessions_roomNumber.clear()
-        sessions_capacity.clear()
         sessions_movie.value = null
         sessions_startTime.clear()
         sessions_datePicker.value = null
@@ -630,10 +725,9 @@ class MainFormController : Initializable {
         try {
             val sessionId = sessions_id.text.toIntOrNull()
             val roomNumber = sessions_roomNumber.text
-            val capacity = sessions_capacity.text.toIntOrNull()
             val movie = sessions_movie.value
 
-            if (sessionId != null && roomNumber.isNotBlank() && capacity != null) {
+            if (sessionId != null && roomNumber.isNotBlank()) {
                 val dateString = sessions_datePicker.value.toString() // Pega a data do DatePicker
                 val timeString = sessions_startTime.text // Pega o tempo do campo de texto
 
@@ -645,7 +739,13 @@ class MainFormController : Initializable {
                     return
                 }
 
-                val updatedSession = Session(sessionId, roomNumber, capacity, movie, startDateTime, getSessionStatusFromString(sessions_statusLabel.text))
+                val currentSession = sessionDAO.searchSessionByID(sessionId)
+                if (currentSession == null) {
+                    showAlert("Erro", "Sessão não encontrada!", Alert.AlertType.ERROR)
+                    return
+                }
+
+                val updatedSession = Session(sessionId, roomNumber, currentSession.sessionCapacity, movie, startDateTime, getSessionStatusFromString(sessions_statusLabel.text), currentSession.rows, currentSession.cols)
 
                 val changes = getSessionChanges(updatedSession)
                 if (changes.isEmpty()) {
@@ -668,7 +768,6 @@ class MainFormController : Initializable {
             e.printStackTrace()
         }
     }
-
     private fun getMovieChanges(updatedMovie: Movie): String {
         val changes = mutableListOf<String>()
         originalMovie?.let {
@@ -756,7 +855,6 @@ class MainFormController : Initializable {
 
         sessions_id.text = session.id.toString()
         sessions_roomNumber.text = session.numberRoom
-        sessions_capacity.text = session.sessionCapacity.toString()
         sessions_movie.value = session.movie
         sessions_statusLabel.text = session.status.status
 
@@ -921,6 +1019,9 @@ class MainFormController : Initializable {
         sessions_col_number.cellValueFactory = PropertyValueFactory<Session, String>("numberRoom")
         sessions_col_currentMovie.cellValueFactory = PropertyValueFactory<Session, Movie>("movie")
         sessions_col_capacity.cellValueFactory = PropertyValueFactory<Session, Int>("sessionCapacity")
+        sessions_rows = TextField()
+        sessions_cols = TextField()
+
 
         // Usando uma célula personalizada para a coluna de status
         sessions_col_sessionStatus.setCellValueFactory(PropertyValueFactory<Session, SessionStatus>("status"))

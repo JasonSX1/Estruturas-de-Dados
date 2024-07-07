@@ -394,7 +394,7 @@
                                  </children>
                               </AnchorPane>
                            </children></AnchorPane>
-                        <AnchorPane fx:id="MoviesForm" layoutX="229.0" layoutY="182.0" prefHeight="600.0" prefWidth="980.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="MoviesForm" layoutX="229.0" layoutY="182.0" prefHeight="600.0" prefWidth="980.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane prefHeight="255.0" prefWidth="965.0" stylesheets="@../../../Values/mainForm.css" AnchorPane.bottomAnchor="330.0" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="17.0">
                                  <styleClass>
@@ -542,7 +542,7 @@
                               </AnchorPane>
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="sessions_form" layoutX="14.0" layoutY="127.0" prefHeight="727.2" prefWidth="994.4" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="sessions_form" layoutX="14.0" layoutY="127.0" prefHeight="727.2" prefWidth="994.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane prefHeight="255.0" prefWidth="965.0" stylesheets="@../../../Values/mainForm.css" AnchorPane.bottomAnchor="330.0" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="17.0">
                                  <styleClass>
@@ -589,12 +589,6 @@
                                        </font>
                                     </Label>
                                     <TextField fx:id="sessions_roomNumber" layoutX="202.0" layoutY="100.0" prefWidth="165.0" />
-                                    <Label layoutX="38.0" layoutY="135.0" text="Capacidade da sala" textFill="WHITE">
-                                       <font>
-                                          <Font size="14.0" />
-                                       </font>
-                                    </Label>
-                                    <TextField fx:id="sessions_capacity" layoutX="202.0" layoutY="135.0" prefWidth="165.0" />
                                     <Label layoutX="409.0" layoutY="62.0" text="Atribuir um filme" textFill="WHITE">
                                        <font>
                                           <Font size="14.0" />
@@ -618,27 +612,27 @@
                                     </AnchorPane>
                                     <Button disable="true" layoutX="778.0" layoutY="253.0" mnemonicParsing="false" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Configurar poltronas" visible="false" AnchorPane.bottomAnchor="19.799999999999955" AnchorPane.rightAnchor="20.40000000000009" />
                                     <Button fx:id="sessions_addBtn" layoutX="20.0" layoutY="233.0" mnemonicParsing="false" onAction="#addSession" prefHeight="40.0" prefWidth="80.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Adicionar" />
-                                    <Button fx:id="sessions_updateBtn" layoutX="130.0" layoutY="233.0" mnemonicParsing="false" onAction="#updateSession" prefHeight="40.0" prefWidth="80.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Atualizar" />
-                                    <Button fx:id="sessions_deleteBtn" layoutX="519.0" layoutY="232.0" mnemonicParsing="false" onAction="#removeSession" prefHeight="40.0" prefWidth="80.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Deletar" />
+                                    <Button fx:id="sessions_updateBtn" layoutX="151.0" layoutY="232.0" mnemonicParsing="false" onAction="#updateSession" prefHeight="40.0" prefWidth="80.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Atualizar" />
+                                    <Button fx:id="sessions_deleteBtn" layoutX="486.0" layoutY="233.0" mnemonicParsing="false" onAction="#removeSession" prefHeight="40.0" prefWidth="80.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Deletar" />
                                     <Label layoutX="394.0" layoutY="103.0" text="Horario de inicio do filme" textFill="WHITE">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="sessions_startTime" layoutX="663.0" layoutY="100.0" prefWidth="165.0" />
+                                    <TextField fx:id="sessions_startTime" layoutX="659.0" layoutY="100.0" prefHeight="26.0" prefWidth="174.0" />
                                     <Button fx:id="sessions_startSales" layoutX="811.0" layoutY="181.0" mnemonicParsing="false" onAction="#openSales" prefHeight="40.0" prefWidth="107.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Iniciar Vendas" />
                                     <Button fx:id="sessions_closeSales" layoutX="807.0" layoutY="232.0" mnemonicParsing="false" onAction="#closeSales" prefHeight="40.0" prefWidth="115.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Fechar Vendas" />
-                                    <Label layoutX="409.0" layoutY="135.0" text="Status da Sessão" textFill="WHITE">
+                                    <Label layoutX="59.0" layoutY="141.0" text="Status da Sessão" textFill="WHITE">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="sessions_statusLabel" layoutX="698.0" layoutY="135.0" text="NÃO DEFINIDO" textFill="WHITE">
+                                    <Label fx:id="sessions_statusLabel" layoutX="237.0" layoutY="141.0" text="NÃO DEFINIDO" textFill="WHITE">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <Button fx:id="sessions_programation" layoutX="619.0" layoutY="233.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="169.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Visualizar programação" />
+                                    <Button fx:id="sessions_programation" layoutX="598.0" layoutY="233.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="190.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Programação e ocupação" />
                                     <Button fx:id="sessions_add_nextMovie" layoutX="273.0" layoutY="232.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="188.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Adicionar próximos filmes" />
                                     <Button fx:id="sessions_clearMoviesBox" layoutX="892.0" layoutY="60.0" mnemonicParsing="false" onAction="#clearMovieBox" prefHeight="20.0" prefWidth="20.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css">
                                        <graphic>
@@ -649,8 +643,8 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <DatePicker fx:id="sessions_datePicker" layoutX="532.0" layoutY="169.0" />
-                                    <Label layoutX="410.0" layoutY="172.0" text="Data da Sessão" textFill="WHITE">
+                                    <DatePicker fx:id="sessions_datePicker" layoutX="659.0" layoutY="139.0" />
+                                    <Label layoutX="426.0" layoutY="141.0" text="Data da Sessão" textFill="WHITE">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
