@@ -450,6 +450,12 @@ class MainFormController : Initializable {
                     null // startDateTime será null se a data ou a hora não forem fornecidas
                 }
 
+                val calculatedCapacity = rows * cols
+                if (calculatedCapacity != capacity) {
+                    showAlert("Erro", "A capacidade calculada ($calculatedCapacity) não corresponde à capacidade definida ($capacity)!", Alert.AlertType.ERROR)
+                    return
+                }
+
                 val session = Session(sessionId, roomNumber, capacity, movie, startDateTime, SessionStatus.WAITING, rows, cols)
                 val successful = sessionDAO.addSession(session)
 

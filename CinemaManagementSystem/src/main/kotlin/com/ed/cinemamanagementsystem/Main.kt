@@ -4,6 +4,7 @@ import javafx.application.Application
 import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
 import javafx.scene.Scene
+import javafx.scene.image.Image
 import javafx.stage.Stage
 
 class HelloApplication : Application() {
@@ -16,6 +17,9 @@ class HelloApplication : Application() {
         stage.scene = scene
         stage.minWidth = 600.0
         stage.minHeight = 450.0
+        val icon = Image(HelloApplication::class.java.getResourceAsStream("/Values/Pngs/Icons/cineicon4.png"))
+        stage.icons.add(icon)
+
         stage.show()
     }
 }
