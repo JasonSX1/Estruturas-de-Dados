@@ -718,13 +718,21 @@ class MainFormController : Initializable {
         DashboardForm.isVisible = false
         sessions_form.isVisible = false
         MoviesForm.isVisible = false
+        SalesForm.isVisible = false
 
-        if(event.source == dashboard_btn) {
-            DashboardForm.isVisible = true
-        } else if(event.source == sessions_btn){
-            sessions_form.isVisible = true
-        } else if(event.source == movies_btn){
-            MoviesForm.isVisible = true
+        when (event.source) {
+            dashboard_btn -> {
+                DashboardForm.isVisible = true
+            }
+            sessions_btn -> {
+                sessions_form.isVisible = true
+            }
+            movies_btn -> {
+                MoviesForm.isVisible = true
+            }
+            home_btn -> {
+                SalesForm.isVisible = true
+            }
         }
 
         clearMoviesForm()

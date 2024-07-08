@@ -40,7 +40,7 @@
                            <font>
                               <Font size="14.0" />
                            </font></Label>
-                        <Button fx:id="home_btn" layoutX="32.0" layoutY="150.0" mnemonicParsing="false" styleClass="nav_-btn" stylesheets="@../../../Values/mainForm.css" text="Home" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0">
+                        <Button fx:id="home_btn" layoutX="32.0" layoutY="150.0" mnemonicParsing="false" onAction="#switchMenu" styleClass="nav_-btn" stylesheets="@../../../Values/mainForm.css" text="Home" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0">
                            <graphic>
                               <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
