@@ -23,7 +23,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600.0" minWidth="1100.0" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ed.cinemamanagementsystem.MainFormController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600.0" minWidth="1100.0" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ed.cinemamanagementsystem.MainFormController">
    <children>
       <AnchorPane fx:id="main_form" minHeight="600.0" minWidth="1100.0" prefHeight="200.0" prefWidth="200.0">
          <children>
@@ -545,7 +545,7 @@
                               </AnchorPane>
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="sessions_form" layoutX="14.0" layoutY="127.0" prefHeight="727.2" prefWidth="994.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="sessions_form" layoutX="14.0" layoutY="127.0" prefHeight="727.2" prefWidth="994.4" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane prefHeight="255.0" prefWidth="965.0" stylesheets="@../../../Values/mainForm.css" AnchorPane.bottomAnchor="330.0" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="17.0">
                                  <styleClass>
@@ -655,7 +655,7 @@
                               </AnchorPane>
                            </children>
                         </AnchorPane>
-                        <AnchorPane prefHeight="600.0" prefWidth="980.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="SalesForm" prefHeight="600.0" prefWidth="980.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="645.0" layoutY="10.0" prefHeight="580.0" prefWidth="321.0" stylesheets="@../../../Values/mainForm.css">
                                  <styleClass>
@@ -663,13 +663,58 @@
                                     <String fx:value="radius" />
                                  </styleClass>
                                  <children>
-                                    <TableView layoutX="9.0" layoutY="6.0" prefHeight="198.0" prefWidth="303.0">
+                                    <TableView fx:id="home_tableView" layoutX="9.0" layoutY="6.0" prefHeight="198.0" prefWidth="303.0">
                                       <columns>
-                                        <TableColumn prefWidth="162.0" text="Filme" />
-                                          <TableColumn prefWidth="66.0" text="Poltronas" />
-                                          <TableColumn prefWidth="73.0" text="Preço (R$)" />
+                                        <TableColumn fx:id="home_tableView_col_movie" prefWidth="162.0" text="Filme" />
+                                          <TableColumn fx:id="home_tableView_col_seat" prefWidth="66.0" text="Poltronas" />
+                                          <TableColumn fx:id="home_tableView_col_price" prefWidth="73.0" text="Preço (R$)" />
                                       </columns>
                                     </TableView>
+                                    <Label layoutX="124.0" layoutY="212.0" text="Total:" textFill="WHITE">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="home_total" layoutX="168.0" layoutY="212.0" text="R$ 0,00" textFill="WHITE">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="17.0" layoutY="239.0" text="Inteira" textFill="WHITE">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="17.0" layoutY="258.0" text="Preço:" textFill="WHITE">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="home_fullPrice" layoutX="62.0" layoutY="258.0" text="R$ 0,00" textFill="WHITE">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <ComboBox fx:id="home_fullPriceAmount" layoutX="135.0" layoutY="246.0" prefWidth="150.0" style="-fx-background-color: fff;" />
+                                    <Label layoutX="17.0" layoutY="290.0" text="Meia" textFill="WHITE">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="17.0" layoutY="309.0" text="Preço:" textFill="WHITE">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="home_halfPrice" layoutX="62.0" layoutY="309.0" text="R$ 0,00" textFill="WHITE">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <ComboBox fx:id="home_halfPriceAmount" layoutX="135.0" layoutY="297.0" prefWidth="150.0" style="-fx-background-color: fff;" />
+                                    <Button fx:id="home_payBtn" layoutX="12.0" layoutY="475.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="299.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Pagar" />
+                                    <Button fx:id="home_removeBtn" layoutX="12.0" layoutY="526.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="140.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Remover" />
+                                    <Button fx:id="home_recibeBtn" layoutX="170.0" layoutY="526.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="140.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Recibo" />
                                  </children>
                               </AnchorPane>
                               <AnchorPane layoutX="14.0" layoutY="10.0" prefHeight="580.0" prefWidth="619.0" stylesheets="@../../../Values/mainForm.css">
@@ -678,11 +723,11 @@
                                     <String fx:value="radius" />
                                  </styleClass>
                                  <children>
-                                    <ScrollPane layoutX="11.0" layoutY="10.0" prefHeight="561.0" prefWidth="598.0">
+                                    <ScrollPane fx:id="home_scrollPane" layoutX="11.0" layoutY="10.0" prefHeight="561.0" prefWidth="598.0">
                                       <content>
                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="547.0" prefWidth="588.0">
                                              <children>
-                                                <GridPane prefHeight="19.0" prefWidth="100.0">
+                                                <GridPane fx:id="home_gridPane" prefHeight="19.0" prefWidth="100.0">
                                                   <columnConstraints>
                                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                                   </columnConstraints>

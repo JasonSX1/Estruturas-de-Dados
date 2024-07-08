@@ -219,6 +219,48 @@ class MainFormController : Initializable {
     @FXML
     private lateinit var sessions_rows: TextField
 
+    @FXML
+    private lateinit var home_scrollPane: ScrollPane
+
+    @FXML
+    private lateinit var SalesForm: AnchorPane
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    @FXML
+    private lateinit var home_tableView : TableView<*>
+
+    @FXML
+    private lateinit var home_tableView_col_movie: TableColumn<*, *>
+
+    @FXML
+    private lateinit var home_tableView_col_seat: TableColumn<*, *>
+
+    @FXML
+    private lateinit var home_tableView_col_price: TableColumn<*, *>
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    @FXML
+    private lateinit var home_fullPriceAmount: ComboBox<String>
+
+    @FXML
+    private lateinit var home_total: Label
+
+    @FXML
+    private lateinit var home_fullPrice: Label
+
+    @FXML
+    private lateinit var home_halfPrice: Label
+
+    @FXML
+    private lateinit var home_halfPriceAmount: ComboBox<String>
+
+    @FXML
+    private lateinit var home_payBtn: Button
+
+    @FXML
+    private lateinit var home_removeBtn: Button
+
+    @FXML
+    private lateinit var home_recibeBtn: Button
+
     private var imagePath: String? = null
 
     private lateinit var image: Image
