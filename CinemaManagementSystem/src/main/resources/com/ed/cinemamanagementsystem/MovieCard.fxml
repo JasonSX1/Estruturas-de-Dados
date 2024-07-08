@@ -17,7 +17,7 @@
          <children>
             <HBox alignment="CENTER_LEFT" prefHeight="21.0" prefWidth="230.0">
                <children>
-                  <Label prefHeight="21.0" prefWidth="150.0" text="Filminho">
+                  <Label fx:id="card_name" prefHeight="21.0" prefWidth="150.0" text="Filminho">
                      <font>
                         <Font size="15.0" />
                      </font>
@@ -30,16 +30,100 @@
             <AnchorPane prefHeight="119.0" prefWidth="230.0">
                <children>
                   <ImageView fitHeight="100.0" fitWidth="70.0" layoutX="14.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
-                  <Label layoutX="87.0" layoutY="9.0" prefHeight="21.0" prefWidth="134.0" text="Nome da Sala">
+                  <Label fx:id="card_sessionName" layoutX="82.0" layoutY="13.0" prefHeight="21.0" prefWidth="100.0" text="Nome da Sala">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </Label>
+                  <HBox layoutX="82.0" layoutY="36.0" prefHeight="21.0" prefWidth="140.0">
+                     <children>
+                        <Label fx:id="card_3d" prefHeight="21.0" prefWidth="30.0" text="3D">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="15.0" right="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label fx:id="card_meia" prefHeight="21.0" prefWidth="42.0" text="Meia">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label fx:id="card_language" prefHeight="21.0" prefWidth="22.0" text="leg">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox layoutX="82.0" layoutY="60.0" prefHeight="21.0" prefWidth="140.0">
+                     <children>
+                        <Label fx:id="card_h1" prefHeight="21.0" prefWidth="39.0" text="00:00">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label fx:id="card_h2" prefHeight="21.0" prefWidth="38.0" text="00:00">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label fx:id="card_h3" prefHeight="21.0" prefWidth="37.0" text="00:00">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox layoutX="82.0" layoutY="86.0" prefHeight="21.0" prefWidth="140.0">
+                     <children>
+                        <Label fx:id="card_h4" prefHeight="21.0" prefWidth="39.0" text="00:00">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label fx:id="card_h5" prefHeight="21.0" prefWidth="38.0" text="00:00">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label fx:id="card_h6" prefHeight="21.0" prefWidth="37.0" text="00:00">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
                </children>
             </AnchorPane>
             <HBox alignment="CENTER" prefHeight="40.0" prefWidth="230.0">
                <children>
-                  <Spinner prefHeight="25.0" prefWidth="111.0" />
+                  <Spinner fx:id="card_spinner" prefHeight="25.0" prefWidth="111.0" />
                   <Button mnemonicParsing="false" text="Adicionar">
                      <HBox.margin>
                         <Insets left="10.0" />
