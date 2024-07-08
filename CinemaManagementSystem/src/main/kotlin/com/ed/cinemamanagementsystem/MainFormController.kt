@@ -1059,7 +1059,7 @@ class MainFormController : Initializable {
         }
     }
 
-    private fun setupSessionParameters(){
+    private fun setupSessionParameters() {
         sessions_col_sessionId.cellValueFactory = PropertyValueFactory<Session, Int>("id")
         sessions_col_number.cellValueFactory = PropertyValueFactory<Session, String>("numberRoom")
         sessions_col_currentMovie.cellValueFactory = PropertyValueFactory<Session, Movie>("movie")
@@ -1067,21 +1067,34 @@ class MainFormController : Initializable {
         sessions_rows = TextField()
         sessions_cols = TextField()
 
+        // Usando uma célula personalizada para a coluna de filme atual
+        sessions_col_currentMovie.setCellFactory {
+            object : TableCell<Session, Movie>() {
+                override fun updateItem(movie: Movie?, empty: Boolean) {
+                    super.updateItem(movie, empty)
+                    text = if (empty || movie == null) {
+                        ""
+                    } else {
+                        formatMovieDetails(movie)
+                    }
+                }
+            }
+        }
 
         // Usando uma célula personalizada para a coluna de status
         sessions_col_sessionStatus.setCellValueFactory(PropertyValueFactory<Session, SessionStatus>("status"))
-        sessions_col_sessionStatus.setCellFactory(Callback<TableColumn<Session, SessionStatus>, TableCell<Session, SessionStatus>> {
+        sessions_col_sessionStatus.setCellFactory {
             object : TableCell<Session, SessionStatus>() {
                 override fun updateItem(item: SessionStatus?, empty: Boolean) {
                     super.updateItem(item, empty)
                     text = item?.status ?: ""
                 }
             }
-        })
+        }
 
         sessions_tableView.items = sessionList
 
-        //Função que carrega os nomes dos filmes para a comboBox do menu de sesões
+        // Função que carrega os nomes dos filmes para a comboBox do menu de sessões
         sessions_form.visibleProperty().addListener { _, _, newValue ->
             if (newValue) {
                 loadMoviesToSessions()
@@ -1095,7 +1108,6 @@ class MainFormController : Initializable {
             }
         }
     }
-
     private fun setupTimeFormatter() {
         val timeFormatter = TextFormatter<String> { change ->
             val newText = change.controlNewText
@@ -1123,6 +1135,22 @@ class MainFormController : Initializable {
 
     fun clearMovieBox(){
         sessions_movie.value = null
+    }
+
+    private fun truncateTitle(title: String, maxLength: Int = 15): String {
+        return if (title.length > maxLength) {
+            "${title.take(maxLength)}..."
+        } else {
+            title
+        }
+    }
+
+    // Função para formatar os detalhes do filme
+    private fun formatMovieDetails(movie: Movie): String {
+        return """
+        Título: ${truncateTitle(movie.title)} - Duração: ${movie.duration} min
+        3D: ${movie.has3d} - Audio: ${movie.audio}
+    """.trimIndent()
     }
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
