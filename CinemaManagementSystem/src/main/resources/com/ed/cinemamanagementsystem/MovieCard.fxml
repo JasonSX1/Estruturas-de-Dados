@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="180.0" prefWidth="230.0" styleClass="nav_form" stylesheets="@../../../Values/mainForm.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ed.cinemamanagementsystem.MovieCard">
+<AnchorPane prefHeight="180.0" prefWidth="230.0" styleClass="nav_form" stylesheets="@../../../Values/mainForm.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ed.cinemamanagementsystem.MovieCardController">
    <children>
       <VBox layoutX="65.0" layoutY="-24.0" prefHeight="180.0" prefWidth="230.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -28,7 +28,7 @@
             </HBox>
             <AnchorPane prefHeight="119.0" prefWidth="230.0">
                <children>
-                  <ImageView fitHeight="100.0" fitWidth="70.0" layoutX="14.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="home_img" fitHeight="100.0" fitWidth="70.0" layoutX="14.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
                   <Label fx:id="card_sessionName" layoutX="82.0" layoutY="13.0" prefHeight="21.0" prefWidth="100.0" text="Nome da Sala" textFill="WHITE">
                      <font>
                         <Font size="15.0" />

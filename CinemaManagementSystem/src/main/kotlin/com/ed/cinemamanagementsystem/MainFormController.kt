@@ -250,6 +250,9 @@ class MainFormController : Initializable {
     private lateinit var home_halfPrice: Label
 
     @FXML
+    private lateinit var home_gridPane: GridPane
+
+    @FXML
     private lateinit var home_halfPriceAmount: ComboBox<String>
 
     @FXML
@@ -503,6 +506,7 @@ class MainFormController : Initializable {
                     loadSessionsToTableView()
                     clearSessionsForm()
                     println("$session")
+                    updateHomeGridPane()
                 } else {
                     showAlert("Erro", "Falha ao adicionar a sessão!", Alert.AlertType.ERROR)
                 }
@@ -669,6 +673,11 @@ class MainFormController : Initializable {
     private fun updateSessionsTableView(){
         val sessions = sessionDAO.listSessions()
         sessions_tableView.items = FXCollections.observableArrayList(sessions)
+    }
+
+    private fun updateHomeGridPane(){
+        val sessions = sessionDAO.getAllSessions()
+        homeDisplayCards()
     }
 
     private fun loadMoviesToTableView() {
@@ -1153,13 +1162,47 @@ class MainFormController : Initializable {
         }
     }
 
-    // Função para formatar os detalhes do filme
     private fun formatMovieDetails(movie: Movie): String {
         return """
         Título: ${truncateTitle(movie.title)} - Duração: ${movie.duration} min
         3D: ${movie.has3d} - Audio: ${movie.audio}
     """.trimIndent()
     }
+
+    fun homeDisplayCards() {
+        // Obter os dados das sessões
+        val sessionsData = sessionDAO.listSessions()
+
+        // Limpar o gridPane antes de adicionar novos cards
+        home_gridPane.children.clear()
+        home_gridPane.rowConstraints.clear()
+        home_gridPane.columnConstraints.clear()
+
+        var row = 0
+        var column = 0
+
+        // Iterar sobre os dados das sessões e adicionar cards ao gridPane
+        for (session in sessionsData) {
+            try {
+                val fxmlLoader = FXMLLoader(javaClass.getResource("/com/ed/cinemamanagementsystem/MovieCard.fxml"))
+                val cardPane: AnchorPane = fxmlLoader.load()
+
+                val movieCardController = fxmlLoader.getController<MovieCardController>()
+                movieCardController.setData(session)
+
+                if (column == 3) {
+                    column = 0
+                    row++
+                }
+
+                home_gridPane.add(cardPane, column++, row)
+                GridPane.setMargin(cardPane, Insets(10.0))
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
         initializeComboBoxes()
@@ -1172,3 +1215,4 @@ class MainFormController : Initializable {
         setupTimeFormatter()
     }
 }
+

@@ -439,19 +439,19 @@
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="movies_movieId" layoutX="202.0" layoutY="65.0" prefWidth="165.0" />
+                                    <TextField fx:id="movies_movieId" layoutX="202.0" layoutY="65.0" prefWidth="165.0" promptText="Ex. 1" />
                                     <Label layoutX="61.0" layoutY="100.0" text="Titulo do Filme" textFill="WHITE">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="movies_title" layoutX="202.0" layoutY="100.0" prefWidth="165.0" />
+                                    <TextField fx:id="movies_title" layoutX="202.0" layoutY="100.0" prefWidth="165.0" promptText="Ex. A Fantástica Fabrica de Chocolate" />
                                     <Label layoutX="38.0" layoutY="135.0" text="Duração (em minutos)" textFill="WHITE">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="movies_duration" layoutX="202.0" layoutY="135.0" prefWidth="165.0" />
+                                    <TextField fx:id="movies_duration" layoutX="202.0" layoutY="135.0" prefWidth="165.0" promptText="Ex. 120" />
                                     <Label layoutX="52.0" layoutY="170.0" text="Tipo de produção" textFill="WHITE">
                                        <font>
                                           <Font size="14.0" />
@@ -584,13 +584,13 @@
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="sessions_id" layoutX="202.0" layoutY="65.0" prefWidth="165.0" />
+                                    <TextField fx:id="sessions_id" layoutX="202.0" layoutY="65.0" prefWidth="165.0" promptText="Ex. 1" />
                                     <Label layoutX="61.0" layoutY="100.0" text="Número da sala" textFill="WHITE">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="sessions_roomNumber" layoutX="202.0" layoutY="100.0" prefWidth="165.0" />
+                                    <TextField fx:id="sessions_roomNumber" layoutX="202.0" layoutY="100.0" prefWidth="165.0" promptText="Ex. 502" />
                                     <Label layoutX="409.0" layoutY="62.0" text="Atribuir um filme" textFill="WHITE">
                                        <font>
                                           <Font size="14.0" />
@@ -621,7 +621,7 @@
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="sessions_startTime" layoutX="659.0" layoutY="100.0" prefHeight="26.0" prefWidth="174.0" />
+                                    <TextField fx:id="sessions_startTime" layoutX="659.0" layoutY="100.0" prefHeight="26.0" prefWidth="174.0" promptText="HH:MM" />
                                     <Button fx:id="sessions_startSales" layoutX="811.0" layoutY="181.0" mnemonicParsing="false" onAction="#openSales" prefHeight="40.0" prefWidth="107.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Iniciar Vendas" />
                                     <Button fx:id="sessions_closeSales" layoutX="807.0" layoutY="232.0" mnemonicParsing="false" onAction="#closeSales" prefHeight="40.0" prefWidth="115.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Fechar Vendas" />
                                     <Label layoutX="59.0" layoutY="141.0" text="Status da Sessão" textFill="WHITE">
@@ -645,7 +645,7 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <DatePicker fx:id="sessions_datePicker" layoutX="659.0" layoutY="139.0" />
+                                    <DatePicker fx:id="sessions_datePicker" layoutX="659.0" layoutY="139.0" promptText="DD/MM/AAAA" />
                                     <Label layoutX="426.0" layoutY="141.0" text="Data da Sessão" textFill="WHITE">
                                        <font>
                                           <Font size="14.0" />
@@ -655,7 +655,7 @@
                               </AnchorPane>
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="SalesForm" prefHeight="600.0" prefWidth="980.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="SalesForm" prefHeight="600.0" prefWidth="980.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="645.0" layoutY="10.0" prefHeight="580.0" prefWidth="321.0" stylesheets="@../../../Values/mainForm.css">
                                  <styleClass>
