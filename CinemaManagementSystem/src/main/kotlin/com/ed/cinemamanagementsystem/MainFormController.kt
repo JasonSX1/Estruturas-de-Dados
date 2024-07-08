@@ -118,9 +118,6 @@ class MainFormController : Initializable {
     private lateinit var sessions_col_currentMovie: TableColumn<Session, Movie>
 
     @FXML
-    private lateinit var sessions_col_nextMovie: TableColumn<Session, Movie>
-
-    @FXML
     private lateinit var sessions_col_number: TableColumn<Session, String>
 
     @FXML
