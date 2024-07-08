@@ -17,21 +17,6 @@ class MovieCardController {
     private lateinit var card_h1: Label
 
     @FXML
-    private lateinit var card_h2: Label
-
-    @FXML
-    private lateinit var card_h3: Label
-
-    @FXML
-    private lateinit var card_h4: Label
-
-    @FXML
-    private lateinit var card_h5: Label
-
-    @FXML
-    private lateinit var card_h6: Label
-
-    @FXML
     private lateinit var card_language: Label
 
     @FXML
@@ -72,12 +57,10 @@ class MovieCardController {
             }
         }
 
-        // Preencha os slots dos horários
-        val slots = listOf(card_h1, card_h2, card_h3, card_h4, card_h5, card_h6)
-        slots.forEachIndexed { index, label ->
-            label.text = if (index < session.cols) session.startTime?.toString() ?: "N/A" else "N/A"
-        }
+        // Preencha o slot do horário
+        card_h1.text = session.startTime?.toString() ?: "N/A"
 
         // Configura o spinner para a capacidade da sessão
         card_spinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(1, session.sessionCapacity, 1)
-    }}
+    }
+}
