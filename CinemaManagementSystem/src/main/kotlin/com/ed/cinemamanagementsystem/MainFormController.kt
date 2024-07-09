@@ -13,6 +13,7 @@ import javafx.scene.Scene
 import javafx.scene.control.*
 import javafx.scene.control.cell.PropertyValueFactory
 import javafx.scene.image.ImageView
+import javafx.scene.input.MouseEvent
 import javafx.scene.layout.*
 import javafx.stage.FileChooser
 import javafx.stage.Stage
@@ -226,16 +227,16 @@ class MainFormController : Initializable {
     private lateinit var SalesForm: AnchorPane
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @FXML
-    private lateinit var home_tableView : TableView<*>
+    private lateinit var home_tableView : TableView<Ticket>
 
     @FXML
-    private lateinit var home_tableView_col_movie: TableColumn<*, *>
+    private lateinit var home_tableView_col_movie: TableColumn<Ticket, String>
 
     @FXML
-    private lateinit var home_tableView_col_seat: TableColumn<*, *>
+    private lateinit var home_tableView_col_seat: TableColumn<Ticket, String>
 
     @FXML
-    private lateinit var home_tableView_col_price: TableColumn<*, *>
+    private lateinit var home_tableView_col_price: TableColumn<Ticket, Double>
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @FXML
     private lateinit var home_fullPriceAmount: ComboBox<String>
@@ -263,6 +264,8 @@ class MainFormController : Initializable {
 
     @FXML
     private lateinit var home_recibeBtn: Button
+
+    private val selectedSeats = mutableListOf<Seat>()
 
     private var imagePath: String? = null
 
@@ -1204,6 +1207,13 @@ class MainFormController : Initializable {
     }
 
 
+    fun onAddButtonClicked(ticketCount: Int, session: Session) {
+        // Adiciona o número de ingressos à tabela
+        for (i in 1..ticketCount) {
+            home_tableView.items.add(Ticket(session.movie?.title ?: "Nome do Filme", selectedSeats.joinToString(", ") { "(${it.row}, ${it.col})" }, 10.0))
+        }
+    }
+
     override fun initialize(location: URL?, resources: ResourceBundle?) {
         initializeComboBoxes()
         initializeAudioTypeList()
@@ -1213,6 +1223,30 @@ class MainFormController : Initializable {
         setupSessionParameters()
         loadMoviesToTableView()
         setupTimeFormatter()
+
+        home_tableView_col_movie.cellValueFactory = PropertyValueFactory("film")
+        home_tableView_col_seat.cellValueFactory = PropertyValueFactory("seats")
+        home_tableView_col_price.cellValueFactory = PropertyValueFactory("price")
+
+        // Cria uma matriz de botões para representar as poltronas
+        for (row in 0 until 10) {
+            for (col in 0 until 10) {
+                val seatButton = Button()
+                seatButton.text = "($row, $col)"
+                seatButton.setOnAction {
+                    val seat = Seat(row, col)
+                    if (selectedSeats.contains(seat)) {
+                        selectedSeats.remove(seat)
+                        seatButton.style = ""
+                    } else {
+                        selectedSeats.add(seat)
+                        seatButton.style = "-fx-background-color: #00ff00;"
+                    }
+                }
+                home_gridPane.add(seatButton, col, row)
+            }
+        }
     }
 }
+
 
