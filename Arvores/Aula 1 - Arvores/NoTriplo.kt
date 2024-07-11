@@ -1,5 +1,5 @@
-data class NoTriplo(dado: Any?){
-    private genitor: NoTriplo
-    private esquerdo: NoTriplo
-    private direito: NoTriplo
+data class NoTriplo(var dado: Any? = null){
+    var genitor: NoTriplo? = null
+    var esquerda: NoTriplo? = null
+    var direita: NoTriplo? = null
 }

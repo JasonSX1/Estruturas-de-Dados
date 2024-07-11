@@ -1,5 +1,6 @@
  class arvore(){
 
+     /*
      //quando quero q o auliar vai para algum lugar vai para diereita ou esquerda dele
      inserir (dado) //
      aux = raiz
@@ -28,5 +29,5 @@
 
      }
 
-
+*/
  }
