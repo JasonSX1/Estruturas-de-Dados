@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="180.0" prefWidth="230.0" styleClass="nav_form" stylesheets="@../../../Values/mainForm.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ed.cinemamanagementsystem.MovieCardController">
+<AnchorPane prefHeight="255.0" prefWidth="287.0" styleClass="nav_form" stylesheets="@../../../Values/mainForm.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ed.cinemamanagementsystem.MovieCardController">
    <children>
       <VBox layoutX="65.0" layoutY="-24.0" prefHeight="180.0" prefWidth="230.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -26,57 +26,39 @@
                   </Label>
                </children>
             </HBox>
-            <AnchorPane prefHeight="119.0" prefWidth="230.0">
+            <AnchorPane prefHeight="229.0" prefWidth="287.0">
                <children>
-                  <ImageView fx:id="home_img" fitHeight="100.0" fitWidth="70.0" layoutX="14.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
-                  <Label fx:id="card_sessionName" layoutX="82.0" layoutY="13.0" prefHeight="21.0" prefWidth="100.0" text="Nome da Sala" textFill="WHITE">
+                  <ImageView fx:id="home_img" fitHeight="159.0" fitWidth="111.0" layoutX="14.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                  <Label fx:id="card_sessionName" layoutX="142.0" layoutY="14.0" prefHeight="22.0" prefWidth="111.0" text="Nome da Sala" textFill="WHITE">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </Label>
-                  <HBox layoutX="82.0" layoutY="36.0" prefHeight="21.0" prefWidth="140.0">
-                     <children>
-                        <Label fx:id="card_3d" prefHeight="21.0" prefWidth="30.0" text="3D" textFill="WHITE">
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets left="15.0" right="5.0" />
-                           </HBox.margin>
-                        </Label>
-                        <Label fx:id="card_half" prefHeight="21.0" prefWidth="42.0" text="Meia" textFill="WHITE">
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets left="5.0" right="5.0" />
-                           </HBox.margin>
-                        </Label>
-                        <Label fx:id="card_language" prefHeight="21.0" prefWidth="22.0" text="leg" textFill="WHITE">
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets left="5.0" right="5.0" />
-                           </HBox.margin>
-                        </Label>
-                     </children>
-                  </HBox>
-                  <HBox layoutX="127.0" layoutY="68.0" prefHeight="21.0" prefWidth="51.0">
-                     <children>
-                        <Label fx:id="card_h1" prefHeight="21.0" prefWidth="37.0" stylesheets="@../../../Values/mainForm.css" text="00:00" textFill="WHITE">
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets left="5.0" right="5.0" />
-                           </HBox.margin>
-                        </Label>
-                     </children>
-                  </HBox>
+                  <HBox layoutX="82.0" layoutY="36.0" prefHeight="21.0" prefWidth="140.0" />
+                  <HBox layoutX="127.0" layoutY="68.0" prefHeight="21.0" prefWidth="51.0" />
+                  <Label fx:id="card_h1" layoutX="169.0" layoutY="135.0" prefHeight="21.0" prefWidth="37.0" stylesheets="@../../../Values/mainForm.css" text="00:00" textFill="WHITE">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="card_half" layoutX="166.0" layoutY="76.0" prefHeight="21.0" prefWidth="42.0" text="Meia" textFill="WHITE">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="card_language" layoutX="176.0" layoutY="99.0" prefHeight="21.0" prefWidth="22.0" text="leg" textFill="WHITE">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="card_3d" layoutX="163.0" layoutY="47.0" prefHeight="21.0" prefWidth="30.0" text="3D" textFill="WHITE">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
                </children>
             </AnchorPane>
-            <HBox alignment="CENTER" prefHeight="40.0" prefWidth="230.0">
+            <HBox alignment="CENTER" prefHeight="114.0" prefWidth="287.0">
                <children>
                   <Spinner fx:id="card_spinner" prefHeight="25.0" prefWidth="111.0" style="-fx-background-color: fff;" stylesheets="@../../../Values/mainForm.css" />
                   <Button mnemonicParsing="false" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Adicionar">

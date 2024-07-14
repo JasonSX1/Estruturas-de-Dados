@@ -35,11 +35,9 @@ class MovieCardController {
     private lateinit var home_img: ImageView
 
     fun setData(session: Session) {
-        card_name.text = session.movie?.title ?: "No Movie"
+        card_name.text = session.movie?.title ?: "Sessão sem filme"
         card_sessionName.text = "Sessão ${session.id}"
         card_3d.text = if (session.movie?.has3d == "Sim") "3D" else "2D"
-        card_language.text = session.movie?.audio ?: "N/A"
-        card_half.text = session.movie?.hasHalf ?: "N/A"
 
         val imagePath = session.movie?.imagePath
         if (imagePath != null && imagePath.isNotEmpty()) {
@@ -57,8 +55,25 @@ class MovieCardController {
             }
         }
 
-        // Preencha o slot do horário
+        if (session.movie?.audio != null){
+            card_language.text = session.movie?.audio ?: "N/A"
+        } else {
+            card_language.isVisible = false
+        }
+
+        if (session.movie?.hasHalf != null){
+            card_language.text = session.movie?.audio ?: "N/A"
+        } else {
+            card_language.isVisible = false
+        }
+
         card_h1.text = session.startTime?.toString() ?: "N/A"
+
+        if (session.startTime != null){
+            card_language.text = session.movie?.audio ?: "N/A"
+        } else {
+            card_language.isVisible = false
+        }
 
         // Configura o spinner para a capacidade da sessão
         card_spinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(1, session.sessionCapacity, 1)
