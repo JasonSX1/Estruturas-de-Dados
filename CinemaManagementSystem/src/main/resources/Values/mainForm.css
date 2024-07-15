@@ -73,3 +73,13 @@
 .btn:hover{
     -fx-background-color: #808080;
 }
+
+.scroll-pane {
+    -fx-background: transparent;
+    -fx-background-color: transparent;
+}
+
+.scroll-pane .viewport {
+    -fx-background: transparent;
+    -fx-background-color: transparent;
+}
