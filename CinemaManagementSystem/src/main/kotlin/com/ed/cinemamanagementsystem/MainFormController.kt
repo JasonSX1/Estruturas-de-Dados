@@ -7,7 +7,10 @@ import javafx.collections.ObservableList
 import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
 import javafx.fxml.Initializable
+import javafx.geometry.HPos
 import javafx.geometry.Insets
+import javafx.geometry.Pos
+import javafx.geometry.VPos
 import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.scene.control.*
@@ -1170,18 +1173,16 @@ class MainFormController : Initializable {
     }
 
     fun homeDisplayCards() {
-        // Obter os dados das sessões
         val sessionsData = sessionDAO.listSessions()
 
-        // Limpar o gridPane antes de adicionar novos cards
         home_gridPane.children.clear()
         home_gridPane.rowConstraints.clear()
         home_gridPane.columnConstraints.clear()
 
         var row = 0
         var column = 0
+        val maxColumns = 2
 
-        // Iterar sobre os dados das sessões e adicionar cards ao gridPane
         for (session in sessionsData) {
             try {
                 val fxmlLoader = FXMLLoader(javaClass.getResource("/com/ed/cinemamanagementsystem/MovieCard.fxml"))
@@ -1190,19 +1191,22 @@ class MainFormController : Initializable {
                 val movieCardController = fxmlLoader.getController<MovieCardController>()
                 movieCardController.setData(session)
 
-                if (column == 3) {
+                if (column == maxColumns) {
                     column = 0
                     row++
                 }
 
                 home_gridPane.add(cardPane, column++, row)
                 GridPane.setMargin(cardPane, Insets(10.0))
+
+                GridPane.setHalignment(cardPane, HPos.CENTER)
+                GridPane.setValignment(cardPane, VPos.CENTER)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
+        home_gridPane.alignment = Pos.TOP_CENTER
     }
-
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
         initializeComboBoxes()
