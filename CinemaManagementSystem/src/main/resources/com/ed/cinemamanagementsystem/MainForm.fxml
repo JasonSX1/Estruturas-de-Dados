@@ -700,14 +700,10 @@
                                  </children>
                               </AnchorPane>
                               <AnchorPane layoutX="14.0" layoutY="10.0" prefHeight="580.0" prefWidth="619.0" stylesheets="@../../../Values/mainForm.css" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="346.4" AnchorPane.topAnchor="9.600000000000023">
-                                 <styleClass>
-                                    <String fx:value="gray-bg" />
-                                    <String fx:value="radius" />
-                                 </styleClass>
                                  <children>
                                     <ScrollPane fx:id="home_scrollPane" layoutX="11.0" layoutY="10.0" prefHeight="561.0" prefWidth="598.0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="11.200000000000045" AnchorPane.rightAnchor="9.800000000000068" AnchorPane.topAnchor="10.0">
                                        <content>
-                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="547.0" prefWidth="590.0">
+                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="555.0" prefWidth="591.0">
                                              <children>
                                                 <GridPane fx:id="home_gridPane" prefHeight="19.0" prefWidth="100.0" AnchorPane.leftAnchor="22.0">
                                                    <columnConstraints>
@@ -719,6 +715,10 @@
                                        </content>
                                     </ScrollPane>
                                  </children>
+                                 <styleClass>
+                                    <String fx:value="gray-bg" />
+                                    <String fx:value="radius" />
+                                 </styleClass>
                               </AnchorPane>
                            </children>
                         </AnchorPane>
