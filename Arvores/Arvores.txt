@@ -1,0 +1,114 @@
+Árvores Binárias
+As árvores também podem ser n-árias, mas o professor explicou que somente iremos trabalhar com árvores binárias.
+
+Foi explicado que geralmente na literatura as árvores são trabalhadas com 3 variáveis dentro do nó: o dado, filho da esquerda
+e filho da direita. Entretanto, o professor trabalha com essas 3 referências e uma referência para o nó Pai ou genitor do nó
+consultado.
+
+ASSUNTOS DA PROVA
+- Árvore Binária de Pesquisa
+- Árvore AVL
+- Árvore Rubro-negra
+- Árvore B, B+, B* (Não binárias)
+
+Numa lista encadeada desordenada, para buscar um elemento específico eu posso ficar com um grau de complexidade
+de N. Enquanto se a lista estiver ordenada eu consigo algo próximo de logN.
+
+Métodos de percorrer a árvore:
+
+Busca em:
+- PRÉ ORDEM: raiz [E] [D]
+- EM ORDEM: [E] raiz [D]
+- PÓS ORDEM: [E] [D] Raiz
+
+AULA 2 ---------------------------------------------------------------------------------------------------------
+
+Remoção de nós:
+
+- Posso remover nó sem filhos, ou nó folha.
+
+- Posso remover um nó com 1 filho.
+
+- Posso remover um nó com 2 filhos.
+
+O MÉTODO REMOVER CONSISTE EM UM ÚNICO MÉTODO, ENTRETANTO ELE VERIFICA SEMPRE QUE IRÁ REMOVER UM NÓ E
+CHAMA A FUNÇÃO ADEQUADA À REMOÇÃO NECESSÁRIA.
+
+1. Verifico se o nó realmente existe, iniciando com um ponteiro auxiliar da raiz verificando se é
+maior, menor ou igual ao elemento atual. Caso exista eu removo ele, caso não exista encerro a verificação.
+
+//O método de busca é semelhante ao de adicionar, entretanto eu irei apenas retornar quando não encontrar um nó
+//ao invés de adicionar o elemento no local que encontrei sem referência.
+
+2. Após encontrar o nó eu verifico se os lados esquerdo ou direito possuem dados, e daí então utilizo o método
+de remoção necessário de acordo com o tipo de nó.
+
+3. Para o caso de nó que não tem filhos, eu apenas preciso remover a referência de filho do genitor do nó,
+então ele passará a ser inacessível pelos métodos e será desalocado da memória.
+
+4. Para o caso de um nó que só tem um filho, eu verifico a esquerda e a direita do nó e vejo se somente um dos
+dois filhos.
+
+Função de remover:
+
+remover(no: NoTriplo) {
+  if (no.esquerda == null && no.direita == null) {
+      removeSemFilhos(no)
+  } else {
+      if (no.esquerda == null || no.direita == null) {
+          removeUmFilho(no)
+      } else {
+          removeDoisFilhos(no)
+      }
+  }
+}
+
+//Métodos para a função remover
+
+RemoveSemFilhos(no: NoTriplo) {
+  val aux = no.genitor
+  if (no.esquerda.dado == no.dado) {
+      aux.esquerda = null
+  } else {
+      aux.direita = null
+  }
+}
+
+RemoveUmFilho(no: NoTriplo) {
+  val avo = no.genitor
+  val neto: NoTriplo
+
+  if (no.esquerda == null) {
+      neto = no.direita
+  } else {
+      neto = no.esquerda
+  }
+
+  if (avo.esquerda == no) {
+      avo.esquerda = neto
+  } else {
+      avo.direita = neto
+  }
+}
+
+EXISTEM DUAS ESTRATÉGIAS PARA REMOÇÃO DE ELEMENTOS COM 2 FILHOS
+
+- Posso remover a partir do menor elemento da subárvore da direita ou do maior elemento da esquerda.
+
+Menor da direita - Eu vou pra direita uma vez e depois pra esquerda até o final.
+Maior da esquerda - Eu vou pra esquerda uma vez e depois pra direita até o final.
+
+//ASSIM COMO HEAP, QUE DIGO SE IREI UTILIZAR HEAP MÁXIMO OU HEAP MÍNIMO
+
+RemoveDoisFilhos(no: NoTriplo) {
+  //FAZER IMPLEMENTAÇÃO
+  //usar um for until?
+}
+
+------------------------ARVORES AVL ---------------------------------------------------------------------
+
+
+Utilizamos calculo de fator de balanceamento dos nós, que é obtido pela altura da direita - altura da esquerda
+Os valores permitidos para uma arvore balanceada ficam entre -1 e 1, considerando o 0,
+
+Fluxograma arvore avl - Adiciono ou removo - Calculo fatores de balanceamento - recalculo se necessario

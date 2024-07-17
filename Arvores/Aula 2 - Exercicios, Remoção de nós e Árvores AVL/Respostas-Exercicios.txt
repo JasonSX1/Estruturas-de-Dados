@@ -1,0 +1,29 @@
+202311190013
+
+Respostas - 1) conj de dados 3 - Impressão em pós ordem: 9, 10, 25, 11, 26, 46, 74, 50, 38, 30
+
+2) conj de dados 3 - 11, 74
+
+Impressão em pré ordem fica: [30, 26, 25, 10, 9, 38, 50, 46]
+
+Portanto, o 5º elemento será o 9.
+
+QUESTÃO EXTRA
+202311190044
+SOMA 27+10 = 37 %20 = 17
+
+Resp. 1 e 2 usando o conj. de dados 17
+
+[93, 52, 47, 31, 85, 09, 73, 83, 33, 55]
+
+E.1 - Impressão em pos ordem:  XX
+
+E.2 - Remover o 3 e o 7 usando a abordagem do menor da direita e falar qual o 5º elemento: XX
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+3)Conj. de dados 2 - [80, 32, 74, 11, 43, 77, 21, 08, 75, 79]
+
+
+
+
