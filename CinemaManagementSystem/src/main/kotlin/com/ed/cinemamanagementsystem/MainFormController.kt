@@ -118,6 +118,9 @@ class MainFormController : Initializable {
     private lateinit var sessions_col_capacity: TableColumn<Session, Int>
 
     @FXML
+    private lateinit var sessions_col_ocupation: TableColumn<Session, Int>
+
+    @FXML
     private lateinit var sessions_col_currentMovie: TableColumn<Session, Movie>
 
     @FXML
@@ -289,21 +292,6 @@ class MainFormController : Initializable {
 
     private val sessionDAO: SessionDAO = DynamicSessionList()
 
-    private fun connectToDatabase(): Connection? {
-        return try {
-            val connection = Database.connectDB()
-            if (connection == null) {
-                showAlert("Mensagem de erro!", "Não foi possível estabelecer conexão com o banco de dados!", Alert.AlertType.ERROR)
-            }
-            connection
-        } catch (e: SQLException) {
-            showAlert("Mensagem de erro!", "Erro ao conectar ao banco de dados: ${e.message}", Alert.AlertType.ERROR)
-            null
-        }
-    }
-
-    private lateinit var alert: Alert
-
     private fun showAlert(title: String, message: String, alertType: Alert.AlertType): Optional<ButtonType> {
         val alert = Alert(alertType)
         alert.title = title
@@ -471,6 +459,7 @@ class MainFormController : Initializable {
 
             val sessionId = sessions_id.text.toIntOrNull()
             val roomNumber = sessions_roomNumber.text
+            val disponibility = capacity
             val movie = sessions_movie.value
 
             if (sessionId != null && roomNumber.isNotBlank() && capacity > 0 && rows > 0 && cols > 0) {
@@ -501,7 +490,7 @@ class MainFormController : Initializable {
                     return
                 }
 
-                val session = Session(sessionId, roomNumber, capacity, movie, startDateTime, SessionStatus.WAITING, rows, cols)
+                val session = Session(sessionId, roomNumber, capacity, disponibility, movie, startDateTime, SessionStatus.WAITING, rows, cols)
                 val successful = sessionDAO.addSession(session)
 
                 if (successful) {
@@ -810,7 +799,7 @@ class MainFormController : Initializable {
                     return
                 }
 
-                val updatedSession = Session(sessionId, roomNumber, currentSession.sessionCapacity, movie, startDateTime, getSessionStatusFromString(sessions_statusLabel.text), currentSession.rows, currentSession.cols)
+                val updatedSession = Session(sessionId, roomNumber, currentSession.sessionCapacity, currentSession.sessionDisponibility, movie, startDateTime, getSessionStatusFromString(sessions_statusLabel.text), currentSession.rows, currentSession.cols)
 
                 val changes = getSessionChanges(updatedSession)
                 if (changes.isEmpty()) {
@@ -1084,6 +1073,7 @@ class MainFormController : Initializable {
         sessions_col_number.cellValueFactory = PropertyValueFactory<Session, String>("numberRoom")
         sessions_col_currentMovie.cellValueFactory = PropertyValueFactory<Session, Movie>("movie")
         sessions_col_capacity.cellValueFactory = PropertyValueFactory<Session, Int>("sessionCapacity")
+        sessions_col_ocupation.cellValueFactory = PropertyValueFactory<Session, Int>("sessionDisponibility")
         sessions_rows = TextField()
         sessions_cols = TextField()
 

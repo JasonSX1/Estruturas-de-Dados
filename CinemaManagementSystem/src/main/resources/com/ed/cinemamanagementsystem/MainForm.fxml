@@ -527,7 +527,7 @@
                               </AnchorPane>
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="sessions_form" layoutX="14.0" layoutY="127.0" prefHeight="727.2" prefWidth="994.4" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="sessions_form" layoutX="14.0" layoutY="127.0" prefHeight="727.2" prefWidth="994.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane prefHeight="255.0" prefWidth="965.0" stylesheets="@../../../Values/mainForm.css" AnchorPane.bottomAnchor="330.0" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="17.0">
                                  <styleClass>
@@ -541,7 +541,7 @@
                                           <TableColumn fx:id="sessions_col_number" prefWidth="99.20004272460938" text="Número da sala" />
                                           <TableColumn fx:id="sessions_col_currentMovie" prefWidth="236.79998779296875" text="Filme Atual" />
                                           <TableColumn fx:id="sessions_col_capacity" prefWidth="85.33343505859375" text="Capacidade" />
-                                          <TableColumn fx:id="sessions_col_ocupation" prefWidth="76.79998779296875" text="Ocupação" />
+                                          <TableColumn fx:id="sessions_col_ocupation" prefWidth="76.79998779296875" text="Disponibilidade" />
                                           <TableColumn fx:id="sessions_col_sessionStatus" prefWidth="120.8001708984375" text="Status" />
                                        </columns>
                                        <columnResizePolicy>
@@ -637,7 +637,7 @@
                               </AnchorPane>
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="SalesForm" prefHeight="600.0" prefWidth="980.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="SalesForm" prefHeight="600.0" prefWidth="980.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="645.0" layoutY="10.0" prefHeight="580.0" prefWidth="321.0" stylesheets="@../../../Values/mainForm.css" AnchorPane.bottomAnchor="9.600000000000023" AnchorPane.rightAnchor="13.399999999999977" AnchorPane.topAnchor="10.0">
                                  <styleClass>
