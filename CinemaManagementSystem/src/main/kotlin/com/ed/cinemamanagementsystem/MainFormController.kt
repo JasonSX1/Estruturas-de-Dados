@@ -1,6 +1,7 @@
 package com.ed.cinemamanagementsystem
 
 import javafx.application.Platform
+import javafx.beans.property.SimpleDoubleProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
@@ -232,16 +233,15 @@ class MainFormController : Initializable {
     private lateinit var SalesForm: AnchorPane
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @FXML
-    private lateinit var home_tableView : TableView<*>
+    private lateinit var home_tableView: TableView<Ticket>
 
     @FXML
-    private lateinit var home_tableView_col_movie: TableColumn<*, *>
+    private lateinit var home_tableView_col_movie: TableColumn<Ticket, String>
+    @FXML
+    private lateinit var home_tableView_col_seat: TableColumn<Ticket, String>
 
     @FXML
-    private lateinit var home_tableView_col_seat: TableColumn<*, *>
-
-    @FXML
-    private lateinit var home_tableView_col_price: TableColumn<*, *>
+    private lateinit var home_tableView_col_price: TableColumn<Ticket, Double>
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @FXML
     private lateinit var home_fullPriceAmount: ComboBox<String>
@@ -1198,6 +1198,42 @@ class MainFormController : Initializable {
         home_gridPane.alignment = Pos.TOP_CENTER
     }
 
+    fun addTicket(session: Session, customerId: String, seatRow: Int, seatCol: Int, price: Double) {
+        val ticket = ticketManager.sellTicket(session, customerId, seatRow, seatCol, price)
+        if (ticket != null) {
+            tickets.add(ticket)
+        } else {
+            showAlert("Erro", "Não foi possível adicionar o ticket. Capacidade esgotada ou assento não disponível.", Alert.AlertType.ERROR)
+        }
+    }
+
+    private val selectedSeats = mutableListOf<Pair<Int, Int>>()
+    private val ticketManager = TicketManager()
+    private val tickets: ObservableList<Ticket> = FXCollections.observableArrayList()
+
+    private fun handleSeatSelection(row: Int, col: Int) {
+        val seat = Pair(row, col)
+        if (selectedSeats.contains(seat)) {
+            selectedSeats.remove(seat)
+        } else {
+            selectedSeats.add(seat)
+        }
+    }
+
+    fun handleAddTickets(session: Session, numberOfTickets: Int) {
+        val customerId = "someCustomerId" // Obtenha o ID do cliente de alguma forma
+        val price = 10.0 // Defina o preço atual de alguma forma
+
+        for (i in 0 until numberOfTickets) {
+            val ticket = createTicket(session, customerId, i, price)
+            if (ticket != null) {
+                tickets.add(ticket)
+            } else {
+                showAlert("Erro", "Não foi possível adicionar o ticket. Capacidade esgotada ou assento não disponível.", Alert.AlertType.ERROR)
+            }
+        }
+    }
+
     override fun initialize(location: URL?, resources: ResourceBundle?) {
         initializeComboBoxes()
         initializeAudioTypeList()
@@ -1207,6 +1243,41 @@ class MainFormController : Initializable {
         setupSessionParameters()
         loadMoviesToTableView()
         setupTimeFormatter()
+
+        home_tableView_col_movie.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.movieName) }
+        home_tableView_col_seat.setCellValueFactory { cellData -> SimpleStringProperty("[${cellData.value.seatRow}, ${cellData.value.seatCol}]") }
+        home_tableView_col_price.setCellValueFactory { cellData -> SimpleDoubleProperty(cellData.value.price).asObject() }
+        home_tableView.items = tickets
+    }
+    private fun createTicket(session: Session, customerId: String, index: Int, price: Double): Ticket? {
+        // Lógica para determinar a fila e coluna do assento, por enquanto, apenas um incremento simples
+        val seatRow = index / session.cols
+        val seatCol = index % session.cols
+
+        // Verifique se o assento está disponível
+        if (session.sessionDisponibility > 0) {
+            session.sessionDisponibility -= 1
+            return Ticket(
+                ticketId = tickets.size + 1,
+                sessionId = session.id,
+                movieName = session.movie?.title ?: "N/A",
+                customerId = customerId,
+                purchaseTime = LocalDateTime.now(),
+                seatRow = seatRow,
+                seatCol = seatCol,
+                price = price
+            )
+        }
+        return null
+    }
+
+    fun setData(session: Session) {
+        val loader = FXMLLoader(javaClass.getResource("/path/to/MovieCard.fxml"))
+        val movieCard = loader.load<AnchorPane>()
+        val controller = loader.getController<MovieCardController>()
+
+        controller.setData(session, this)
+        movieCardContainer.children.setAll(movieCard)
     }
 }
 

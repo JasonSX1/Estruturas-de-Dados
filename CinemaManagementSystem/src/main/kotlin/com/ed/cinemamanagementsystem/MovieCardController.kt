@@ -1,6 +1,7 @@
 package com.ed.cinemamanagementsystem
 
 import javafx.fxml.FXML
+import javafx.scene.control.Button
 import javafx.scene.control.Label
 import javafx.scene.control.Spinner
 import javafx.scene.control.SpinnerValueFactory
@@ -37,6 +38,12 @@ class MovieCardController {
 
     @FXML
     private lateinit var home_img: ImageView
+
+    @FXML
+    private lateinit var card_addBtn: Button
+
+    private lateinit var mainFormController: MainFormController
+    private lateinit var currentSession: Session
 
     fun setData(session: Session) {
         card_name.text = session.movie?.title ?: "Sessão sem filme"
@@ -91,9 +98,21 @@ class MovieCardController {
 
         // Configura o spinner para a capacidade da sessão
         card_spinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(1, session.sessionCapacity, 1)
+
+        this.currentSession = session
+        this.mainFormController = mainFormController
+
+        // Configurar o spinner para a capacidade da sessão
+        card_spinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(1, session.sessionDisponibility, 1)
+
+        // Configurar ação do botão de adicionar
+        card_addBtn.setOnAction {
+            handleAddTickets()
+        }
     }
 
-    fun addBtn(){
-
+    private fun handleAddTickets() {
+        val numberOfTickets = card_spinner.value.toString()
+        mainFormController.handleAddTickets(currentSession, numberOfTickets)
     }
 }
