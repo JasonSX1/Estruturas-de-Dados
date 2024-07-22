@@ -7,6 +7,7 @@ import javafx.scene.control.SpinnerValueFactory
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import java.io.File
+import java.time.format.DateTimeFormatter
 
 class MovieCardController {
 
@@ -14,7 +15,10 @@ class MovieCardController {
     private lateinit var card_3d: Label
 
     @FXML
-    private lateinit var card_h1: Label
+    private lateinit var card_time: Label
+
+    @FXML
+    private lateinit var card_date: Label
 
     @FXML
     private lateinit var card_language: Label
@@ -55,27 +59,41 @@ class MovieCardController {
             }
         }
 
-        if (session.movie?.audio != null){
-            card_language.text = session.movie?.audio ?: "N/A"
-        } else {
-            card_language.isVisible = false
+        when (session.movie?.audio) {
+            "Original" -> {
+                card_language.text = "Orig."
+                card_language.isVisible = true
+            }
+            "Original com Legenda" -> {
+                card_language.text = "Leg."
+                card_language.isVisible = true
+            }
+            "Dublado" -> {
+                card_language.text = "Dub."
+                card_language.isVisible = true
+            }
+            else -> {
+                card_language.isVisible = false
+            }
         }
 
-        if (session.movie?.hasHalf != null){
-            card_language.text = session.movie?.audio ?: "N/A"
-        } else {
-            card_language.isVisible = false
-        }
+        val timeFormatter = DateTimeFormatter.ofPattern("HH:mm")
+        val formattedTime = session.startTime?.format(timeFormatter) ?: "N/A"
+        card_time.text = formattedTime
 
-        card_h1.text = session.startTime?.toString() ?: "N/A"
+        val dateFormatter = DateTimeFormatter.ofPattern("dd/MM")
+        val formattedDate = session.startTime?.format(dateFormatter) ?: "N/A"
+        card_date.text = formattedDate
 
-        if (session.startTime != null){
-            card_language.text = session.movie?.audio ?: "N/A"
-        } else {
-            card_language.isVisible = false
-        }
+        val hasHalf = session.movie?.hasHalf == "Sim"
+        card_half.text = if (hasHalf) "Meia" else ""
+        card_half.isVisible = hasHalf
 
         // Configura o spinner para a capacidade da sessão
         card_spinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(1, session.sessionCapacity, 1)
+    }
+
+    fun addBtn(){
+
     }
 }
