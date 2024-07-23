@@ -5,7 +5,7 @@ import java.time.LocalDateTime
 class TicketManager {
     private val tickets = mutableListOf<Ticket>()
 
-    fun sellTicket(session: Session, customerId: String, seatRow: Int, seatCol: Int, price: Double): Ticket? {
+    fun sellTicket(session: Session, customerId: String, seatRow: Int, seatCol: Int, price: Double, ticketType: String): Ticket? {
         if (session.sessionDisponibility <= 0 || !isSeatAvailable(session, seatRow, seatCol)) {
             return null // Capacidade esgotada ou assento não disponível
         }
@@ -20,7 +20,8 @@ class TicketManager {
             LocalDateTime.now(),
             seatRow,
             seatCol,
-            price
+            price,
+            ticketType
         )
 
         tickets.add(ticket)

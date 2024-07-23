@@ -19,6 +19,7 @@ import javafx.scene.control.cell.PropertyValueFactory
 import javafx.scene.image.ImageView
 import javafx.scene.layout.*
 import javafx.stage.FileChooser
+import javafx.stage.Modality
 import javafx.stage.Stage
 import javafx.util.Callback
 import javafx.util.StringConverter
@@ -270,6 +271,8 @@ class MainFormController : Initializable {
     @FXML
     private lateinit var home_recibeBtn: Button
 
+    private var ticketCount: Int = 0
+
     private var imagePath: String? = null
 
     private lateinit var image: Image
@@ -294,6 +297,12 @@ class MainFormController : Initializable {
 
     @FXML
     private lateinit var movieCardContainer: AnchorPane
+
+    @FXML
+    private lateinit var home_halfPriceCheckBox: CheckBox
+
+    @FXML
+    private lateinit var home_fullPriceCheckBox: CheckBox
 
     private fun showAlert(title: String, message: String, alertType: Alert.AlertType): Optional<ButtonType> {
         val alert = Alert(alertType)
@@ -1201,8 +1210,8 @@ class MainFormController : Initializable {
         home_gridPane.alignment = Pos.TOP_CENTER
     }
 
-    fun addTicket(session: Session, customerId: String, seatRow: Int, seatCol: Int, price: Double) {
-        val ticket = ticketManager.sellTicket(session, customerId, seatRow, seatCol, price)
+    fun addTicket(session: Session, customerId: String, seatRow: Int, seatCol: Int, price: Double, ticketType: String) {
+        val ticket = ticketManager.sellTicket(session, customerId, seatRow, seatCol, price, ticketType)
         if (ticket != null) {
             tickets.add(ticket)
         } else {
@@ -1223,18 +1232,37 @@ class MainFormController : Initializable {
         }
     }
 
-    fun handleAddTickets(session: Session, numberOfTickets: Int) {
-        val customerId = "someCustomerId" // Obtenha o ID do cliente de alguma forma
-        val price = 10.0 // Defina o preço atual de alguma forma
-
-        for (i in 0 until numberOfTickets) {
-            val ticket = createTicket(session, customerId, i, price)
-            if (ticket != null) {
-                tickets.add(ticket)
-            } else {
-                showAlert("Erro", "Não foi possível adicionar o ticket. Capacidade esgotada ou assento não disponível.", Alert.AlertType.ERROR)
-            }
+    fun handleAddTickets(session: Session) {
+        if (selectedSeats.isEmpty()) {
+            showAlert("Erro", "Por favor, selecione ao menos uma poltrona!", Alert.AlertType.ERROR)
+            return
         }
+
+        val fullPrice = session.movie?.price ?: 0.0
+        val halfPrice = fullPrice / 2
+
+        val tickets = selectedSeats.map { seat ->
+            Ticket(
+                ticketId = generateTicketId(),
+                sessionId = session.id,
+                movieName = session.movie?.title ?: "",
+                customerId = "",  // Preencha conforme necessário
+                purchaseTime = LocalDateTime.now(),
+                seatRow = seat.first,
+                seatCol = seat.second,
+                price = 0.0, // Preço inicial como 0.0
+                ticketType = "" // Tipo inicial como vazio
+            )
+        }
+
+        ticketList.addAll(tickets)
+        home_tableView.items = ticketList // Vincula a tabela à lista de ingressos
+        home_tableView.refresh() // Atualiza a exibição da tabela
+
+        selectedSeats.clear()
+
+        // Atualiza os labels de preço com base nos tickets adicionados
+        updatePriceLabels()
     }
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
@@ -1252,23 +1280,20 @@ class MainFormController : Initializable {
         home_tableView_col_price.setCellValueFactory { cellData -> SimpleDoubleProperty(cellData.value.price).asObject() }
         home_tableView.items = tickets
     }
-    private fun createTicket(session: Session, customerId: String, index: Int, price: Double): Ticket? {
-        // Lógica para determinar a fila e coluna do assento, por enquanto, apenas um incremento simples
-        val seatRow = index / session.cols
-        val seatCol = index % session.cols
-
+    private fun createTicket(session: Session, customerId: String, seatRow: Int, seatCol: Int, price: Double, ticketType: String): Ticket? {
         // Verifique se o assento está disponível
         if (session.sessionDisponibility > 0) {
             session.sessionDisponibility -= 1
             return Ticket(
-                ticketId = tickets.size + 1,
+                ticketId = ticketList.size + 1,
                 sessionId = session.id,
                 movieName = session.movie?.title ?: "N/A",
                 customerId = customerId,
                 purchaseTime = LocalDateTime.now(),
                 seatRow = seatRow,
                 seatCol = seatCol,
-                price = price
+                price = price,
+                ticketType = ticketType
             )
         }
         return null
@@ -1281,6 +1306,169 @@ class MainFormController : Initializable {
 
         controller.setData(session, this)
         movieCardContainer.children.setAll(movieCard)
+    }
+
+    @FXML
+    private lateinit var seatGridPane: GridPane
+
+    private val ticketList: ObservableList<Ticket> = FXCollections.observableArrayList()
+    private var sessionRows = 0
+    private var sessionCols = 0
+
+    fun displaySeatMap(session: Session) {
+        seatGridPane.children.clear()
+        seatGridPane.gridLinesVisibleProperty().set(true)
+        sessionRows = session.rows
+        sessionCols = session.cols
+
+        for (i in 0 until sessionRows) {
+            for (j in 0 until sessionCols) {
+                val seatButton = Button("[$i, $j]")
+                seatButton.style = "-fx-font-size: 10px; -fx-padding: 2px;"
+                seatButton.setOnAction {
+                    handleSeatSelection(i, j, seatButton)
+                }
+                seatGridPane.add(seatButton, j, i)
+            }
+        }
+    }
+
+    private fun handleSeatSelection(row: Int, col: Int, seatButton: Button) {
+        val seat = Pair(row, col)
+        if (selectedSeats.contains(seat)) {
+            selectedSeats.remove(seat)
+            seatButton.style = "-fx-font-size: 10px; -fx-padding: 2px;"
+        } else {
+            selectedSeats.add(seat)
+            seatButton.style = "-fx-font-size: 10px; -fx-padding: 2px; -fx-background-color: green;"
+        }
+    }
+
+    private fun generateTicketId(): Int {
+        return Random().nextInt(1000000)
+    }
+
+    private fun calculatePrice(): Double {
+        // Lógica para calcular o preço do ingresso
+        return 20.0
+    }
+
+    fun displaySeatSelectionPopup(session: Session) {
+        val dialog = Stage()
+        dialog.title = "Seleção de Poltronas"
+
+        val gridPane = GridPane()
+        gridPane.gridLinesVisibleProperty().set(true)
+        gridPane.padding = Insets(10.0)
+
+        for (i in 0 until session.rows) {
+            for (j in 0 until session.cols) {
+                val seatButton = Button("[$i, $j]")
+                seatButton.style = "-fx-font-size: 10px; -fx-padding: 2px;"
+                seatButton.setOnAction {
+                    handleSeatSelection(i, j, seatButton)
+                }
+                gridPane.add(seatButton, j, i)
+            }
+        }
+
+        val scrollPane = ScrollPane(gridPane)
+        scrollPane.isFitToWidth = true
+        scrollPane.isFitToHeight = true
+        scrollPane.prefViewportWidth = 300.0
+        scrollPane.prefViewportHeight = 200.0
+
+        val confirmButton = Button("Confirmar")
+        confirmButton.setOnAction {
+            handleAddTickets(session)
+            dialog.close()
+        }
+
+        val vbox = VBox(10.0, scrollPane, confirmButton) 
+        vbox.alignment = Pos.CENTER
+        vbox.padding = Insets(20.0)
+
+        val scene = Scene(vbox)
+        dialog.scene = scene
+        dialog.initModality(Modality.APPLICATION_MODAL)
+        dialog.showAndWait()
+    }
+
+    private lateinit var currentSession: Session
+    private fun updatePriceLabels() {
+        val fullPrice = currentSession.movie?.price ?: 0.0
+        val halfPrice = fullPrice / 2
+
+        home_fullPrice.text = "Preço: R$ %.2f".format(fullPrice)
+        home_halfPrice.text = "Preço: R$ %.2f".format(halfPrice)
+    }
+
+    fun showSeatSelectionPopup(session: Session, numberOfTickets: Int) {
+        val dialog = Stage()
+        dialog.title = "Seleção de Poltronas"
+
+        val gridPane = GridPane()
+        gridPane.gridLinesVisibleProperty().set(true)
+        updatePreviewGrid(gridPane, session.rows, session.cols)
+
+        val scrollPane = ScrollPane(gridPane)
+        scrollPane.isFitToWidth = true
+        scrollPane.isFitToHeight = true
+        scrollPane.prefViewportWidth = 300.0
+        scrollPane.prefViewportHeight = 200.0
+
+        val layout = VBox(10.0, scrollPane)
+        layout.alignment = Pos.CENTER
+        layout.padding = Insets(10.0)
+
+        val scene = Scene(layout)
+        dialog.scene = scene
+
+        // Adiciona a lógica para limitar a seleção de poltronas
+        gridPane.children.forEach { node ->
+            if (node is Button) {
+                node.setOnAction {
+                    val seatPosition = Pair(GridPane.getRowIndex(node), GridPane.getColumnIndex(node))
+                    if (selectedSeats.contains(seatPosition)) {
+                        selectedSeats.remove(seatPosition)
+                        node.style = "-fx-background-color: lightgray"
+                    } else if (selectedSeats.size < numberOfTickets) {
+                        selectedSeats.add(seatPosition)
+                        node.style = "-fx-background-color: lightgreen"
+                    }
+                }
+            }
+        }
+
+        val confirmButton = Button("Confirmar")
+        confirmButton.setOnAction {
+            handleAddTickets(session)
+            dialog.close()
+        }
+
+        layout.children.add(confirmButton)
+        dialog.showAndWait()
+    }
+    @FXML
+    private fun onFullPriceCheckBoxClicked() {
+        val selectedTickets = home_tableView.selectionModel.selectedItems
+        val fullPrice = currentSession.movie?.price ?: 0.0
+        selectedTickets.forEach { ticket ->
+            ticket.price = fullPrice // Atualize com o preço da inteira
+            ticket.ticketType = "Inteira"
+        }
+        home_tableView.refresh()
+    }
+
+    @FXML
+    private fun onHalfPriceCheckBoxClicked() {
+        val selectedTickets = home_tableView.selectionModel.selectedItems
+        val halfPrice = (currentSession.movie?.price ?: 0.0) / 2
+        selectedTickets.forEach { ticket ->
+            ticket.price = halfPrice // Atualize com o preço da meia
+            ticket.ticketType = "Meia"
+        }
+        home_tableView.refresh()
     }
 }
 

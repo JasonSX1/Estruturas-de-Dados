@@ -107,12 +107,13 @@ class MovieCardController {
 
         // Configurar ação do botão de adicionar
         card_addBtn.setOnAction {
-            handleAddTickets()
+            mainFormController.displaySeatSelectionPopup(currentSession)
         }
     }
 
+    @FXML
     private fun handleAddTickets() {
         val numberOfTickets = card_spinner.value
-        mainFormController.handleAddTickets(currentSession, numberOfTickets)
+        mainFormController.showSeatSelectionPopup(currentSession, numberOfTickets)
     }
 }

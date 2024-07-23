@@ -10,5 +10,6 @@ data class Ticket(
     val purchaseTime: LocalDateTime,
     val seatRow: Int,
     val seatCol: Int,
-    val price: Double
+    var price: Double,
+    var ticketType: String
 )
