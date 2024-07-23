@@ -45,7 +45,7 @@ class MovieCardController {
     private lateinit var mainFormController: MainFormController
     private lateinit var currentSession: Session
 
-    fun setData(session: Session) {
+    fun setData(session: Session, mainFormController: MainFormController) {
         card_name.text = session.movie?.title ?: "Sessão sem filme"
         card_sessionName.text = "Sessão ${session.id}"
         card_3d.text = if (session.movie?.has3d == "Sim") "3D" else "2D"
@@ -112,7 +112,7 @@ class MovieCardController {
     }
 
     private fun handleAddTickets() {
-        val numberOfTickets = card_spinner.value.toString()
+        val numberOfTickets = card_spinner.value
         mainFormController.handleAddTickets(currentSession, numberOfTickets)
     }
 }

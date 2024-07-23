@@ -292,6 +292,9 @@ class MainFormController : Initializable {
 
     private val sessionDAO: SessionDAO = DynamicSessionList()
 
+    @FXML
+    private lateinit var movieCardContainer: AnchorPane
+
     private fun showAlert(title: String, message: String, alertType: Alert.AlertType): Optional<ButtonType> {
         val alert = Alert(alertType)
         alert.title = title
@@ -1179,7 +1182,7 @@ class MainFormController : Initializable {
                 val cardPane: AnchorPane = fxmlLoader.load()
 
                 val movieCardController = fxmlLoader.getController<MovieCardController>()
-                movieCardController.setData(session)
+                movieCardController.setData(session, this)  // Passar o mainFormController como parâmetro
 
                 if (column == maxColumns) {
                     column = 0
