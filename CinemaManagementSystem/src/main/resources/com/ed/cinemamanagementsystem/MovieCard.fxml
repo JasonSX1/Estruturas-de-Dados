@@ -67,7 +67,7 @@
                      <HBox.margin>
                         <Insets bottom="10.0" />
                      </HBox.margin></Spinner>
-                  <Button mnemonicParsing="false" styleClass="btn" stylesheets="@../../../Values/CardDesign.css" text="Adicionar">
+                  <Button fx:id="card_addBtn" mnemonicParsing="false" styleClass="btn" stylesheets="@../../../Values/CardDesign.css" text="Adicionar">
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" />
                      </HBox.margin>

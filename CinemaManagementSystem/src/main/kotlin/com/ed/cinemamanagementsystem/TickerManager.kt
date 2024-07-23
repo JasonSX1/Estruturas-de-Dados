@@ -4,34 +4,39 @@ import java.time.LocalDateTime
 
 class TicketManager {
     private val tickets = mutableListOf<Ticket>()
-    private val customerTickets = mutableMapOf<Int, MutableList<Ticket>>()
 
-    fun addTicket(ticket: Ticket) {
-        tickets.add(ticket)
-        val customerList = customerTickets.getOrPut(ticket.customerId) { mutableListOf() }
-        customerList.add(ticket)
-    }
-
-    fun getTicketsByCustomer(customerId: Int): List<Ticket> {
-        return customerTickets[customerId] ?: emptyList()
-    }
-
-    fun getTicketsBySession(sessionId: Int): List<Ticket> {
-        return tickets.filter { it.sessionId == sessionId }
-    }
-
-    fun purchaseTicket(session: Session, customerId: Int, seatRow: Int, seatCol: Int): Ticket? {
-        // Verifica se o assento está disponível
-        val existingTickets = getTicketsBySession(session.id)
-        val isSeatTaken = existingTickets.any { it.seatRow == seatRow && it.seatCol == seatCol }
-
-        if (isSeatTaken) {
-            println("Assento já ocupado")
-            return null
+    fun sellTicket(session: Session, customerId: String, seatRow: Int, seatCol: Int, price: Double): Ticket? {
+        if (session.sessionDisponibility <= 0 || !isSeatAvailable(session, seatRow, seatCol)) {
+            return null // Capacidade esgotada ou assento não disponível
         }
 
+        val ticketId = tickets.size + 1
+        val movieName = session.movie?.title ?: "Filme desconhecido"
+        val ticket = Ticket(
+            ticketId,
+            session.id,
+            movieName,
+            customerId,
+            LocalDateTime.now(),
+            seatRow,
+            seatCol,
+            price
+        )
 
-        //No caso aqui seria return ticket
-        return null
+        tickets.add(ticket)
+        updateSessionDisponibility(session, -1)
+        return ticket
+    }
+
+    private fun isSeatAvailable(session: Session, seatRow: Int, seatCol: Int): Boolean {
+        return tickets.none { it.sessionId == session.id && it.seatRow == seatRow && it.seatCol == seatCol }
+    }
+
+    private fun updateSessionDisponibility(session: Session, change: Int) {
+        session.sessionDisponibility += change
+    }
+
+    fun getTicketsForSession(session: Session): List<Ticket> {
+        return tickets.filter { it.sessionId == session.id }
     }
 }
