@@ -107,7 +107,7 @@ class MovieCardController {
 
         // Configurar ação do botão de adicionar
         card_addBtn.setOnAction {
-            mainFormController.displaySeatSelectionPopup(currentSession)
+            handleAddTickets()
         }
     }
 
