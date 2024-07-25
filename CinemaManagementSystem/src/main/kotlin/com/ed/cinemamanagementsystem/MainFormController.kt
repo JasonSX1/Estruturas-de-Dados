@@ -1283,65 +1283,8 @@ class MainFormController : Initializable {
 
     private val ticketList: ObservableList<Ticket> = FXCollections.observableArrayList()
 
-    private fun handleSeatSelection(row: Int, col: Int, seatButton: Button) {
-        val seat = Pair(row, col)
-        if (selectedSeats.contains(seat)) {
-            selectedSeats.remove(seat)
-            seatButton.style = "-fx-font-size: 10px; -fx-padding: 2px;"
-        } else {
-            selectedSeats.add(seat)
-            seatButton.style = "-fx-font-size: 10px; -fx-padding: 2px; -fx-background-color: green;"
-        }
-    }
-
     private fun generateTicketId(): Int {
         return Random().nextInt(1000000)
-    }
-
-    private fun calculatePrice(): Double {
-        // Lógica para calcular o preço do ingresso
-        return 20.0
-    }
-
-    fun displaySeatSelectionPopup(session: Session) {
-        val dialog = Stage()
-        dialog.title = "Seleção de Poltronas"
-
-        val gridPane = GridPane()
-        gridPane.gridLinesVisibleProperty().set(true)
-        gridPane.padding = Insets(10.0)
-
-        for (i in 0 until session.rows) {
-            for (j in 0 until session.cols) {
-                val seatButton = Button("[$i, $j]")
-                seatButton.style = "-fx-font-size: 10px; -fx-padding: 2px;"
-                seatButton.setOnAction {
-                    handleSeatSelection(i, j, seatButton)
-                }
-                gridPane.add(seatButton, j, i)
-            }
-        }
-
-        val scrollPane = ScrollPane(gridPane)
-        scrollPane.isFitToWidth = true
-        scrollPane.isFitToHeight = true
-        scrollPane.prefViewportWidth = 300.0
-        scrollPane.prefViewportHeight = 200.0
-
-        val confirmButton = Button("Confirmar")
-        confirmButton.setOnAction {
-            handleAddTickets(session)
-            dialog.close()
-        }
-
-        val vbox = VBox(10.0, scrollPane, confirmButton) 
-        vbox.alignment = Pos.CENTER
-        vbox.padding = Insets(20.0)
-
-        val scene = Scene(vbox)
-        dialog.scene = scene
-        dialog.initModality(Modality.APPLICATION_MODAL)
-        dialog.showAndWait()
     }
 
     private lateinit var currentSession: Session
