@@ -1344,25 +1344,26 @@ class MainFormController : Initializable {
         dialog.showAndWait()
     }
 
-//    private fun onFullPriceCheckBoxClicked() {
-//        val selectedTickets = home_tableView.selectionModel.selectedItems
-//        val fullPrice = currentSession.movie?.price ?: 0.0
-//        selectedTickets.forEach { ticket ->
-//            ticket.price = fullPrice // Atualize com o preço da inteira
-//            ticket.ticketType = "Inteira"
-//        }
-//        home_tableView.refresh()
-//    }
-//
-//    @FXML
-//    private fun onHalfPriceCheckBoxClicked() {
-//        val selectedTickets = home_tableView.selectionModel.selectedItems
-//        val halfPrice = (currentSession.movie?.price ?: 0.0) / 2
-//        selectedTickets.forEach { ticket ->
-//            ticket.price = halfPrice // Atualize com o preço da meia
-//            ticket.ticketType = "Meia"
-//        }
-//        home_tableView.refresh()
-//    }
-}
+    @FXML
+    private fun onFullPriceCheckBoxClicked(session: Session) {
+        val selectedTickets = home_tableView.selectionModel.selectedItems
+        val fullPrice = session.movie?.price ?: 0.0
+        selectedTickets.forEach { ticket ->
+            ticket.price = fullPrice // Atualize com o preço da inteira
+            ticket.ticketType = "Inteira"
+        }
+        home_tableView.refresh()
+    }
 
+    @FXML
+    private fun onHalfPriceCheckBoxClicked(session: Session) {
+        val selectedTickets = home_tableView.selectionModel.selectedItems
+        val halfPrice = (session.movie?.price ?: 0.0) / 2
+        selectedTickets.forEach { ticket ->
+            ticket.price = halfPrice // Atualize com o preço da meia
+            ticket.ticketType = "Meia"
+        }
+        home_tableView.refresh()
+    }
+
+}

@@ -668,33 +668,23 @@
                                           <Font size="16.0" />
                                        </font>
                                     </Label>
-                                    <Label layoutX="17.0" layoutY="258.0" text="Preço:" textFill="WHITE">
+                                    <Label fx:id="home_fullPrice" layoutX="18.0" layoutY="258.0" prefHeight="19.0" prefWidth="130.0" text="R$ 0,00" textFill="WHITE">
                                        <font>
                                           <Font size="13.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="home_fullPrice" layoutX="62.0" layoutY="258.0" text="R$ 0,00" textFill="WHITE">
-                                       <font>
-                                          <Font size="13.0" />
-                                       </font>
-                                    </Label>
-                                    <ComboBox fx:id="home_fullPriceAmount" layoutX="135.0" layoutY="246.0" prefWidth="150.0" style="-fx-background-color: fff;" />
+                                    <ComboBox fx:id="home_fullPriceAmount" layoutX="165.0" layoutY="246.0" prefWidth="150.0" style="-fx-background-color: fff;" />
                                     <Label layoutX="17.0" layoutY="290.0" text="Meia" textFill="WHITE">
                                        <font>
                                           <Font size="16.0" />
                                        </font>
                                     </Label>
-                                    <Label layoutX="17.0" layoutY="309.0" text="Preço:" textFill="WHITE">
+                                    <Label fx:id="home_halfPrice" layoutX="18.0" layoutY="309.0" prefHeight="19.0" prefWidth="130.0" text="R$ 0,00" textFill="WHITE">
                                        <font>
                                           <Font size="13.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="home_halfPrice" layoutX="62.0" layoutY="309.0" text="R$ 0,00" textFill="WHITE">
-                                       <font>
-                                          <Font size="13.0" />
-                                       </font>
-                                    </Label>
-                                    <ComboBox fx:id="home_halfPriceAmount" layoutX="135.0" layoutY="297.0" prefWidth="150.0" style="-fx-background-color: fff;" />
+                                    <ComboBox fx:id="home_halfPriceAmount" layoutX="165.0" layoutY="297.0" prefWidth="150.0" style="-fx-background-color: fff;" />
                                     <Button fx:id="home_payBtn" layoutX="12.0" layoutY="475.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="299.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Pagar" AnchorPane.bottomAnchor="65.0" />
                                     <Button fx:id="home_removeBtn" layoutX="12.0" layoutY="526.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="140.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Remover" AnchorPane.bottomAnchor="14.0" />
                                     <Button fx:id="home_recibeBtn" layoutX="170.0" layoutY="526.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="140.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Recibo" AnchorPane.bottomAnchor="14.0" />
