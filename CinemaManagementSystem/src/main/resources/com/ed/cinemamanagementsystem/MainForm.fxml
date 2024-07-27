@@ -646,11 +646,11 @@
                                     <String fx:value="radius" />
                                  </styleClass>
                                  <children>
-                                    <TableView fx:id="home_tableView" layoutX="9.0" layoutY="6.0" prefHeight="198.0" prefWidth="303.0">
+                                    <TableView fx:id="home_cartTableView" layoutX="9.0" layoutY="6.0" prefHeight="198.0" prefWidth="303.0">
                                        <columns>
-                                          <TableColumn fx:id="home_tableView_col_movie" prefWidth="162.0" text="Filme" />
-                                          <TableColumn fx:id="home_tableView_col_seat" prefWidth="66.0" text="Poltrona" />
-                                          <TableColumn fx:id="home_tableView_col_price" prefWidth="73.0" text="Preço (R$)" />
+                                          <TableColumn fx:id="home_cartTableView_col_movie" prefWidth="162.0" text="Filme" />
+                                          <TableColumn fx:id="home_cartTableView_col_seat" prefWidth="66.0" text="Poltrona" />
+                                          <TableColumn fx:id="home_cartTableView_col_price" prefWidth="73.0" text="Preço (R$)" />
                                        </columns>
                                     </TableView>
                                     <Label layoutX="124.0" layoutY="212.0" text="Total:" textFill="WHITE">
@@ -673,7 +673,6 @@
                                           <Font size="13.0" />
                                        </font>
                                     </Label>
-                                    <ComboBox fx:id="home_fullPriceAmount" layoutX="165.0" layoutY="246.0" prefWidth="150.0" style="-fx-background-color: fff;" />
                                     <Label layoutX="17.0" layoutY="290.0" text="Meia" textFill="WHITE">
                                        <font>
                                           <Font size="16.0" />
@@ -684,12 +683,11 @@
                                           <Font size="13.0" />
                                        </font>
                                     </Label>
-                                    <ComboBox fx:id="home_halfPriceAmount" layoutX="165.0" layoutY="297.0" prefWidth="150.0" style="-fx-background-color: fff;" />
                                     <Button fx:id="home_payBtn" layoutX="12.0" layoutY="475.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="299.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Pagar" AnchorPane.bottomAnchor="65.0" />
                                     <Button fx:id="home_removeBtn" layoutX="12.0" layoutY="526.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="140.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Remover" AnchorPane.bottomAnchor="14.0" />
                                     <Button fx:id="home_recibeBtn" layoutX="170.0" layoutY="526.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="140.0" styleClass="btn" stylesheets="@../../../Values/mainForm.css" text="Recibo" AnchorPane.bottomAnchor="14.0" />
-                                    <CheckBox fx:id="home_fullPriceCheckBox" layoutX="143.0" layoutY="277.0" mnemonicParsing="false" text="CheckBox" />
-                                    <CheckBox fx:id="home_halfPriceCheckBox" layoutX="143.0" layoutY="328.0" mnemonicParsing="false" text="CheckBox" />
+                                    <CheckBox fx:id="home_fullPriceCheckBox" layoutX="143.0" layoutY="249.0" mnemonicParsing="false" text="CheckBox" />
+                                    <CheckBox fx:id="home_halfPriceCheckBox" layoutX="143.0" layoutY="300.0" mnemonicParsing="false" text="CheckBox" />
                                  </children>
                               </AnchorPane>
                               <AnchorPane layoutX="14.0" layoutY="10.0" prefHeight="580.0" prefWidth="619.0" stylesheets="@../../../Values/mainForm.css" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="346.4" AnchorPane.topAnchor="9.600000000000023">

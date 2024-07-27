@@ -19,14 +19,11 @@ import javafx.scene.control.cell.PropertyValueFactory
 import javafx.scene.image.ImageView
 import javafx.scene.layout.*
 import javafx.stage.FileChooser
-import javafx.stage.Modality
 import javafx.stage.Stage
-import javafx.util.Callback
 import javafx.util.StringConverter
 import java.awt.Image
 import java.io.File
 import java.net.URL
-import java.sql.Connection
 import java.sql.SQLException
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -234,19 +231,16 @@ class MainFormController : Initializable {
     private lateinit var SalesForm: AnchorPane
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @FXML
-    private lateinit var home_tableView: TableView<Ticket>
+    private lateinit var home_cartTableView: TableView<Ticket>
 
     @FXML
-    private lateinit var home_tableView_col_movie: TableColumn<Ticket, String>
+    private lateinit var home_cartTableView_col_movie: TableColumn<Ticket, String>
     @FXML
-    private lateinit var home_tableView_col_seat: TableColumn<Ticket, String>
+    private lateinit var home_cartTableView_col_seat: TableColumn<Ticket, String>
 
     @FXML
-    private lateinit var home_tableView_col_price: TableColumn<Ticket, Double>
+    private lateinit var home_cartTableView_col_price: TableColumn<Ticket, Double>
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    @FXML
-    private lateinit var home_fullPriceAmount: ComboBox<String>
-
     @FXML
     private lateinit var home_total: Label
 
@@ -258,9 +252,6 @@ class MainFormController : Initializable {
 
     @FXML
     private lateinit var home_gridPane: GridPane
-
-    @FXML
-    private lateinit var home_halfPriceAmount: ComboBox<String>
 
     @FXML
     private lateinit var home_payBtn: Button
@@ -1253,8 +1244,8 @@ class MainFormController : Initializable {
             }
 
             ticketList.addAll(tickets)
-            home_tableView.items = ticketList
-            home_tableView.refresh()
+            home_cartTableView.items = ticketList
+            home_cartTableView.refresh()
 
             selectedSeats.clear()
 
@@ -1274,10 +1265,12 @@ class MainFormController : Initializable {
         loadMoviesToTableView()
         setupTimeFormatter()
 
-        home_tableView_col_movie.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.movieName) }
-        home_tableView_col_seat.setCellValueFactory { cellData -> SimpleStringProperty("[${cellData.value.seatRow}, ${cellData.value.seatCol}]") }
-        home_tableView_col_price.setCellValueFactory { cellData -> SimpleDoubleProperty(cellData.value.price).asObject() }
-        home_tableView.items = tickets
+        home_cartTableView_col_movie.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.movieName) }
+        home_cartTableView_col_seat.setCellValueFactory { cellData ->
+            SimpleStringProperty("${('A' + cellData.value.seatRow)}${cellData.value.seatCol + 1}")
+        }
+        home_cartTableView_col_price.setCellValueFactory { cellData -> SimpleDoubleProperty(cellData.value.price).asObject() }
+        home_cartTableView.items = tickets
     }
 
     private val ticketList: ObservableList<Ticket> = FXCollections.observableArrayList()
@@ -1309,7 +1302,6 @@ class MainFormController : Initializable {
         layout.alignment = Pos.CENTER
         layout.padding = Insets(10.0)
 
-        // Configure o VBox para preencher o espaço disponível
         VBox.setVgrow(scrollPane, Priority.ALWAYS)
 
         val scene = Scene(layout)
@@ -1346,24 +1338,37 @@ class MainFormController : Initializable {
 
     @FXML
     private fun onFullPriceCheckBoxClicked(session: Session) {
-        val selectedTickets = home_tableView.selectionModel.selectedItems
+        val selectedTickets = home_cartTableView.selectionModel.selectedItems
         val fullPrice = session.movie?.price ?: 0.0
         selectedTickets.forEach { ticket ->
             ticket.price = fullPrice // Atualize com o preço da inteira
             ticket.ticketType = "Inteira"
         }
-        home_tableView.refresh()
+        home_cartTableView.refresh()
     }
 
     @FXML
     private fun onHalfPriceCheckBoxClicked(session: Session) {
-        val selectedTickets = home_tableView.selectionModel.selectedItems
+        val selectedTickets = home_cartTableView.selectionModel.selectedItems
         val halfPrice = (session.movie?.price ?: 0.0) / 2
         selectedTickets.forEach { ticket ->
             ticket.price = halfPrice // Atualize com o preço da meia
             ticket.ticketType = "Meia"
         }
-        home_tableView.refresh()
+        home_cartTableView.refresh()
+    }
+
+    fun updateSeatAvailability(gridPane: GridPane, session: Session) {
+        gridPane.children.forEach { node ->
+            if (node is Button) {
+                val seatPosition = Pair(GridPane.getRowIndex(node), GridPane.getColumnIndex(node))
+                val isSeatTaken = tickets.any { it.sessionId == session.id && it.seatRow == seatPosition.first && it.seatCol == seatPosition.second }
+                if (isSeatTaken) {
+                    node.isDisable = true
+                    node.style = "-fx-background-color: red"
+                }
+            }
+        }
     }
 
 }
