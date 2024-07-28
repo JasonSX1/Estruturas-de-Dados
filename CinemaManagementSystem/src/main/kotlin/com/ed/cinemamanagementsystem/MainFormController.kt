@@ -618,13 +618,9 @@ class MainFormController : Initializable {
         }
     }
 
-    private fun updatePreviewGrid(gridPane: GridPane, session: Session?, rows: Int, cols: Int, numberOfTickets: Int) {
-        if (session == null) {
-            showAlert("Erro", "Sessão não pode ser nula!", Alert.AlertType.ERROR)
-            return
-        }
-
+    private fun updatePreviewGrid(gridPane: GridPane, session: Session, rows: Int, cols: Int, numberOfTickets: Int) {
         gridPane.children.clear()
+
         for (i in 0 until rows) {
             for (j in 0 until cols) {
                 val button = Button()
@@ -634,7 +630,9 @@ class MainFormController : Initializable {
                 button.minHeight = 40.0
 
                 val seatPosition = Pair(i, j)
-                val isSeatTaken = ticketList.any { it.sessionId == session.id && it.seatRow == seatPosition.first && it.seatCol == seatPosition.second }
+                val isSeatTaken = orderList.any { order ->
+                    order.tickets.any { it.sessionId == session.id && it.seatRow == seatPosition.first && it.seatCol == seatPosition.second }
+                }
                 if (isSeatTaken) {
                     button.isDisable = true
                     button.style = "-fx-background-color: red"
@@ -1261,7 +1259,7 @@ class MainFormController : Initializable {
     private val selectedSeats = mutableListOf<Pair<Int, Int>>()
     private val tickets: ObservableList<Ticket> = FXCollections.observableArrayList()
 
-    private fun handleAddTickets(session: Session) {
+    fun handleAddTickets(session: Session) {
         if (selectedSeats.isEmpty()) {
             showAlert("Erro", "Por favor, selecione ao menos uma poltrona!", Alert.AlertType.ERROR)
             return
@@ -1296,7 +1294,6 @@ class MainFormController : Initializable {
             e.printStackTrace()
         }
     }
-
     override fun initialize(location: URL?, resources: ResourceBundle?) {
         initializeComboBoxes()
         initializeAudioTypeList()
@@ -1364,8 +1361,10 @@ class MainFormController : Initializable {
 
     private val ticketList: ObservableList<Ticket> = FXCollections.observableArrayList()
 
+    private var nextTicketId = 100000
+
     private fun generateTicketId(): Int {
-        return (100000..999999).random()
+        return nextTicketId++
     }
 
     private fun updatePriceLabels(fullPrice: Double, halfPrice: Double) {
@@ -1423,12 +1422,29 @@ class MainFormController : Initializable {
             return
         }
 
+        val orderId = nextOrderId++
         val ticketSummary = ticketList.joinToString("\n") { ticket ->
-            "Filme: ${ticket.movieName}, Poltrona: ${('A' + ticket.seatRow)}${ticket.seatCol + 1}, Tipo: ${ticket.ticketType}, Preço: ${ticket.price} + ${ticket.ticketId}"
+            "ID do Ingresso: ${ticket.ticketId}, Sessão ID: ${ticket.sessionId}, Filme: ${ticket.movieName}, Poltrona: ${('A' + ticket.seatRow)}${ticket.seatCol + 1}, Tipo: ${ticket.ticketType}, Preço: ${ticket.price}, Cliente ID: ${ticket.customerId}, Data de Compra: ${ticket.purchaseTime}"
         }
+
+        // Armazena o pedido
+        val order = Order(orderId, ticketList.toList())
+        orderList.add(order)
 
         showAlert("Compra Confirmada", "Ingressos vendidos:\n$ticketSummary", Alert.AlertType.INFORMATION)
         println("Venda realizada: \n$ticketSummary")
+
+        // Atualiza a disponibilidade dos assentos na sessão
+        currentSelectedSession?.let { session ->
+            ticketList.forEach { ticket ->
+                // Marque os assentos como vendidos na sessão
+                val seatPosition = Pair(ticket.seatRow, ticket.seatCol)
+                selectedSeats.add(seatPosition) // Adiciona a posição do assento vendido
+            }
+            val gridPane = GridPane()
+            gridPane.gridLinesVisibleProperty().set(true)
+            updatePreviewGrid(gridPane, session, session.rows, session.cols, 0) // Atualiza a grade para refletir os assentos vendidos
+        }
 
         // Limpa a lista de ingressos após a confirmação
         ticketList.clear()
