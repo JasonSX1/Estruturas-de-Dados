@@ -304,6 +304,10 @@ class MainFormController : Initializable {
     @FXML
     private lateinit var ticketSpinner: Spinner<Int>
 
+    private var currentSelectedSession: Session? = null
+
+    private var numberOfTickets: Int = 0
+
     private fun showAlert(title: String, message: String, alertType: Alert.AlertType): Optional<ButtonType> {
         val alert = Alert(alertType)
         alert.title = title
@@ -482,10 +486,9 @@ class MainFormController : Initializable {
                 }
 
                 val startDateTime = if (sessions_startTime.text.isNotBlank() && sessions_datePicker.value != null) {
-                    val dateString = sessions_datePicker.value.toString() // Pega a data do DatePicker
-                    val timeString = sessions_startTime.text // Pega o tempo do campo de texto
-
-                    val dateTimeString = "$dateString $timeString" // Concatena data e hora
+                    val dateString = sessions_datePicker.value.toString()
+                    val timeString = sessions_startTime.text
+                    val dateTimeString = "$dateString $timeString"
                     try {
                         LocalDateTime.parse(dateTimeString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
                     } catch (e: DateTimeParseException) {
@@ -493,7 +496,7 @@ class MainFormController : Initializable {
                         return
                     }
                 } else {
-                    null // startDateTime será null se a data ou a hora não forem fornecidas
+                    null
                 }
 
                 val calculatedCapacity = rows * cols
@@ -510,6 +513,7 @@ class MainFormController : Initializable {
                     loadSessionsToTableView()
                     clearSessionsForm()
                     println("$session")
+                    currentSelectedSession = session
                     updateHomeGridPane()
                 } else {
                     showAlert("Erro", "Falha ao adicionar a sessão!", Alert.AlertType.ERROR)
@@ -523,7 +527,7 @@ class MainFormController : Initializable {
         }
     }
 
-    fun showAddSessionDialog(): Triple<Int, Int, Int>? {
+    private fun showAddSessionDialog(): Triple<Int, Int, Int>? {
         val dialog = Dialog<Triple<Int, Int, Int>>()
         dialog.title = "Adicionar Sessão"
         dialog.headerText = "Preencha os detalhes da sessão"
@@ -540,14 +544,14 @@ class MainFormController : Initializable {
         val previewGrid = GridPane()
         previewGrid.gridLinesVisibleProperty().set(true)
 
-        // Atualizar colunas automaticamente ao inserir capacidade e linhas
+// Atualizar colunas automaticamente ao inserir capacidade e linhas
         rowsField.textProperty().addListener { _, _, newValue ->
             val capacity = capacityField.text.toIntOrNull()
             val rows = newValue.toIntOrNull()
             if (capacity != null && rows != null && rows > 0) {
                 val cols = capacity / rows
                 colsField.text = cols.toString()
-                updatePreviewGrid(previewGrid, rows, cols)
+                currentSelectedSession?.let { updatePreviewGrid(previewGrid, it, rows, cols, numberOfTickets) }
             }
         }
 
@@ -557,7 +561,7 @@ class MainFormController : Initializable {
             if (capacity != null && cols != null && cols > 0) {
                 val rows = capacity / cols
                 rowsField.text = rows.toString()
-                updatePreviewGrid(previewGrid, rows, cols)
+                currentSelectedSession?.let { updatePreviewGrid(previewGrid, it, rows, cols, numberOfTickets) }
             }
         }
 
@@ -599,7 +603,12 @@ class MainFormController : Initializable {
         return result.orElse(null)
     }
 
-    private fun updatePreviewGrid(gridPane: GridPane, rows: Int, cols: Int) {
+    private fun updatePreviewGrid(gridPane: GridPane, session: Session?, rows: Int, cols: Int, numberOfTickets: Int) {
+        if (session == null) {
+            showAlert("Erro", "Sessão não pode ser nula!", Alert.AlertType.ERROR)
+            return
+        }
+
         gridPane.children.clear()
         for (i in 0 until rows) {
             for (j in 0 until cols) {
@@ -608,6 +617,23 @@ class MainFormController : Initializable {
                 button.style = "-fx-background-color: lightgray"
                 button.minWidth = 40.0
                 button.minHeight = 40.0
+
+                val seatPosition = Pair(i, j)
+                val isSeatTaken = ticketList.any { it.sessionId == session.id && it.seatRow == seatPosition.first && it.seatCol == seatPosition.second }
+                if (isSeatTaken) {
+                    button.isDisable = true
+                    button.style = "-fx-background-color: red"
+                }
+
+                button.setOnAction {
+                    if (selectedSeats.contains(seatPosition)) {
+                        selectedSeats.remove(seatPosition)
+                        button.style = "-fx-background-color: lightgray"
+                    } else if (selectedSeats.size < numberOfTickets) {
+                        selectedSeats.add(seatPosition)
+                        button.style = "-fx-background-color: lightgreen"
+                    }
+                }
 
                 GridPane.setConstraints(button, j, i)
                 GridPane.setMargin(button, Insets(5.0))  // Adiciona uma margem de 5px ao redor dos botões
@@ -1271,6 +1297,53 @@ class MainFormController : Initializable {
         }
         home_cartTableView_col_price.setCellValueFactory { cellData -> SimpleDoubleProperty(cellData.value.price).asObject() }
         home_cartTableView.items = tickets
+
+        home_fullPriceCheckBox.selectedProperty().addListener { _, _, isSelected ->
+            onPriceCheckBoxClicked(isSelected, "Inteira")
+        }
+        home_halfPriceCheckBox.selectedProperty().addListener { _, _, isSelected ->
+            onPriceCheckBoxClicked(isSelected, "Meia")
+        }
+        home_cartTableView.selectionModel.selectedItemProperty().addListener { _, _, newTicket ->
+            home_fullPriceCheckBox.isSelected = false
+            home_halfPriceCheckBox.isSelected = false
+        }
+
+        home_cartTableView.selectionModel.selectedItemProperty().addListener { _, _, newTicket ->
+            if (newTicket != null) {
+                home_fullPriceCheckBox.isSelected = newTicket.ticketType == "Inteira"
+                home_halfPriceCheckBox.isSelected = newTicket.ticketType == "Meia"
+            }
+
+            home_fullPriceCheckBox.setOnAction {
+                if (newTicket != null) {
+                    newTicket.ticketType = "Inteira"
+                    home_halfPriceCheckBox.isSelected = false
+                    home_cartTableView.refresh()
+                    updateTotal()
+                }
+            }
+
+            home_halfPriceCheckBox.setOnAction {
+                if (newTicket != null) {
+                    newTicket.ticketType = "Meia"
+                    home_fullPriceCheckBox.isSelected = false
+                    home_cartTableView.refresh()
+                    updateTotal()
+                }
+            }
+        }
+    }
+
+    private fun onPriceCheckBoxClicked(isSelected: Boolean, type: String) {
+        val selectedTickets = home_cartTableView.selectionModel.selectedItems
+        val session = currentSelectedSession ?: return
+
+        selectedTickets.forEach { ticket ->
+            ticket.price = if (type == "Inteira") session.movie?.price ?: 0.0 else (session.movie?.price ?: 0.0) / 2
+            ticket.ticketType = if (isSelected) type else ""
+        }
+        home_cartTableView.refresh()
     }
 
     private val ticketList: ObservableList<Ticket> = FXCollections.observableArrayList()
@@ -1285,12 +1358,14 @@ class MainFormController : Initializable {
     }
 
     fun showSeatSelectionPopup(session: Session, numberOfTickets: Int) {
+        currentSelectedSession = session
+        this.numberOfTickets = numberOfTickets
         val dialog = Stage()
         dialog.title = "Seleção de Poltronas"
 
         val gridPane = GridPane()
         gridPane.gridLinesVisibleProperty().set(true)
-        updatePreviewGrid(gridPane, session.rows, session.cols)
+        updatePreviewGrid(gridPane, session, session.rows, session.cols, numberOfTickets) // Passa numberOfTickets aqui
 
         val scrollPane = ScrollPane(gridPane)
         scrollPane.isFitToWidth = true
@@ -1307,21 +1382,6 @@ class MainFormController : Initializable {
         val scene = Scene(layout)
         dialog.scene = scene
 
-        gridPane.children.forEach { node ->
-            if (node is Button) {
-                node.setOnAction {
-                    val seatPosition = Pair(GridPane.getRowIndex(node), GridPane.getColumnIndex(node))
-                    if (selectedSeats.contains(seatPosition)) {
-                        selectedSeats.remove(seatPosition)
-                        node.style = "-fx-background-color: lightgray"
-                    } else if (selectedSeats.size < numberOfTickets) {
-                        selectedSeats.add(seatPosition)
-                        node.style = "-fx-background-color: lightgreen"
-                    }
-                }
-            }
-        }
-
         val confirmButton = Button("Confirmar")
         confirmButton.setOnAction {
             if (selectedSeats.size != numberOfTickets) {
@@ -1336,39 +1396,68 @@ class MainFormController : Initializable {
         dialog.showAndWait()
     }
 
-    @FXML
-    private fun onFullPriceCheckBoxClicked(session: Session) {
-        val selectedTickets = home_cartTableView.selectionModel.selectedItems
-        val fullPrice = session.movie?.price ?: 0.0
-        selectedTickets.forEach { ticket ->
-            ticket.price = fullPrice // Atualize com o preço da inteira
-            ticket.ticketType = "Inteira"
-        }
-        home_cartTableView.refresh()
+//    private fun removeSelectedTicket() {
+//        val selectedTicket = home_cartTableView.selectionModel.selectedItem
+//        if (selectedTicket != null) {
+//            ticketList.remove(selectedTicket)
+//            home_cartTableView.refresh()
+//            // Libera o botão referente à poltrona
+//            val seatPosition = Pair(selectedTicket.seatRow, selectedTicket.seatCol)
+//            selectedSeats.remove(seatPosition)
+//            currentSelectedSession?.let { updatePreviewGrid(previewGrid, it, it.rows, it.cols, numberOfTickets) }
+//            updateTotal() // Atualiza o total após a remoção
+//        } else {
+//            showAlert("Erro", "Nenhum ticket selecionado!", Alert.AlertType.ERROR)
+//        }
+//    }
+
+    private fun updateTotal() {
+        val total = ticketList.sumOf { it.price }
+        home_total.text = String.format("%.2f", total)
     }
 
-    @FXML
-    private fun onHalfPriceCheckBoxClicked(session: Session) {
-        val selectedTickets = home_cartTableView.selectionModel.selectedItems
-        val halfPrice = (session.movie?.price ?: 0.0) / 2
-        selectedTickets.forEach { ticket ->
-            ticket.price = halfPrice // Atualize com o preço da meia
-            ticket.ticketType = "Meia"
-        }
-        home_cartTableView.refresh()
-    }
+//    fun payForTickets() {
+//        if (ticketList.isEmpty()) {
+//            showAlert("Erro", "Nenhum ingresso selecionado!", Alert.AlertType.ERROR)
+//            return
+//        }
+//
+//        val ticketSummary = ticketList.joinToString("\n") { ticket ->
+//            "Filme: ${ticket.movieName}, Poltrona: ${('A' + ticket.seatRow)}${ticket.seatCol + 1}, Tipo: ${ticket.ticketType}, Preço: ${ticket.price}"
+//        }
+//
+//        showAlert("Compra Confirmada", "Ingressos vendidos:\n$ticketSummary", Alert.AlertType.INFORMATION)
+//        println("Venda realizada: \n$ticketSummary")
+//
+//        // Marca os assentos comprados como indisponíveis
+//        currentSelectedSession?.let {
+//            updatePreviewGrid(previewGrid, it, it.rows, it.cols, numberOfTickets)
+//        }
+//
+//        // Limpa a lista de ingressos após a confirmação
+//        ticketList.clear()
+//        home_cartTableView.refresh()
+//        updateTotal()
+//    }
 
-    fun updateSeatAvailability(gridPane: GridPane, session: Session) {
-        gridPane.children.forEach { node ->
-            if (node is Button) {
-                val seatPosition = Pair(GridPane.getRowIndex(node), GridPane.getColumnIndex(node))
-                val isSeatTaken = tickets.any { it.sessionId == session.id && it.seatRow == seatPosition.first && it.seatCol == seatPosition.second }
-                if (isSeatTaken) {
-                    node.isDisable = true
-                    node.style = "-fx-background-color: red"
-                }
-            }
-        }
-    }
 
+//    @FXML
+//    private fun onFullPriceCheckBoxClicked() {
+//        val selectedTickets = home_cartTableView.selectionModel.selectedItems
+//        selectedTickets.forEach { ticket ->
+//            ticket.price = session.movie?.price ?: 0.0 // Atualize com o preço da inteira
+//            ticket.ticketType = "Inteira"
+//        }
+//        home_cartTableView.refresh()
+//    }
+//
+//    @FXML
+//    private fun onHalfPriceCheckBoxClicked() {
+//        val selectedTickets = home_cartTableView.selectionModel.selectedItems
+//        selectedTickets.forEach { ticket ->
+//            ticket.price = (session.movie?.price ?: 0.0) / 2 // Atualize com o preço da meia
+//            ticket.ticketType = "Meia"
+//        }
+//        home_cartTableView.refresh()
+//    }
 }
