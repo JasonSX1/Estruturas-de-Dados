@@ -1178,6 +1178,7 @@ class MainFormController : Initializable {
             }
         }
     }
+
     private fun setupTimeFormatter() {
         val timeFormatter = TextFormatter<String> { change ->
             val newText = change.controlNewText
@@ -1222,7 +1223,7 @@ class MainFormController : Initializable {
     """.trimIndent()
     }
 
-    fun homeDisplayCards() {
+    private fun homeDisplayCards() {
         val sessionsData = sessionDAO.listSessions()
 
         home_gridPane.children.clear()
@@ -1260,7 +1261,7 @@ class MainFormController : Initializable {
     private val selectedSeats = mutableListOf<Pair<Int, Int>>()
     private val tickets: ObservableList<Ticket> = FXCollections.observableArrayList()
 
-    fun handleAddTickets(session: Session) {
+    private fun handleAddTickets(session: Session) {
         if (selectedSeats.isEmpty()) {
             showAlert("Erro", "Por favor, selecione ao menos uma poltrona!", Alert.AlertType.ERROR)
             return
@@ -1411,50 +1412,29 @@ class MainFormController : Initializable {
         dialog.showAndWait()
     }
 
-//    private fun removeSelectedTicket() {
-//        val selectedTicket = home_cartTableView.selectionModel.selectedItem
-//        if (selectedTicket != null) {
-//            ticketList.remove(selectedTicket)
-//            home_cartTableView.refresh()
-//            // Libera o botão referente à poltrona
-//            val seatPosition = Pair(selectedTicket.seatRow, selectedTicket.seatCol)
-//            selectedSeats.remove(seatPosition)
-//            currentSelectedSession?.let { updatePreviewGrid(previewGrid, it, it.rows, it.cols, numberOfTickets) }
-//            updateTotal() // Atualiza o total após a remoção
-//        } else {
-//            showAlert("Erro", "Nenhum ticket selecionado!", Alert.AlertType.ERROR)
-//        }
-//    }
-
     private fun updateTotal() {
         val total = ticketList.sumOf { it.price }
         home_total.text = String.format("%.2f", total)
     }
 
-//    fun payForTickets() {
-//        if (ticketList.isEmpty()) {
-//            showAlert("Erro", "Nenhum ingresso selecionado!", Alert.AlertType.ERROR)
-//            return
-//        }
-//
-//        val ticketSummary = ticketList.joinToString("\n") { ticket ->
-//            "Filme: ${ticket.movieName}, Poltrona: ${('A' + ticket.seatRow)}${ticket.seatCol + 1}, Tipo: ${ticket.ticketType}, Preço: ${ticket.price}"
-//        }
-//
-//        showAlert("Compra Confirmada", "Ingressos vendidos:\n$ticketSummary", Alert.AlertType.INFORMATION)
-//        println("Venda realizada: \n$ticketSummary")
-//
-//        // Marca os assentos comprados como indisponíveis
-//        currentSelectedSession?.let {
-//            updatePreviewGrid(previewGrid, it, it.rows, it.cols, numberOfTickets)
-//        }
-//
-//        // Limpa a lista de ingressos após a confirmação
-//        ticketList.clear()
-//        home_cartTableView.refresh()
-//        updateTotal()
-//    }
+    fun payForTickets() {
+        if (ticketList.isEmpty()) {
+            showAlert("Erro", "Nenhum ingresso selecionado!", Alert.AlertType.ERROR)
+            return
+        }
 
+        val ticketSummary = ticketList.joinToString("\n") { ticket ->
+            "Filme: ${ticket.movieName}, Poltrona: ${('A' + ticket.seatRow)}${ticket.seatCol + 1}, Tipo: ${ticket.ticketType}, Preço: ${ticket.price} + ${ticket.ticketId}"
+        }
+
+        showAlert("Compra Confirmada", "Ingressos vendidos:\n$ticketSummary", Alert.AlertType.INFORMATION)
+        println("Venda realizada: \n$ticketSummary")
+
+        // Limpa a lista de ingressos após a confirmação
+        ticketList.clear()
+        home_cartTableView.refresh()
+        updateTotal()
+    }
 
 //    @FXML
 //    private fun onFullPriceCheckBoxClicked() {
@@ -1474,5 +1454,20 @@ class MainFormController : Initializable {
 //            ticket.ticketType = "Meia"
 //        }
 //        home_cartTableView.refresh()
+//    }
+
+    //    private fun removeSelectedTicket() {
+//        val selectedTicket = home_cartTableView.selectionModel.selectedItem
+//        if (selectedTicket != null) {
+//            ticketList.remove(selectedTicket)
+//            home_cartTableView.refresh()
+//            // Libera o botão referente à poltrona
+//            val seatPosition = Pair(selectedTicket.seatRow, selectedTicket.seatCol)
+//            selectedSeats.remove(seatPosition)
+//            currentSelectedSession?.let { updatePreviewGrid(previewGrid, it, it.rows, it.cols, numberOfTickets) }
+//            updateTotal() // Atualiza o total após a remoção
+//        } else {
+//            showAlert("Erro", "Nenhum ticket selecionado!", Alert.AlertType.ERROR)
+//        }
 //    }
 }
