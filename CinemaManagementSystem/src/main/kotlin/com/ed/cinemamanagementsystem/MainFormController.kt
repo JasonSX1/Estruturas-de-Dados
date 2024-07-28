@@ -513,7 +513,6 @@ class MainFormController : Initializable {
                     loadSessionsToTableView()
                     clearSessionsForm()
                     println("$session")
-                    currentSelectedSession = session
                     updateHomeGridPane()
                 } else {
                     showAlert("Erro", "Falha ao adicionar a sessão!", Alert.AlertType.ERROR)
@@ -526,8 +525,7 @@ class MainFormController : Initializable {
             e.printStackTrace()
         }
     }
-
-    private fun showAddSessionDialog(): Triple<Int, Int, Int>? {
+    fun showAddSessionDialog(): Triple<Int, Int, Int>? {
         val dialog = Dialog<Triple<Int, Int, Int>>()
         dialog.title = "Adicionar Sessão"
         dialog.headerText = "Preencha os detalhes da sessão"
@@ -544,14 +542,14 @@ class MainFormController : Initializable {
         val previewGrid = GridPane()
         previewGrid.gridLinesVisibleProperty().set(true)
 
-// Atualizar colunas automaticamente ao inserir capacidade e linhas
+        // Atualizar colunas automaticamente ao inserir capacidade e linhas
         rowsField.textProperty().addListener { _, _, newValue ->
             val capacity = capacityField.text.toIntOrNull()
             val rows = newValue.toIntOrNull()
             if (capacity != null && rows != null && rows > 0) {
                 val cols = capacity / rows
                 colsField.text = cols.toString()
-                currentSelectedSession?.let { updatePreviewGrid(previewGrid, it, rows, cols, numberOfTickets) }
+                updatePreviewGridForAdd(previewGrid, rows, cols)
             }
         }
 
@@ -561,7 +559,7 @@ class MainFormController : Initializable {
             if (capacity != null && cols != null && cols > 0) {
                 val rows = capacity / cols
                 rowsField.text = rows.toString()
-                currentSelectedSession?.let { updatePreviewGrid(previewGrid, it, rows, cols, numberOfTickets) }
+                updatePreviewGridForAdd(previewGrid, rows, cols)
             }
         }
 
@@ -601,6 +599,23 @@ class MainFormController : Initializable {
 
         val result = dialog.showAndWait()
         return result.orElse(null)
+    }
+
+    private fun updatePreviewGridForAdd(gridPane: GridPane, rows: Int, cols: Int) {
+        gridPane.children.clear()
+        for (i in 0 until rows) {
+            for (j in 0 until cols) {
+                val button = Button()
+                button.text = "${('A' + i)}${j + 1}"
+                button.style = "-fx-background-color: lightgray"
+                button.minWidth = 40.0
+                button.minHeight = 40.0
+
+                GridPane.setConstraints(button, j, i)
+                GridPane.setMargin(button, Insets(5.0))  // Adiciona uma margem de 5px ao redor dos botões
+                gridPane.children.add(button)
+            }
+        }
     }
 
     private fun updatePreviewGrid(gridPane: GridPane, session: Session?, rows: Int, cols: Int, numberOfTickets: Int) {

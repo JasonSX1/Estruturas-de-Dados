@@ -12,7 +12,7 @@ class HelloApplication : Application() {
         val fxmlLoader = FXMLLoader(HelloApplication::class.java.getResource("LoginAndSignup.fxml"))
         val root: Parent = fxmlLoader.load()
 
-        val scene = Scene(root, 600.0, 400.0)
+        val scene = Scene(root, 600.0, 400.0) 
         stage.title = "Software de gerenciamento de sessões de cinema"
         stage.scene = scene
         stage.minWidth = 600.0
