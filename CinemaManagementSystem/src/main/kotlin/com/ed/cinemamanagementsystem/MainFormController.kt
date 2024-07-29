@@ -1446,6 +1446,7 @@ class MainFormController : Initializable {
         // Armazena o pedido
         val order = Order(orderId, ticketList.toList())
         orderList.add(order)
+        println("pedido: ${order}")
 
         showAlert("Compra Confirmada", "Ingressos vendidos:\n$ticketSummary", Alert.AlertType.INFORMATION)
         println("Venda realizada: \n$ticketSummary")
