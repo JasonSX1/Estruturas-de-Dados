@@ -1302,6 +1302,34 @@ class MainFormController : Initializable {
         }
     }
 
+    fun handleRemoveTickets() {
+        val selectedTickets = home_cartTableView.selectionModel.selectedItems
+
+        if (selectedTickets.isEmpty()) {
+            showAlert("Erro", "Por favor, selecione ao menos um ticket para remover!", Alert.AlertType.ERROR)
+            return
+        }
+
+        try {
+            // Remove os tickets selecionados
+            ticketList.removeAll(selectedTickets)
+            home_cartTableView.items = ticketList
+            home_cartTableView.refresh()
+
+            // Atualiza a grade para refletir os assentos removidos
+            val session = currentSelectedSession ?: return
+            val gridPane = sessionGridMap[session.id] ?: GridPane().apply {
+                sessionGridMap[session.id] = this
+            }
+            updatePreviewGrid(gridPane, session, session.rows, session.cols, 0) // Passa 0 para não selecionar novos assentos
+
+            // Atualiza os labels de preço
+            updateCartPriceLabels()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
     override fun initialize(location: URL?, resources: ResourceBundle?) {
         initializeComboBoxes()
         initializeAudioTypeList()
@@ -1354,6 +1382,11 @@ class MainFormController : Initializable {
                 }
             }
         }
+
+        home_removeBtn.setOnAction {
+            handleRemoveTickets()
+        }
+
     }
 
     private fun onPriceCheckBoxClicked(isSelected: Boolean, type: String) {
@@ -1373,6 +1406,19 @@ class MainFormController : Initializable {
 
     private fun generateTicketId(): Int {
         return nextTicketId++
+    }
+
+    private fun updateCartPriceLabels() {
+        // Obtém os preços dos tickets atualmente na tabela
+        val totalFullPrice = home_cartTableView.items
+            .filter { it.ticketType == "Inteira" }
+            .sumOf { it.price }
+        val totalHalfPrice = home_cartTableView.items
+            .filter { it.ticketType == "Meia" }
+            .sumOf { it.price }
+
+        // Atualiza os labels com os preços calculados
+        updatePriceLabels(totalFullPrice, totalHalfPrice)
     }
 
     private fun updatePriceLabels(fullPrice: Double, halfPrice: Double) {
