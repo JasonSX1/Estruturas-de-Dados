@@ -232,18 +232,18 @@ class MainFormController : Initializable {
 
     @FXML
     private lateinit var SalesForm: AnchorPane
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @FXML
     private lateinit var home_cartTableView: TableView<Ticket>
 
     @FXML
     private lateinit var home_cartTableView_col_movie: TableColumn<Ticket, String>
+
     @FXML
     private lateinit var home_cartTableView_col_seat: TableColumn<Ticket, String>
 
     @FXML
     private lateinit var home_cartTableView_col_price: TableColumn<Ticket, Double>
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     @FXML
     private lateinit var home_total: Label
 
@@ -306,7 +306,7 @@ class MainFormController : Initializable {
 
     private val audioTypeList = arrayOf("Original", "Original com Legenda", "Dublado")
 
-    private val movieDAO: MovieDAO = DynamicMoviesList() // Seria uma boa pratica utilizar movie e sessionDAO como nomes das variaveis???
+    private val movieDAO: MovieDAO = DynamicMoviesList()
 
     private val sessionDAO: SessionDAO = DynamicSessionList()
 
@@ -364,10 +364,8 @@ class MainFormController : Initializable {
 
     private fun loadMoviesToSessions() {
         try {
-            // Obter a lista de filmes a partir do DAO
             val moviesList = movieDAO.listMovies()
 
-            // Atualizar o ComboBox na thread da UI
             Platform.runLater {
                 sessions_movie.items.clear()
                 sessions_movie.items.addAll(moviesList)
@@ -401,7 +399,7 @@ class MainFormController : Initializable {
         try {
             val option = showAlert("Mensagem de confirmação", "Você realmente deseja sair?", Alert.AlertType.CONFIRMATION)
             if (option.isPresent && option.get() == ButtonType.OK) {
-                // Fechar o estágio atual
+
                 val currentStage = logout_btn.scene.window as Stage
                 currentStage.close()
 
@@ -436,14 +434,12 @@ class MainFormController : Initializable {
             val has3d = movies_has3d.value
 
             if (movieId != null && title.isNotBlank() && duration != null && price != null && productionType != null && audio != null && has3d != null) {
-                // Verificar se o ID já está cadastrado
                 val existingMovie = movieDAO.searchMovieByID(movieId)
                 if (existingMovie != null) {
                     showAlert("Erro", "ID do filme já está cadastrado!", Alert.AlertType.ERROR)
                     return
                 }
 
-                // Atribuir o caminho da imagem ou uma string vazia se nulo
                 val movie = Movie(movieId, title, duration, productionType, hasHalf, price, audio, has3d, imagePath ?: "")
                 val options = listOf("Início", "Fim", "Posição Personalizada")
                 val dialog = ChoiceDialog(options[0], options)
@@ -551,7 +547,6 @@ class MainFormController : Initializable {
                     showAlert("Sucesso", "Sessão adicionada com sucesso!", Alert.AlertType.INFORMATION)
                     loadSessionsToTableView()
                     clearSessionsForm()
-                    println("$session")
                     updateHomeGridPane()
                 } else {
                     showAlert("Erro", "Falha ao adicionar a sessão!", Alert.AlertType.ERROR)
@@ -581,7 +576,6 @@ class MainFormController : Initializable {
         val previewGrid = GridPane()
         previewGrid.gridLinesVisibleProperty().set(true)
 
-        // Atualizar colunas automaticamente ao inserir capacidade e linhas
         rowsField.textProperty().addListener { _, _, newValue ->
             val capacity = capacityField.text.toIntOrNull()
             val rows = newValue.toIntOrNull()
@@ -686,7 +680,7 @@ class MainFormController : Initializable {
                 }
 
                 GridPane.setConstraints(button, j, i)
-                GridPane.setMargin(button, Insets(5.0))  // Adiciona uma margem de 5px ao redor dos botões
+                GridPane.setMargin(button, Insets(5.0))
                 gridPane.children.add(button)
             }
         }
@@ -794,7 +788,6 @@ class MainFormController : Initializable {
         movies_imageLabel2.isVisible = false
         imagePath = null
 
-        // Limpar o item selecionado na tabela de filmes
         movies_tableView.selectionModel.clearSelection()
     }
 
@@ -805,7 +798,6 @@ class MainFormController : Initializable {
         sessions_startTime.clear()
         sessions_datePicker.value = null
 
-        // Limpar o item selecionado na tabela de sessões
         sessions_tableView.selectionModel.clearSelection()
     }
 
@@ -880,10 +872,10 @@ class MainFormController : Initializable {
             val movie = sessions_movie.value
 
             if (sessionId != null && roomNumber.isNotBlank()) {
-                val dateString = sessions_datePicker.value.toString() // Pega a data do DatePicker
-                val timeString = sessions_startTime.text // Pega o tempo do campo de texto
+                val dateString = sessions_datePicker.value.toString()
+                val timeString = sessions_startTime.text
 
-                val dateTimeString = "$dateString $timeString" // Concatena data e hora
+                val dateTimeString = "$dateString $timeString"
                 val startDateTime = try {
                     LocalDateTime.parse(dateTimeString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
                 } catch (e: DateTimeParseException) {
@@ -975,7 +967,7 @@ class MainFormController : Initializable {
 
         val result = dialog.showAndWait()
         return result.isPresent && result.get() == ButtonType.OK
-    } // Tá sem CSS
+    }
 
     private fun loadMovieData(movie: Movie) {
         originalMovie = movie
@@ -1010,7 +1002,7 @@ class MainFormController : Initializable {
         sessions_movie.value = session.movie
         sessions_statusLabel.text = session.status.status
 
-        // Carregar data e hora somente se houver um filme
+
         if (session.movie != null) {
             // Separar a data e a hora
             val date = session.startTime?.toLocalDate() // Usar a data da sessão ou null
@@ -1096,7 +1088,6 @@ class MainFormController : Initializable {
     }
 
     private fun setupSessionsMovieComboBox() {
-        // Define a StringConverter for the ComboBox
         sessions_movie.converter = object : StringConverter<Movie>() {
             override fun toString(movie: Movie?): String? {
                 return if (movie == null) {
@@ -1111,7 +1102,6 @@ class MainFormController : Initializable {
             }
         }
 
-        // Set a custom cell factory to format the options in the ComboBox dropdown
         sessions_movie.setCellFactory { _ ->
             object : ListCell<Movie>() {
                 override fun updateItem(movie: Movie?, empty: Boolean) {
@@ -1124,7 +1114,7 @@ class MainFormController : Initializable {
                 }
             }
         }
-    } //Não é possível instanciar diretamente um enum com um construtor em kotlin, então preciso usar uma das constantes definidas no enum, para isso verifico o texto do status e correspondendo-o ao valor correto do enum
+    }
 
     private fun setupMovieParameters(){
         movies_addBtn.setOnAction { addMovie() }
@@ -1158,7 +1148,6 @@ class MainFormController : Initializable {
 
         movies_tableView.items = movieList
 
-        //Função de interação com o mouse do usuario com os filmes cadastrados
         movies_tableView.selectionModel.selectedItemProperty().addListener { _, _, selectedMovie ->
             selectedMovie?.let { movie ->
                 loadMovieData(movie)
@@ -1175,7 +1164,6 @@ class MainFormController : Initializable {
         sessions_rows = TextField()
         sessions_cols = TextField()
 
-        // Usando uma célula personalizada para a coluna de filme atual
         sessions_col_currentMovie.setCellFactory {
             object : TableCell<Session, Movie>() {
                 override fun updateItem(movie: Movie?, empty: Boolean) {
@@ -1189,7 +1177,6 @@ class MainFormController : Initializable {
             }
         }
 
-        // Usando uma célula personalizada para a coluna de status
         sessions_col_sessionStatus.setCellValueFactory(PropertyValueFactory<Session, SessionStatus>("status"))
         sessions_col_sessionStatus.setCellFactory {
             object : TableCell<Session, SessionStatus>() {
@@ -1202,14 +1189,12 @@ class MainFormController : Initializable {
 
         sessions_tableView.items = sessionList
 
-        // Função que carrega os nomes dos filmes para a comboBox do menu de sessões
         sessions_form.visibleProperty().addListener { _, _, newValue ->
             if (newValue) {
                 loadMoviesToSessions()
             }
         }
 
-        // Adiciona o listener para a TableView de sessões
         sessions_tableView.selectionModel.selectedItemProperty().addListener { _, _, selectedSession ->
             selectedSession?.let { session ->
                 loadSessionData(session)
@@ -1221,7 +1206,6 @@ class MainFormController : Initializable {
         val timeFormatter = TextFormatter<String> { change ->
             val newText = change.controlNewText
 
-            // Permitir apenas números e     o caractere ":"
             if (!newText.matches(Regex("\\d{0,2}:?\\d{0,2}"))) {
                 return@TextFormatter null
             }
@@ -1229,7 +1213,6 @@ class MainFormController : Initializable {
             val caretPosition = change.caretPosition
             val anchor = change.anchor
 
-            // Adicionar ':' automaticamente após os dois primeiros dígitos
             if (newText.length == 2 && !newText.contains(":")) {
                 change.text += ":"
                 change.caretPosition = caretPosition + 1
@@ -1327,11 +1310,10 @@ class MainFormController : Initializable {
             home_cartTableView.items = ticketList
             home_cartTableView.refresh()
 
-            // Atualiza a grade para refletir os assentos adicionados ao carrinho
             val gridPane = sessionGridMap[session.id] ?: GridPane().apply {
                 sessionGridMap[session.id] = this
             }
-            updatePreviewGrid(gridPane, session, session.rows, session.cols, 0) // Passa 0 para não selecionar novos assentos
+            updatePreviewGrid(gridPane, session, session.rows, session.cols, 0)
 
             selectedSeats.clear()
 
@@ -1350,19 +1332,16 @@ class MainFormController : Initializable {
         }
 
         try {
-            // Remove os tickets selecionados
             ticketList.removeAll(selectedTickets)
             home_cartTableView.items = ticketList
             home_cartTableView.refresh()
 
-            // Atualiza a grade para refletir os assentos removidos
             val session = currentSelectedSession ?: return
             val gridPane = sessionGridMap[session.id] ?: GridPane().apply {
                 sessionGridMap[session.id] = this
             }
-            updatePreviewGrid(gridPane, session, session.rows, session.cols, 0) // Passa 0 para não selecionar novos assentos
+            updatePreviewGrid(gridPane, session, session.rows, session.cols, 0)
 
-            // Atualiza os labels de preço
             updateCartPriceLabels()
         } catch (e: Exception) {
             e.printStackTrace()
@@ -1485,11 +1464,10 @@ class MainFormController : Initializable {
 
     fun cancelOrder(order: Order) {
         try {
-            // Remove o pedido da lista de pedidos
-            orderList.remove(order)
-            loadOrdersToTableView() // Atualiza a TableView de pedidos
 
-            // Redisponibiliza as poltronas das sessões correspondentes
+            orderList.remove(order)
+            loadOrdersToTableView()
+
             order.tickets.forEach { ticket ->
                 val session = sessionDAO.searchSessionByID(ticket.sessionId)
                 if (session != null) {
@@ -1498,18 +1476,13 @@ class MainFormController : Initializable {
                         val seatPosition = Pair(ticket.seatRow, ticket.seatCol)
                         soldSeats.remove(seatPosition)
                     }
-                    // Atualiza a grade para refletir os assentos redisponibilizados
                     val gridPane = sessionGridMap[session.id] ?: GridPane().apply {
                         sessionGridMap[session.id] = this
                     }
                     updatePreviewGrid(gridPane, session, session.rows, session.cols, 0)
-
-                    // Atualiza a disponibilidade da sessão
                     session.sessionDisponibility += 1
                 }
             }
-
-            // Atualiza a interface e outras funcionalidades conforme necessário
             home_cartTableView.refresh()
             updateTotal()
             updateSessionsTableView()
@@ -1541,15 +1514,12 @@ class MainFormController : Initializable {
     }
 
     private fun updateCartPriceLabels() {
-        // Obtém os preços dos tickets atualmente na tabela
         val totalFullPrice = home_cartTableView.items
             .filter { it.ticketType == "Inteira" }
             .sumOf { it.price }
         val totalHalfPrice = home_cartTableView.items
             .filter { it.ticketType == "Meia" }
             .sumOf { it.price }
-
-        // Atualiza os labels com os preços calculados
         updatePriceLabels(totalFullPrice, totalHalfPrice)
     }
 
@@ -1568,12 +1538,11 @@ class MainFormController : Initializable {
         val dialog = Stage()
         dialog.title = "Seleção de Poltronas"
 
-        // Obtém a instância de GridPane da sessão atual
         val gridPane = sessionGridMap[session.id] ?: GridPane().apply {
             sessionGridMap[session.id] = this
         }
         gridPane.gridLinesVisibleProperty().set(true)
-        updatePreviewGrid(gridPane, session, session.rows, session.cols, numberOfTickets) // Passa numberOfTickets aqui
+        updatePreviewGrid(gridPane, session, session.rows, session.cols, numberOfTickets)
 
         val scrollPane = ScrollPane(gridPane)
         scrollPane.isFitToWidth = true
@@ -1616,7 +1585,6 @@ class MainFormController : Initializable {
             return
         }
 
-        // Verifica se todos os tickets têm um tipo selecionado
         if (ticketList.any { it.ticketType.isBlank() }) {
             showAlert("Erro", "Todos os tickets devem ter um tipo selecionado!", Alert.AlertType.ERROR)
             return
@@ -1627,15 +1595,11 @@ class MainFormController : Initializable {
             "ID do Ingresso: ${ticket.ticketId}, Sessão ID: ${ticket.sessionId}, Filme: ${ticket.movieName}, Poltrona: ${('A' + ticket.seatRow)}${ticket.seatCol + 1}, Tipo: ${ticket.ticketType}, Preço: ${ticket.price}, Cliente ID: ${ticket.customerId}, Data de Compra: ${ticket.purchaseTime}"
         }
 
-        // Armazena o pedido
         val order = Order(orderId, ticketList.toList())
         orderList.add(order)
-        println("pedido: ${order}")
 
         showAlert("Compra Confirmada", "Ingressos vendidos:\n$ticketSummary", Alert.AlertType.INFORMATION)
-        println("Venda realizada: \n$ticketSummary")
 
-        // Atualiza a disponibilidade dos assentos na sessão
         val session = ticketList.firstOrNull()?.let { ticket ->
             sessionDAO.searchSessionByID(ticket.sessionId)
         } ?: return
@@ -1643,20 +1607,16 @@ class MainFormController : Initializable {
         val soldSeats = soldSeatsMap.getOrPut(session.id) { mutableListOf() }
         ticketList.forEach { ticket ->
             val seatPosition = Pair(ticket.seatRow, ticket.seatCol)
-            soldSeats.add(seatPosition) // Adiciona a posição do assento vendido
+            soldSeats.add(seatPosition)
         }
 
-        // Atualiza a grade para refletir os assentos vendidos
         val gridPane = sessionGridMap[session.id] ?: GridPane().apply {
             sessionGridMap[session.id] = this
         }
         updatePreviewGrid(gridPane, session, session.rows, session.cols, 0) // Atualiza a grade para refletir os assentos vendidos
 
-        // Diminui a disponibilidade da sessão
         session.sessionDisponibility -= ticketList.size
-        println("Disponibilidade da sessão após a compra: ${session.sessionDisponibility}")
 
-        // Limpa a lista de ingressos após a confirmação
         ticketList.clear()
         home_cartTableView.refresh()
         updateTotal()
@@ -1682,41 +1642,4 @@ class MainFormController : Initializable {
         dashboard_TodaySales.text = ticketsToday.toString()
         dashboard_currentSystemDate.text = formattedDate
     }
-
-
-
-//    @FXML
-//    private fun onFullPriceCheckBoxClicked() {
-//        val selectedTickets = home_cartTableView.selectionModel.selectedItems
-//        selectedTickets.forEach { ticket ->
-//            ticket.price = session.movie?.price ?: 0.0 // Atualize com o preço da inteira
-//            ticket.ticketType = "Inteira"
-//        }
-//        home_cartTableView.refresh()
-//    }
-//
-//    @FXML
-//    private fun onHalfPriceCheckBoxClicked() {
-//        val selectedTickets = home_cartTableView.selectionModel.selectedItems
-//        selectedTickets.forEach { ticket ->
-//            ticket.price = (session.movie?.price ?: 0.0) / 2 // Atualize com o preço da meia
-//            ticket.ticketType = "Meia"
-//        }
-//        home_cartTableView.refresh()
-//    }
-
-    //    private fun removeSelectedTicket() {
-//        val selectedTicket = home_cartTableView.selectionModel.selectedItem
-//        if (selectedTicket != null) {
-//            ticketList.remove(selectedTicket)
-//            home_cartTableView.refresh()
-//            // Libera o botão referente à poltrona
-//            val seatPosition = Pair(selectedTicket.seatRow, selectedTicket.seatCol)
-//            selectedSeats.remove(seatPosition)
-//            currentSelectedSession?.let { updatePreviewGrid(previewGrid, it, it.rows, it.cols, numberOfTickets) }
-//            updateTotal() // Atualiza o total após a remoção
-//        } else {
-//            showAlert("Erro", "Nenhum ticket selecionado!", Alert.AlertType.ERROR)
-//        }
-//    }
 }
