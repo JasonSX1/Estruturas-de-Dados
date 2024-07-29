@@ -1275,7 +1275,7 @@ class MainFormController : Initializable {
                     ticketId = generateTicketId(),
                     sessionId = session.id,
                     movieName = session.movie?.title ?: "",
-                    customerId = "",
+                    customerId = Data.username,
                     purchaseTime = LocalDateTime.now(),
                     seatRow = seat.first,
                     seatCol = seat.second,
