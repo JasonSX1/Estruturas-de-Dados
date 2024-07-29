@@ -1330,16 +1330,7 @@ class MainFormController : Initializable {
         }
     }
 
-    override fun initialize(location: URL?, resources: ResourceBundle?) {
-        initializeComboBoxes()
-        initializeAudioTypeList()
-        intializeProductionTypeList()
-        displayUsername()
-        setupMovieParameters()
-        setupSessionParameters()
-        loadMoviesToTableView()
-        setupTimeFormatter()
-
+    fun setupSalesParameters(){
         home_cartTableView_col_movie.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.movieName) }
         home_cartTableView_col_seat.setCellValueFactory { cellData ->
             SimpleStringProperty("${('A' + cellData.value.seatRow)}${cellData.value.seatCol + 1}")
@@ -1386,7 +1377,18 @@ class MainFormController : Initializable {
         home_removeBtn.setOnAction {
             handleRemoveTickets()
         }
+    }
 
+    override fun initialize(location: URL?, resources: ResourceBundle?) {
+        initializeComboBoxes()
+        initializeAudioTypeList()
+        intializeProductionTypeList()
+        displayUsername()
+        setupMovieParameters()
+        setupSessionParameters()
+        setupSalesParameters()
+        loadMoviesToTableView()
+        setupTimeFormatter()
     }
 
     private fun onPriceCheckBoxClicked(isSelected: Boolean, type: String) {
