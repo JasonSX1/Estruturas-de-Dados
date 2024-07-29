@@ -26,9 +26,11 @@ import java.awt.Image
 import java.io.File
 import java.net.URL
 import java.sql.SQLException
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
+import java.time.format.TextStyle
 import java.util.*
 
 class MainFormController : Initializable {
@@ -328,6 +330,18 @@ class MainFormController : Initializable {
 
     @FXML
     private lateinit var dashboard_pieChart: PieChart
+
+    @FXML
+    private lateinit var dashboard_totalAmount: Label
+
+    @FXML
+    private lateinit var dashboard_totalTickets: Label
+
+    @FXML
+    private lateinit var dashboard_TodaySales: Label
+
+    @FXML
+    private lateinit var dashboard_currentSystemDate: Label
 
     private var currentSelectedSession: Session? = null
 
@@ -1419,6 +1433,7 @@ class MainFormController : Initializable {
 
             dashboard_tableView.items = ordersObservableList
             updatePieChart()
+            updateDashboard()
         } catch(e: Exception){
             e.printStackTrace()
         }
@@ -1436,6 +1451,7 @@ class MainFormController : Initializable {
         setupTimeFormatter()
         loadOrdersToTableView()
         updatePieChart()
+        updateDashboard()
 
         val cancelOrderMenuItem = MenuItem("Cancelar Pedido")
         cancelOrderMenuItem.setOnAction {
@@ -1600,6 +1616,12 @@ class MainFormController : Initializable {
             return
         }
 
+        // Verifica se todos os tickets têm um tipo selecionado
+        if (ticketList.any { it.ticketType.isBlank() }) {
+            showAlert("Erro", "Todos os tickets devem ter um tipo selecionado!", Alert.AlertType.ERROR)
+            return
+        }
+
         val orderId = nextOrderId++
         val ticketSummary = ticketList.joinToString("\n") { ticket ->
             "ID do Ingresso: ${ticket.ticketId}, Sessão ID: ${ticket.sessionId}, Filme: ${ticket.movieName}, Poltrona: ${('A' + ticket.seatRow)}${ticket.seatCol + 1}, Tipo: ${ticket.ticketType}, Preço: ${ticket.price}, Cliente ID: ${ticket.customerId}, Data de Compra: ${ticket.purchaseTime}"
@@ -1614,23 +1636,25 @@ class MainFormController : Initializable {
         println("Venda realizada: \n$ticketSummary")
 
         // Atualiza a disponibilidade dos assentos na sessão
-        currentSelectedSession?.let { session ->
-            val soldSeats = soldSeatsMap.getOrPut(session.id) { mutableListOf() }
-            ticketList.forEach { ticket ->
-                val seatPosition = Pair(ticket.seatRow, ticket.seatCol)
-                soldSeats.add(seatPosition) // Adiciona a posição do assento vendido
-            }
+        val session = ticketList.firstOrNull()?.let { ticket ->
+            sessionDAO.searchSessionByID(ticket.sessionId)
+        } ?: return
 
-            // Atualiza a grade para refletir os assentos vendidos
-            val gridPane = sessionGridMap[session.id] ?: GridPane().apply {
-                sessionGridMap[session.id] = this
-            }
-            updatePreviewGrid(gridPane, session, session.rows, session.cols, 0) // Atualiza a grade para refletir os assentos vendidos
-
-            // Diminui a disponibilidade da sessão
-            session.sessionDisponibility -= ticketList.size
-            println("Disponibilidade da sessão após a compra: ${session.sessionDisponibility}")
+        val soldSeats = soldSeatsMap.getOrPut(session.id) { mutableListOf() }
+        ticketList.forEach { ticket ->
+            val seatPosition = Pair(ticket.seatRow, ticket.seatCol)
+            soldSeats.add(seatPosition) // Adiciona a posição do assento vendido
         }
+
+        // Atualiza a grade para refletir os assentos vendidos
+        val gridPane = sessionGridMap[session.id] ?: GridPane().apply {
+            sessionGridMap[session.id] = this
+        }
+        updatePreviewGrid(gridPane, session, session.rows, session.cols, 0) // Atualiza a grade para refletir os assentos vendidos
+
+        // Diminui a disponibilidade da sessão
+        session.sessionDisponibility -= ticketList.size
+        println("Disponibilidade da sessão após a compra: ${session.sessionDisponibility}")
 
         // Limpa a lista de ingressos após a confirmação
         ticketList.clear()
@@ -1643,39 +1667,19 @@ class MainFormController : Initializable {
         loadOrdersToTableView()
     }
 
+    fun updateDashboard() {
+        val totalAmount = orderList.sumOf { it.total }
+        val totalTickets = orderList.sumOf { it.tickets.size }
+        val today = LocalDate.now()
+        val ticketsToday = orderList.flatMap { it.tickets }
+            .count { it.purchaseTime.toLocalDate() == today }
 
-//    @FXML
-//    private fun onFullPriceCheckBoxClicked() {
-//        val selectedTickets = home_cartTableView.selectionModel.selectedItems
-//        selectedTickets.forEach { ticket ->
-//            ticket.price = session.movie?.price ?: 0.0 // Atualize com o preço da inteira
-//            ticket.ticketType = "Inteira"
-//        }
-//        home_cartTableView.refresh()
-//    }
-//
-//    @FXML
-//    private fun onHalfPriceCheckBoxClicked() {
-//        val selectedTickets = home_cartTableView.selectionModel.selectedItems
-//        selectedTickets.forEach { ticket ->
-//            ticket.price = (session.movie?.price ?: 0.0) / 2 // Atualize com o preço da meia
-//            ticket.ticketType = "Meia"
-//        }
-//        home_cartTableView.refresh()
-//    }
+        val dateFormatter = DateTimeFormatter.ofPattern("EEEE, dd MMM yyyy")
+        val formattedDate = LocalDate.now().format(dateFormatter)
 
-    //    private fun removeSelectedTicket() {
-//        val selectedTicket = home_cartTableView.selectionModel.selectedItem
-//        if (selectedTicket != null) {
-//            ticketList.remove(selectedTicket)
-//            home_cartTableView.refresh()
-//            // Libera o botão referente à poltrona
-//            val seatPosition = Pair(selectedTicket.seatRow, selectedTicket.seatCol)
-//            selectedSeats.remove(seatPosition)
-//            currentSelectedSession?.let { updatePreviewGrid(previewGrid, it, it.rows, it.cols, numberOfTickets) }
-//            updateTotal() // Atualiza o total após a remoção
-//        } else {
-//            showAlert("Erro", "Nenhum ticket selecionado!", Alert.AlertType.ERROR)
-//        }
-//    }
+        dashboard_totalAmount.text = String.format("%.2f", totalAmount)
+        dashboard_totalTickets.text = totalTickets.toString()
+        dashboard_TodaySales.text = ticketsToday.toString()
+        dashboard_currentSystemDate.text = formattedDate
+    }
 }

@@ -104,14 +104,14 @@
                                     <Font name="Bebas Neue Regular" size="30.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="28.0" layoutY="124.0" text="Quinta-feira, 16, Mai, 2024" textFill="#abbbc2" />
+                              <Label fx:id="dashboard_currentSystemDate" layoutX="28.0" layoutY="124.0" text="Quinta-feira, 16, Mai, 2024" textFill="#abbbc2" />
                               <AnchorPane layoutX="340.0" layoutY="54.0" prefHeight="140.0" prefWidth="180.0" stylesheets="@../../../Values/mainForm.css" AnchorPane.rightAnchor="460.0" AnchorPane.topAnchor="54.0">
                                  <styleClass>
                                     <String fx:value="gray-bg" />
                                     <String fx:value="radius" />
                                  </styleClass>
                                  <children>
-                                    <Label layoutX="15.0" layoutY="60.0" text="R$ 10.234,70" textFill="WHITE">
+                                    <Label fx:id="dashboard_totalAmount" layoutX="15.0" layoutY="60.0" text="R$ 10.234,70" textFill="WHITE">
                                        <font>
                                           <Font size="24.0" />
                                        </font>
@@ -125,7 +125,7 @@
                                     <String fx:value="radius" />
                                  </styleClass>
                                  <children>
-                                    <Label layoutX="15.0" layoutY="60.0" text="23,456" textFill="WHITE">
+                                    <Label fx:id="dashboard_totalTickets" layoutX="15.0" layoutY="60.0" text="23,456" textFill="WHITE">
                                        <font>
                                           <Font size="24.0" />
                                        </font>
@@ -139,7 +139,7 @@
                                     <String fx:value="radius" />
                                  </styleClass>
                                  <children>
-                                    <Label layoutX="15.0" layoutY="60.0" text="102" textFill="WHITE">
+                                    <Label fx:id="dashboard_TodaySales" layoutX="15.0" layoutY="60.0" text="102" textFill="WHITE">
                                        <font>
                                           <Font size="24.0" />
                                        </font>
