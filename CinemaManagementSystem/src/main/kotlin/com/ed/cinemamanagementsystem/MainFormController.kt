@@ -272,16 +272,16 @@ class MainFormController : Initializable {
     private lateinit var dashboard_tableView_col_movieName: TableColumn<Order, String>
 
     @FXML
-    private lateinit var dashboard_tableView_col_tickets: TableColumn<Order, List<Ticket>>
+    private lateinit var dashboard_tableView_col_tickets: TableColumn<Order, String>
 
     @FXML
-    private lateinit var dashboard_tableView_col_seats: TableColumn<Order, List<Ticket>>
+    private lateinit var dashboard_tableView_col_seats: TableColumn<Order, String>
 
     @FXML
-    private lateinit var dashboard_tableView_col_total: TableColumn<Order, List<Ticket>>
+    private lateinit var dashboard_tableView_col_total: TableColumn<Order, Double>
 
     @FXML
-    private lateinit var dashboard_tableView_col_date: TableColumn<Order, List<Ticket>>
+    private lateinit var dashboard_tableView_col_date: TableColumn<Order, LocalDateTime>
 
     private var ticketCount: Int = 0
 
@@ -1066,7 +1066,7 @@ class MainFormController : Initializable {
         loadSessionsToTableView()
         clearSessionsForm()
     }
-    
+
     private fun getSessionStatusFromString(status: String): SessionStatus {
         return when (status) {
             "Espera" -> SessionStatus.WAITING
@@ -1400,6 +1400,25 @@ class MainFormController : Initializable {
         }
     }
 
+    val orderList: MutableList<Order> = mutableListOf()
+    var nextOrderId = 1
+    fun loadOrdersToTableView() {
+        try{
+            val ordersObservableList: ObservableList<Order> = FXCollections.observableArrayList()
+            ordersObservableList.addAll(orderList)
+            dashboard_tableView_col_customer.cellValueFactory = PropertyValueFactory("customerId")
+            dashboard_tableView_col_movieName.cellValueFactory = PropertyValueFactory("movieName")
+            dashboard_tableView_col_tickets.cellValueFactory = PropertyValueFactory<Order, String>("ticketSummary")
+            dashboard_tableView_col_seats.cellValueFactory = PropertyValueFactory("seats")
+            dashboard_tableView_col_total.cellValueFactory = PropertyValueFactory("total")
+            dashboard_tableView_col_date.cellValueFactory = PropertyValueFactory("purchaseTime")
+
+            dashboard_tableView.items = ordersObservableList
+        } catch(e: Exception){
+            e.printStackTrace()
+        }
+    }
+
     override fun initialize(location: URL?, resources: ResourceBundle?) {
         initializeComboBoxes()
         initializeAudioTypeList()
@@ -1410,6 +1429,7 @@ class MainFormController : Initializable {
         setupSalesParameters()
         loadMoviesToTableView()
         setupTimeFormatter()
+        loadOrdersToTableView()
     }
 
     private fun onPriceCheckBoxClicked(isSelected: Boolean, type: String) {
@@ -1547,6 +1567,7 @@ class MainFormController : Initializable {
         clearSessionsForm()
         updateSessionsTableView()
         homeDisplayCards()
+        loadOrdersToTableView()
     }
 
 
