@@ -156,11 +156,12 @@ class MovieCardController {
         applyStatusEffect(session.status)
     }
 
-
     private fun applyStatusEffect(status: SessionStatus) {
         if (status != SessionStatus.SALE) {
             // Aplica o efeito GaussianBlur ao card
             val blur = GaussianBlur(10.0)
+            card_addBtn.isDisable = true
+            card_spinner.isDisable = true
             card_pane.effect = blur // Supondo que card_pane é o seu contêiner principal do card
 
             // Exibe o label de status
@@ -177,6 +178,8 @@ class MovieCardController {
             // Remove o efeito e oculta o label se o status for SALE
             card_pane.effect = null
             card_statusLabel.isVisible = false
+            card_addBtn.isDisable = false
+            card_spinner.isDisable = false
         }
     }
 

@@ -1682,4 +1682,41 @@ class MainFormController : Initializable {
         dashboard_TodaySales.text = ticketsToday.toString()
         dashboard_currentSystemDate.text = formattedDate
     }
+
+
+
+//    @FXML
+//    private fun onFullPriceCheckBoxClicked() {
+//        val selectedTickets = home_cartTableView.selectionModel.selectedItems
+//        selectedTickets.forEach { ticket ->
+//            ticket.price = session.movie?.price ?: 0.0 // Atualize com o preço da inteira
+//            ticket.ticketType = "Inteira"
+//        }
+//        home_cartTableView.refresh()
+//    }
+//
+//    @FXML
+//    private fun onHalfPriceCheckBoxClicked() {
+//        val selectedTickets = home_cartTableView.selectionModel.selectedItems
+//        selectedTickets.forEach { ticket ->
+//            ticket.price = (session.movie?.price ?: 0.0) / 2 // Atualize com o preço da meia
+//            ticket.ticketType = "Meia"
+//        }
+//        home_cartTableView.refresh()
+//    }
+
+    //    private fun removeSelectedTicket() {
+//        val selectedTicket = home_cartTableView.selectionModel.selectedItem
+//        if (selectedTicket != null) {
+//            ticketList.remove(selectedTicket)
+//            home_cartTableView.refresh()
+//            // Libera o botão referente à poltrona
+//            val seatPosition = Pair(selectedTicket.seatRow, selectedTicket.seatCol)
+//            selectedSeats.remove(seatPosition)
+//            currentSelectedSession?.let { updatePreviewGrid(previewGrid, it, it.rows, it.cols, numberOfTickets) }
+//            updateTotal() // Atualiza o total após a remoção
+//        } else {
+//            showAlert("Erro", "Nenhum ticket selecionado!", Alert.AlertType.ERROR)
+//        }
+//    }
 }
