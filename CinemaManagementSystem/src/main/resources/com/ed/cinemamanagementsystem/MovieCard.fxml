@@ -12,7 +12,7 @@
 
 <AnchorPane prefHeight="255.0" prefWidth="287.0" styleClass="card" stylesheets="@../../../Values/CardDesign.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ed.cinemamanagementsystem.MovieCardController">
    <children>
-      <VBox layoutX="65.0" layoutY="-24.0" prefHeight="180.0" prefWidth="230.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox fx:id="card_pane" layoutX="65.0" layoutY="-24.0" prefHeight="180.0" prefWidth="230.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox alignment="CENTER_LEFT" prefHeight="21.0" prefWidth="230.0">
                <children>
@@ -86,5 +86,10 @@
             </HBox>
          </children>
       </VBox>
+      <Label fx:id="card_statusLabel" layoutX="83.0" layoutY="117.0" prefHeight="22.0" prefWidth="181.0" text="Sessão em espera" textFill="WHITE" visible="false">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
