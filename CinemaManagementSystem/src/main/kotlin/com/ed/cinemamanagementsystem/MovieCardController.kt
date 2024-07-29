@@ -46,6 +46,12 @@ class MovieCardController {
     private lateinit var currentSession: Session
 
     fun setData(session: Session, mainFormController: MainFormController) {
+        // Verifica se a sessão não é nula
+        if (session == null) {
+            println("Sessão é nula.")
+            return
+        }
+
         card_name.text = session.movie?.title ?: "Sessão sem filme"
         card_sessionName.text = "Sessão ${session.id}"
         card_3d.text = if (session.movie?.has3d == "Sim") "3D" else "2D"
@@ -97,17 +103,28 @@ class MovieCardController {
         card_half.isVisible = hasHalf
 
         // Configura o spinner para a capacidade da sessão
-        card_spinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(1, session.sessionCapacity, 1)
+        val maxCapacity = session.sessionDisponibility
+
 
         this.currentSession = session
         this.mainFormController = mainFormController
 
-        // Configurar o spinner para a capacidade da sessão
-        card_spinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(1, session.sessionDisponibility, 1)
+        if (maxCapacity > 0) {
+            card_spinner.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(1, maxCapacity, 1)
+        } else {
+            card_spinner.isDisable = true // Desabilita o spinner se não houver disponibilidade
+        }
+
+        // Desabilita o botão e o spinner se a disponibilidade for zero
+        val isAvailable = session.sessionDisponibility > 0
+        card_addBtn.isDisable = !isAvailable
+        card_spinner.isDisable = !isAvailable
 
         // Configurar ação do botão de adicionar
         card_addBtn.setOnAction {
-            handleAddTickets()
+            if (isAvailable) {
+                handleAddTickets()
+            }
         }
     }
 
