@@ -620,7 +620,7 @@ class MainFormController : Initializable {
 
     private fun updatePreviewGrid(gridPane: GridPane, session: Session, rows: Int, cols: Int, numberOfTickets: Int) {
         gridPane.children.clear()
-
+        val soldSeats = soldSeatsMap[session.id] ?: mutableListOf()
         for (i in 0 until rows) {
             for (j in 0 until cols) {
                 val button = Button()
@@ -630,9 +630,7 @@ class MainFormController : Initializable {
                 button.minHeight = 40.0
 
                 val seatPosition = Pair(i, j)
-                val isSeatTaken = orderList.any { order ->
-                    order.tickets.any { it.sessionId == session.id && it.seatRow == seatPosition.first && it.seatCol == seatPosition.second }
-                }
+                val isSeatTaken = soldSeats.contains(seatPosition) || ticketList.any { it.sessionId == session.id && it.seatRow == seatPosition.first && it.seatCol == seatPosition.second }
                 if (isSeatTaken) {
                     button.isDisable = true
                     button.style = "-fx-background-color: red"
@@ -784,6 +782,9 @@ class MainFormController : Initializable {
             }
             sessions_btn -> {
                 sessions_form.isVisible = true
+                loadSessionsToTableView()
+                clearSessionsForm()
+                updateSessionsTableView()
             }
             movies_btn -> {
                 MoviesForm.isVisible = true
@@ -1287,6 +1288,12 @@ class MainFormController : Initializable {
             home_cartTableView.items = ticketList
             home_cartTableView.refresh()
 
+            // Atualiza a grade para refletir os assentos adicionados ao carrinho
+            val gridPane = sessionGridMap[session.id] ?: GridPane().apply {
+                sessionGridMap[session.id] = this
+            }
+            updatePreviewGrid(gridPane, session, session.rows, session.cols, 0) // Passa 0 para não selecionar novos assentos
+
             selectedSeats.clear()
 
             updatePriceLabels(fullPrice, halfPrice)
@@ -1294,6 +1301,7 @@ class MainFormController : Initializable {
             e.printStackTrace()
         }
     }
+
     override fun initialize(location: URL?, resources: ResourceBundle?) {
         initializeComboBoxes()
         initializeAudioTypeList()
@@ -1372,13 +1380,20 @@ class MainFormController : Initializable {
         home_halfPrice.text = "Preço: R$ %.2f".format(halfPrice)
     }
 
+    private val sessionGridMap: MutableMap<Int, GridPane> = mutableMapOf()
+    private val soldSeatsMap: MutableMap<Int, MutableList<Pair<Int, Int>>> = mutableMapOf()
+
+
     fun showSeatSelectionPopup(session: Session, numberOfTickets: Int) {
         currentSelectedSession = session
         this.numberOfTickets = numberOfTickets
         val dialog = Stage()
         dialog.title = "Seleção de Poltronas"
 
-        val gridPane = GridPane()
+        // Obtém a instância de GridPane da sessão atual
+        val gridPane = sessionGridMap[session.id] ?: GridPane().apply {
+            sessionGridMap[session.id] = this
+        }
         gridPane.gridLinesVisibleProperty().set(true)
         updatePreviewGrid(gridPane, session, session.rows, session.cols, numberOfTickets) // Passa numberOfTickets aqui
 
@@ -1411,6 +1426,7 @@ class MainFormController : Initializable {
         dialog.showAndWait()
     }
 
+
     private fun updateTotal() {
         val total = ticketList.sumOf { it.price }
         home_total.text = String.format("%.2f", total)
@@ -1436,21 +1452,33 @@ class MainFormController : Initializable {
 
         // Atualiza a disponibilidade dos assentos na sessão
         currentSelectedSession?.let { session ->
+            val soldSeats = soldSeatsMap.getOrPut(session.id) { mutableListOf() }
             ticketList.forEach { ticket ->
-                // Marque os assentos como vendidos na sessão
                 val seatPosition = Pair(ticket.seatRow, ticket.seatCol)
-                selectedSeats.add(seatPosition) // Adiciona a posição do assento vendido
+                soldSeats.add(seatPosition) // Adiciona a posição do assento vendido
             }
-            val gridPane = GridPane()
-            gridPane.gridLinesVisibleProperty().set(true)
+
+            // Atualiza a grade para refletir os assentos vendidos
+            val gridPane = sessionGridMap[session.id] ?: GridPane().apply {
+                sessionGridMap[session.id] = this
+            }
             updatePreviewGrid(gridPane, session, session.rows, session.cols, 0) // Atualiza a grade para refletir os assentos vendidos
+
+            // Diminui a disponibilidade da sessão
+            session.sessionDisponibility -= ticketList.size
+            println("Disponibilidade da sessão após a compra: ${session.sessionDisponibility}")
         }
 
         // Limpa a lista de ingressos após a confirmação
         ticketList.clear()
         home_cartTableView.refresh()
         updateTotal()
+        loadSessionsToTableView()
+        clearSessionsForm()
+        updateSessionsTableView()
+        homeDisplayCards()
     }
+
 
 //    @FXML
 //    private fun onFullPriceCheckBoxClicked() {
