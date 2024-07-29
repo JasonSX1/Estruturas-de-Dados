@@ -42,6 +42,9 @@ class MovieCardController {
     @FXML
     private lateinit var card_addBtn: Button
 
+    @FXML
+    private lateinit var card_percent: Label
+
     private lateinit var mainFormController: MainFormController
     private lateinit var currentSession: Session
 
@@ -55,6 +58,13 @@ class MovieCardController {
         card_name.text = session.movie?.title ?: "Sessão sem filme"
         card_sessionName.text = "Sessão ${session.id}"
         card_3d.text = if (session.movie?.has3d == "Sim") "3D" else "2D"
+        val soldTickets = session.sessionCapacity - session.sessionDisponibility
+        val percentageSold = if (session.sessionCapacity > 0) {
+            (soldTickets.toDouble() / session.sessionCapacity * 100)
+        } else {
+            0.0
+        }
+        card_percent.text = String.format("%.2f%%", percentageSold)
 
         val imagePath = session.movie?.imagePath
         if (imagePath != null && imagePath.isNotEmpty()) {
