@@ -105,7 +105,7 @@
                                  </font>
                               </Label>
                               <Label layoutX="28.0" layoutY="124.0" text="Quinta-feira, 16, Mai, 2024" textFill="#abbbc2" />
-                              <AnchorPane prefHeight="140.0" prefWidth="180.0" stylesheets="@../../../Values/mainForm.css" AnchorPane.rightAnchor="617.0" AnchorPane.topAnchor="52.0">
+                              <AnchorPane layoutX="340.0" layoutY="54.0" prefHeight="140.0" prefWidth="180.0" stylesheets="@../../../Values/mainForm.css" AnchorPane.rightAnchor="460.0" AnchorPane.topAnchor="54.0">
                                  <styleClass>
                                     <String fx:value="gray-bg" />
                                     <String fx:value="radius" />
@@ -119,7 +119,7 @@
                                     <Label layoutX="16.0" layoutY="102.0" text="Receita Total" textFill="#abbbc2" />
                                  </children>
                               </AnchorPane>
-                              <AnchorPane prefHeight="140.0" prefWidth="180.0" stylesheets="@../../../Values/mainForm.css" AnchorPane.rightAnchor="417.0" AnchorPane.topAnchor="52.0">
+                              <AnchorPane layoutX="565.0" layoutY="54.0" prefHeight="140.0" prefWidth="180.0" stylesheets="@../../../Values/mainForm.css" AnchorPane.rightAnchor="235.0" AnchorPane.topAnchor="54.0">
                                  <styleClass>
                                     <String fx:value="gray-bg" />
                                     <String fx:value="radius" />
@@ -133,21 +133,7 @@
                                     <Label layoutX="16.0" layoutY="102.0" text="Total de ingressos vendidos" textFill="#abbbc2" />
                                  </children>
                               </AnchorPane>
-                              <AnchorPane prefHeight="140.0" prefWidth="180.0" stylesheets="@../../../Values/mainForm.css" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="52.0">
-                                 <styleClass>
-                                    <String fx:value="gray-bg" />
-                                    <String fx:value="radius" />
-                                 </styleClass>
-                                 <children>
-                                    <Label layoutX="15.0" layoutY="60.0" text="1,234" textFill="WHITE">
-                                       <font>
-                                          <Font size="24.0" />
-                                       </font>
-                                    </Label>
-                                    <Label layoutX="16.0" layoutY="102.0" text="Total de Clientes" textFill="#abbbc2" />
-                                 </children>
-                              </AnchorPane>
-                              <AnchorPane prefHeight="140.0" prefWidth="180.0" stylesheets="@../../../Values/mainForm.css" AnchorPane.rightAnchor="217.0" AnchorPane.topAnchor="52.0">
+                              <AnchorPane layoutX="783.0" layoutY="54.0" prefHeight="140.0" prefWidth="180.0" stylesheets="@../../../Values/mainForm.css" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="54.0">
                                  <styleClass>
                                     <String fx:value="gray-bg" />
                                     <String fx:value="radius" />
@@ -194,7 +180,7 @@
                                     <String fx:value="radius" />
                                  </styleClass>
                                  <children>
-                                    <PieChart layoutX="15.0" layoutY="58.0" prefHeight="310.0" prefWidth="258.0" style="-fx-background-color: #ccc;" AnchorPane.bottomAnchor="10.000000000000057" AnchorPane.leftAnchor="15.199999999999989" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="57.60000000000008" />
+                                    <PieChart fx:id="dashboard_pieChart" layoutX="15.0" layoutY="58.0" prefHeight="310.0" prefWidth="258.0" style="-fx-background-color: #ccc;" AnchorPane.bottomAnchor="10.000000000000057" AnchorPane.leftAnchor="15.199999999999989" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="57.60000000000008" />
                                     <Label layoutX="16.0" layoutY="16.0" text="Tipos de ingressos vendidos" textFill="WHITE">
                                        <font>
                                           <Font size="14.0" />

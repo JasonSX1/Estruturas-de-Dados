@@ -14,6 +14,7 @@ import javafx.geometry.Pos
 import javafx.geometry.VPos
 import javafx.scene.Parent
 import javafx.scene.Scene
+import javafx.scene.chart.PieChart
 import javafx.scene.control.*
 import javafx.scene.control.cell.PropertyValueFactory
 import javafx.scene.image.ImageView
@@ -324,6 +325,9 @@ class MainFormController : Initializable {
 
     @FXML
     private lateinit var ticketSpinner: Spinner<Int>
+
+    @FXML
+    private lateinit var dashboard_pieChart: PieChart
 
     private var currentSelectedSession: Session? = null
 
@@ -1414,6 +1418,7 @@ class MainFormController : Initializable {
             dashboard_tableView_col_date.cellValueFactory = PropertyValueFactory("purchaseTime")
 
             dashboard_tableView.items = ordersObservableList
+            updatePieChart()
         } catch(e: Exception){
             e.printStackTrace()
         }
@@ -1430,6 +1435,7 @@ class MainFormController : Initializable {
         loadMoviesToTableView()
         setupTimeFormatter()
         loadOrdersToTableView()
+        updatePieChart()
 
         val cancelOrderMenuItem = MenuItem("Cancelar Pedido")
         cancelOrderMenuItem.setOnAction {
@@ -1440,6 +1446,25 @@ class MainFormController : Initializable {
         }
         val contextMenu = ContextMenu(cancelOrderMenuItem)
         dashboard_tableView.contextMenu = contextMenu
+    }
+
+    fun updatePieChart() {
+        if (orderList.isEmpty()) {
+            dashboard_pieChart.data = FXCollections.observableArrayList()
+            return
+        }
+
+        val fullPriceCount = orderList.flatMap { it.tickets }
+            .count { it.ticketType == "Inteira" }
+        val halfPriceCount = orderList.flatMap { it.tickets }
+            .count { it.ticketType == "Meia" }
+
+        val pieChartData: ObservableList<PieChart.Data> = FXCollections.observableArrayList(
+            PieChart.Data("Inteira\n$fullPriceCount", fullPriceCount.toDouble()),
+            PieChart.Data("Meia\n$halfPriceCount", halfPriceCount.toDouble())
+        )
+
+        dashboard_pieChart.data = pieChartData
     }
 
     fun cancelOrder(order: Order) {
@@ -1473,6 +1498,7 @@ class MainFormController : Initializable {
             updateTotal()
             updateSessionsTableView()
             homeDisplayCards()
+            updatePieChart()
         } catch (e: Exception) {
             showAlert("Erro", "Ocorreu um erro ao cancelar o pedido: ${e.message}", Alert.AlertType.ERROR)
             e.printStackTrace()
