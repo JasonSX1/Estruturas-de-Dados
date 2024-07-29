@@ -9,7 +9,7 @@ data class Session(
     var sessionDisponibility: Int,
     val movie: Movie?,
     val startTime: LocalDateTime?,
-    val status: SessionStatus,
+    var status: SessionStatus,
     val rows: Int,
     val cols: Int
 )
