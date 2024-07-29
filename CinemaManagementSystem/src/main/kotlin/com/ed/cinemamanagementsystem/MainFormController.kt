@@ -1430,6 +1430,53 @@ class MainFormController : Initializable {
         loadMoviesToTableView()
         setupTimeFormatter()
         loadOrdersToTableView()
+
+        val cancelOrderMenuItem = MenuItem("Cancelar Pedido")
+        cancelOrderMenuItem.setOnAction {
+            val selectedOrder = dashboard_tableView.selectionModel.selectedItem
+            if (selectedOrder != null) {
+                cancelOrder(selectedOrder)
+            }
+        }
+        val contextMenu = ContextMenu(cancelOrderMenuItem)
+        dashboard_tableView.contextMenu = contextMenu
+    }
+
+    fun cancelOrder(order: Order) {
+        try {
+            // Remove o pedido da lista de pedidos
+            orderList.remove(order)
+            loadOrdersToTableView() // Atualiza a TableView de pedidos
+
+            // Redisponibiliza as poltronas das sessões correspondentes
+            order.tickets.forEach { ticket ->
+                val session = sessionDAO.searchSessionByID(ticket.sessionId)
+                if (session != null) {
+                    val soldSeats = soldSeatsMap[session.id]
+                    if (soldSeats != null) {
+                        val seatPosition = Pair(ticket.seatRow, ticket.seatCol)
+                        soldSeats.remove(seatPosition)
+                    }
+                    // Atualiza a grade para refletir os assentos redisponibilizados
+                    val gridPane = sessionGridMap[session.id] ?: GridPane().apply {
+                        sessionGridMap[session.id] = this
+                    }
+                    updatePreviewGrid(gridPane, session, session.rows, session.cols, 0)
+
+                    // Atualiza a disponibilidade da sessão
+                    session.sessionDisponibility += 1
+                }
+            }
+
+            // Atualiza a interface e outras funcionalidades conforme necessário
+            home_cartTableView.refresh()
+            updateTotal()
+            updateSessionsTableView()
+            homeDisplayCards()
+        } catch (e: Exception) {
+            showAlert("Erro", "Ocorreu um erro ao cancelar o pedido: ${e.message}", Alert.AlertType.ERROR)
+            e.printStackTrace()
+        }
     }
 
     private fun onPriceCheckBoxClicked(isSelected: Boolean, type: String) {
