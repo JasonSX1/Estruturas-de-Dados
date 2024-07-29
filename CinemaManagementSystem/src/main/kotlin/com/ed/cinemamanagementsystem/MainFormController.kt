@@ -262,6 +262,27 @@ class MainFormController : Initializable {
     @FXML
     private lateinit var home_recibeBtn: Button
 
+    @FXML
+    private lateinit var dashboard_tableView: TableView<Order>
+
+    @FXML
+    private lateinit var dashboard_tableView_col_customer: TableColumn<Order, String>
+
+    @FXML
+    private lateinit var dashboard_tableView_col_movieName: TableColumn<Order, String>
+
+    @FXML
+    private lateinit var dashboard_tableView_col_tickets: TableColumn<Order, List<Ticket>>
+
+    @FXML
+    private lateinit var dashboard_tableView_col_seats: TableColumn<Order, List<Ticket>>
+
+    @FXML
+    private lateinit var dashboard_tableView_col_total: TableColumn<Order, List<Ticket>>
+
+    @FXML
+    private lateinit var dashboard_tableView_col_date: TableColumn<Order, List<Ticket>>
+
     private var ticketCount: Int = 0
 
     private var imagePath: String? = null
