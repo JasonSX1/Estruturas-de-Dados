@@ -73,7 +73,69 @@ class ArvoreGenealogica<T>: ArvoreGenealogicaDAO<T>{
         return null
     }
 
-    override fun remover(nomeNo: String): Boolean {
-        TODO("Not yet implemented")
+    override fun removerNo(nome: String): List<NoFamiliar<T>> {
+        val removidos = mutableListOf<NoFamiliar<T>>()
+        if (raiz == null) return removidos
+
+        // Caso especial: remoção da raiz
+        if (raiz?.dado?.nome == nome) {
+            removidos.add(raiz!!)
+            raiz = null
+            return removidos
+        }
+
+        // Chama a função recursiva para remover o nó e seus descendentes
+        removerNoRecursivamente(raiz, nome, removidos)
+        return removidos
+    }
+
+    private fun removerNoRecursivamente(no: NoFamiliar<T>?, nome: String, removidos: MutableList<NoFamiliar<T>>): Boolean {
+        if (no == null) return false
+
+        val filhos = no.filhos?.selecionarTodos() ?: emptyArray()
+        for (i in filhos.indices) {
+            val filho = filhos[i] as NoFamiliar<T>
+            if (filho.dado.nome == nome) {
+                // Adiciona o nó encontrado na lista de removidos
+                removidos.add(filho)
+                // Remove o nó da lista de filhos do pai
+                no.filhos?.apagar(i)
+                return true
+            } else if (removerNoRecursivamente(filho, nome, removidos)) {
+                return true
+            }
+        }
+
+        // Verifica o cônjuge
+        val conjuge = no.conjuge
+        if (conjuge != null && conjuge.dado.nome == nome) {
+            // Adiciona o cônjuge na lista de removidos
+            removidos.add(conjuge)
+            // Remove o cônjuge
+            no.conjuge = null
+            return true
+        }
+
+        return false
+    }
+    fun imprimirArvoreComRemovidos(no: NoFamiliar<T>?, prefixo: String = "", isUltimo: Boolean = true, removidos: List<NoFamiliar<T>>) {
+        if (no == null) return
+
+        // Verifica se o nó está na lista de removidos
+        val marcacaoRemovido = if (removidos.contains(no)) "(removido)" else ""
+
+        println("${prefixo}${if (isUltimo) "└── " else "├── "}${no.dado.nome} $marcacaoRemovido")
+
+        val filhos = no.filhos?.selecionarTodos() ?: emptyArray()
+        val conjuge = no.conjuge
+        val novosPrefixos = prefixo + if (isUltimo) "    " else "│   "
+
+        for (i in filhos.indices) {
+            imprimirArvoreComRemovidos(filhos[i] as NoFamiliar<T>, novosPrefixos, i == filhos.lastIndex && conjuge == null, removidos)
+        }
+
+        conjuge?.let {
+            imprimirArvoreComRemovidos(it, prefixo, false, removidos)
+        }
     }
 }
