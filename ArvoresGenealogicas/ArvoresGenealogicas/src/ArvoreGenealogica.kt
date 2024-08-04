@@ -18,9 +18,14 @@ class ArvoreGenealogica<T>: ArvoreGenealogicaDAO<T>{
     }
 
     override fun criarRaiz(nomeNo: String?, dataNasc: Int, dataFal: Int?) {
-        val dadosNo = Dados(nomeNo, dataNasc, dataFal)
-        raiz = NoFamiliar(dadosNo)
+        if (nomeNo != null) {
+            val dadosNo = Dados(nomeNo, dataNasc, dataFal)
+            raiz = NoFamiliar(dadosNo)
+        } else {
+            println("Nome do nó raiz não pode ser nulo.")
+        }
     }
+
 
     override fun criarConjuge(nomeNo: String, companheiro: String, dataNasc: Int, dataFal: Int?){
         val noCompanheiro = buscarNo(companheiro) ?: return
@@ -55,13 +60,12 @@ class ArvoreGenealogica<T>: ArvoreGenealogicaDAO<T>{
         }
     }
 
-    override fun buscarNo(nome: String): NoFamiliar<T>? {
-        if (raiz == null) return null
+    override fun buscarNo(nomeNo: String): NoFamiliar<T>? {
         val fila = ListaFilhos()
         fila.anexar(raiz)
         while (!fila.estaVazia()) {
             val noAtual = fila.apagar(0) as? NoFamiliar<T>
-            if (noAtual?.dado?.nome == nome) return noAtual
+            if (noAtual?.dado?.nome == nomeNo) return noAtual
 
             noAtual?.filhos?.selecionarTodos()?.forEach {
                 fila.anexar(it)
