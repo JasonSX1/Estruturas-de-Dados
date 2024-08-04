@@ -67,7 +67,6 @@ fun main() {
                         println("Se quiser desistir de adicionar a pessoa, digite '0'.")
                     }
                 }while (verificacao == null)
-                println(listaAux.obterRaiz())
                 listaAux.imprimir()
             }
             "3" -> {

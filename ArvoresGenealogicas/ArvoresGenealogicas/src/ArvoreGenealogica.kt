@@ -42,21 +42,34 @@ class ArvoreGenealogica<T>: ArvoreGenealogicaDAO<T>{
         imprimirArvore(raiz)
     }
 
-    private fun imprimirArvore(no: NoFamiliar<T>?, prefixo: String = "", isUltimo: Boolean = true) {
+    private fun imprimirArvore(no: NoFamiliar<T>?, prefixo: String = "", isUltimo: Boolean = true, nivel: Int = 0) {
         if (no == null) return
 
-        println("${prefixo}${if (isUltimo) "└── " else "├── "}${no.dado.nome}")
+        val relacao = when (nivel) {
+            0 -> "Raiz"
+            1 -> "Filho(a)"
+            2 -> "Neto(a)"
+            3 -> "Bisneto(a)"
+            4 -> "Trisneto(a)"
+            5 -> "Tetraneto(a)"
+            6 -> "Pentaneto(a)"
+            7 -> "Hexaneto(a)"
+            8 -> "Heptaneto(a)"
+            9 -> "Octaneto(a)"
+            10 -> "Enaneto(a)"
+            11 -> "Decaneto(a)"
+            else -> "Nível $nivel"
+        }
+
+        val cônjuge = no.conjuge?.dado?.nome ?: ""
+
+        println("${prefixo}${if (isUltimo) "└── " else "├── "}${no.dado.nome} ($relacao) ${if (cônjuge.isNotEmpty()) "e Cônjuge: $cônjuge" else ""}")
 
         val filhos = no.filhos?.selecionarTodos()?.filterIsInstance<NoFamiliar<T>>() ?: emptyList()
-        val conjuge = no.conjuge
         val novosPrefixos = prefixo + if (isUltimo) "    " else "│   "
 
         for (i in filhos.indices) {
-            imprimirArvore(filhos[i], novosPrefixos, i == filhos.lastIndex && conjuge == null)
-        }
-
-        conjuge?.let {
-            imprimirArvore(it, prefixo, false)
+            imprimirArvore(filhos[i], novosPrefixos, i == filhos.lastIndex, nivel + 1)
         }
     }
 
@@ -121,26 +134,5 @@ class ArvoreGenealogica<T>: ArvoreGenealogicaDAO<T>{
         }
 
         return false
-    }
-
-    fun imprimirArvoreComRemovidos(no: NoFamiliar<T>?, prefixo: String = "", isUltimo: Boolean = true, removidos: List<NoFamiliar<T>>) {
-        if (no == null) return
-
-        // Verifica se o nó está na lista de removidos
-        val marcacaoRemovido = if (removidos.contains(no)) "(removido)" else ""
-
-        println("${prefixo}${if (isUltimo) "└── " else "├── "}${no.dado.nome} $marcacaoRemovido")
-
-        val filhos = no.filhos?.selecionarTodos() ?: emptyArray()
-        val conjuge = no.conjuge
-        val novosPrefixos = prefixo + if (isUltimo) "    " else "│   "
-
-        for (i in filhos.indices) {
-            imprimirArvoreComRemovidos(filhos[i] as NoFamiliar<T>, novosPrefixos, i == filhos.lastIndex && conjuge == null, removidos)
-        }
-
-        conjuge?.let {
-            imprimirArvoreComRemovidos(it, prefixo, false, removidos)
-        }
     }
 }
