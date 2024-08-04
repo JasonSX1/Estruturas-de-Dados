@@ -1,6 +1,7 @@
 fun main() {
     println("Bem-vindo ao sistema de árvores genealógicas!")
     val listaAux = ArvoreGenealogica<String>()
+
     do {
         println("O que você deseja fazer?")
         println("1 - Criar uma nova árvore genealógica(uma por vez)")
@@ -11,7 +12,6 @@ fun main() {
         println("6 - Limpar a árvore genealógica")
         println("7 - Sair")
         val escolha = readLine()!!.toInt()
-
         when (escolha) {
             1 -> {
                 println("Digite o nome da pessoa que irá ser a raiz: ")
@@ -26,11 +26,9 @@ fun main() {
                     dataFal = readLine()!!.toInt()
                 }
                 listaAux.criarRaiz(raiz, dataNasc, dataFal)
-                println(listaAux.obterRaiz())
                 listaAux.imprimir()
             }
             2 -> {
-                println(listaAux.obterRaiz())
                 println("Digite o nome da pessoa que deseja adicionar:")
                 val nome = readLine()!!
                 println("Digite a data de nascimento da pessoa que deseja adicionar:")
