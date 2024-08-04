@@ -1,6 +1,6 @@
 class ArvoreGenealogica<T>: ArvoreGenealogicaDAO<T>{
 
-    private var raiz: NoFamiliar<T>? = null
+    var raiz: NoFamiliar<T>? = null
 
     override fun obterRaiz(): NoFamiliar<T>? {
         return raiz
@@ -89,13 +89,13 @@ class ArvoreGenealogica<T>: ArvoreGenealogicaDAO<T>{
         return null
     }
 
-    override fun removerNo(nome: String): List<NoFamiliar<T>> {
-        val removidos = mutableListOf<NoFamiliar<T>>() //TODO: Verificar se é possível usar List<NoFamiliar<T>> ao invés de MutableList<NoFamiliar<T>>
+    override fun removerNo(nome: String): ListaFilhos {
+        val removidos = ListaFilhos() // Use sua lista personalizada
         if (raiz == null) return removidos
 
         // Caso especial: remoção da raiz
         if (raiz?.dado?.nome == nome) {
-            removidos.add(raiz!!)
+            removidos.anexar(raiz!!)
             raiz = null
             return removidos
         }
@@ -105,19 +105,19 @@ class ArvoreGenealogica<T>: ArvoreGenealogicaDAO<T>{
         return removidos
     }
 
-    private fun removerNoRecursivamente(no: NoFamiliar<T>?, nome: String, removidos: MutableList<NoFamiliar<T>>): Boolean {
+    private fun removerNoRecursivamente(no: NoFamiliar<T>?, nome: String, removidos: ListaFilhos): Boolean {
         if (no == null) return false
 
         val filhos = no.filhos?.selecionarTodos() ?: emptyArray()
-        for (i in filhos.indices) {
-            val filho = filhos[i] as NoFamiliar<T>
-            if (filho.dado.nome == nome) {
+        for (filho in filhos) {
+            val noFilho = filho as NoFamiliar<T>
+            if (noFilho.dado.nome == nome) {
                 // Adiciona o nó encontrado na lista de removidos
-                removidos.add(filho)
+                removidos.anexar(noFilho)
                 // Remove o nó da lista de filhos do pai
-                no.filhos?.apagar(i)
+                no.filhos?.let { removerPorDado(it, noFilho) }
                 return true
-            } else if (removerNoRecursivamente(filho, nome, removidos)) {
+            } else if (removerNoRecursivamente(noFilho, nome, removidos)) {
                 return true
             }
         }
@@ -126,7 +126,7 @@ class ArvoreGenealogica<T>: ArvoreGenealogicaDAO<T>{
         val conjuge = no.conjuge
         if (conjuge != null && conjuge.dado.nome == nome) {
             // Adiciona o cônjuge na lista de removidos
-            removidos.add(conjuge)
+            removidos.anexar(conjuge)
             // Remove o cônjuge
             no.conjuge = null
             return true
@@ -134,4 +134,20 @@ class ArvoreGenealogica<T>: ArvoreGenealogicaDAO<T>{
 
         return false
     }
+
+    private fun removerPorDado(lista: ListaFilhos, dado: NoFamiliar<T>): Boolean {
+        var ponteiroAuxiliar = lista.ponteiroInicio
+        var posicao = 0
+        while (ponteiroAuxiliar != null) {
+            if (ponteiroAuxiliar.dado == dado) {
+                lista.apagar(posicao)
+                return true
+            }
+            ponteiroAuxiliar = ponteiroAuxiliar.proximo
+            posicao++
+        }
+        return false
+    }
+
+
 }

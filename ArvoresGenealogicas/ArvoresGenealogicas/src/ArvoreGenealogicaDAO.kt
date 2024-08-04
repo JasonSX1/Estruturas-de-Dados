@@ -3,7 +3,7 @@ interface ArvoreGenealogicaDAO<T> {
     fun criarFilho(nomeNo: String, genitor: String, dataNasc: Int, dataFal: Int?)
     fun criarRaiz(nomeNo: String?, dataNasc: Int, dataFal: Int?)
     fun criarConjuge(nomeNo: String, companheiro: String, dataNasc: Int, dataFal: Int?)
-    fun removerNo(nomeNo: String): List<NoFamiliar<T>>
+    fun removerNo(nome: String): ListaFilhos
     fun buscarNo(nomeNo: String): NoFamiliar<T>?
     fun limpar()
     fun imprimir()

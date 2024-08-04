@@ -76,25 +76,29 @@ fun main() {
 // Remove o nó e obtém a lista de removidos
                 val removidos = listaAux.removerNo(nomeRemocao)
 
-                if (removidos.isNotEmpty()) {
-                    println("Nó(s) removido(s):")
-                    removidos.forEach { println(it.dado.nome) } // Imprime apenas o nome dos nós removidos
+                if (!removidos.estaVazia()) {
+                    println("Nó removido:")
+                    removidos.selecionarTodos().forEach {
+                        val noRemovido = it as NoFamiliar<*>
+                        println(noRemovido.dado.nome)
+                    } // Imprime apenas o nome dos nós removidos
 
                     // Verifica se a árvore está vazia após a remoção
-                    if (listaAux.obterRaiz() == null) {
+                    if (listaAux.raiz == null) {
                         println("Árvore está vazia após a remoção.")
                     } else {
                         println("\nComo a árvore ficou após a remoção:")
-                        listaAux.imprimir() // Imprime a árvore atualizada
+                        listaAux.imprimir()
                     }
                 } else {
                     // Verifica se a árvore está vazia ou se a pessoa não foi encontrada
-                    if (listaAux.obterRaiz() == null) {
+                    if (listaAux.raiz == null) {
                         println("Árvore está vazia.")
                     } else {
                         println("Pessoa não encontrada.")
                     }
                 }
+
             }
             "4" -> {
                 println("Digite o nome da pessoa que deseja buscar:")

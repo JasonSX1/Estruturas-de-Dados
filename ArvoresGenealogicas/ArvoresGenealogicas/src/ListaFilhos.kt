@@ -1,5 +1,5 @@
 class ListaFilhos : ListaFilhosDAO {
-    private var ponteiroInicio: NoLista? = null
+    var ponteiroInicio: NoLista? = null
     private var ponteiroFim: NoLista? = null
     private var quantidade = 0
 
@@ -77,10 +77,5 @@ class ListaFilhos : ListaFilhosDAO {
 
     override fun estaVazia(): Boolean {
         return quantidade == 0
-    }
-
-    override fun imprimir(): String {
-        val a = "a"
-        return (a)
     }
 }
