@@ -7,7 +7,7 @@ fun main() {
         println("1 - Criar uma nova árvore genealógica(uma por vez)")
         println("2 - Adicionar uma pessoa à árvore genealógica")
         println("3 - Remover uma pessoa da árvore genealógica")
-        println("4 - Buscar uma pessoa na árvore genealógica")
+        println("4 - Visualizar detalhes de uma pessoa na árvore genealógica")
         println("5 - Imprimir a árvore genealógica")
         println("6 - Limpar a árvore genealógica")
         println("0 - Sair")
@@ -42,6 +42,7 @@ fun main() {
                     println("Digite a data de falecimento da pessoa que irá ser a raiz(): ")
                     dataFal = readLine()!!.toInt()
                 }
+<<<<<<< HEAD
                 println("Digite o nome do genitor da pessoa que deseja adicionar:")
                 val genitor = readLine()!!
                 val verificacao = listaAux.buscarNo(genitor)
@@ -51,6 +52,35 @@ fun main() {
                     println("Genitor não encontrado.")
                 }
                 println("")
+=======
+                do {
+                    println("Digite o nome da pessoa relacionada a pessoa que deseja adicionar:")
+                    val nomeRelacionado = readLine()!!
+                    val verificacao = listaAux.buscarNo(nomeRelacionado)
+                    if (nomeRelacionado == "0") {
+                        break
+                    }
+                    if (verificacao != null) {
+                        do {
+                            println("Qual a relação da pessoa adicionada com a escolhida?")
+                            println("1 - Cônjuge")
+                            println("2 - Filho")
+                            val escolhaRelacao = readLine()!!
+                            if (escolhaRelacao == "1") {
+                                listaAux.criarConjuge(nome, nomeRelacionado, dataNasc, dataFal)
+                            } else if (escolhaRelacao == "2") {
+                                listaAux.criarFilho(nome, nomeRelacionado, dataNasc, dataFal)
+                            } else {
+                                println("Opção inválida. Por favor, selecione uma opção entre 1 e 2.")
+                            }
+                        }while (escolhaRelacao != "1" && escolhaRelacao != "2")
+                    }else{
+                        println("Pessoa não encontrada.")
+                        println("Se quiser desistir de adicionar a pessoa, digite '0'.")
+                    }
+                }while (verificacao == null)
+                println(listaAux.obterRaiz())
+>>>>>>> secundaria
                 listaAux.imprimir()
             }
             "3" -> {
