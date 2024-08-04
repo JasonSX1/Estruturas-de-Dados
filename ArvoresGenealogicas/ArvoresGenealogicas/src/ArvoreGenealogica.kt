@@ -1,13 +1,12 @@
-class ArvoreGenealogica<T>: ArvoreGenealogicaDAO<T>{
+class ArvoreGenealogica<T>{
 
     private var raiz: NoFamiliar<T>? = null
 
-    override fun obterRaiz(): NoFamiliar<T>? {
+    fun obterRaiz(): NoFamiliar<T>? {
         return raiz
 
     }
-
-    override fun criarFilho(nomeNo: String, genitor: String, dataNasc: Int, dataFal: Int?) {
+    fun criarFilho(nomeNo: String, genitor: String, dataNasc: Int, dataFal: Int?) {
         val noGenitor = buscarNo(genitor) ?: return
         val dadosNo = Dados(nomeNo, dataNasc, dataFal)
         val novoNo = NoFamiliar<T>(dadosNo)
@@ -17,7 +16,7 @@ class ArvoreGenealogica<T>: ArvoreGenealogicaDAO<T>{
         noGenitor.filhos?.anexar(novoNo)
     }
 
-    override fun criarRaiz(nomeNo: String?, dataNasc: Int, dataFal: Int?) {
+    fun criarRaiz(nomeNo: String?, dataNasc: Int, dataFal: Int?) {
         if (nomeNo != null) {
             val dadosNo = Dados(nomeNo, dataNasc, dataFal)
             raiz = NoFamiliar(dadosNo)
@@ -27,18 +26,18 @@ class ArvoreGenealogica<T>: ArvoreGenealogicaDAO<T>{
     }
 
 
-    override fun criarConjuge(nomeNo: String, companheiro: String, dataNasc: Int, dataFal: Int?){
+    fun criarConjuge(nomeNo: String, companheiro: String, dataNasc: Int, dataFal: Int?){
         val noCompanheiro = buscarNo(companheiro) ?: return
         val dadosNo = Dados(nomeNo, dataNasc, dataFal)
         val novoConjuge = NoFamiliar<T>(dadosNo)
         noCompanheiro.conjuge = novoConjuge
     }
 
-    override fun limpar() {
+    fun limpar() {
         raiz = null
     }
 
-    override fun imprimir(){
+    fun imprimir(){
         imprimirArvore(raiz)
     }
 
@@ -60,7 +59,7 @@ class ArvoreGenealogica<T>: ArvoreGenealogicaDAO<T>{
         }
     }
 
-    override fun buscarNo(nomeNo: String): NoFamiliar<T>? {
+    fun buscarNo(nomeNo: String): NoFamiliar<T>? {
         val fila = ListaFilhos()
         fila.anexar(raiz)
         while (!fila.estaVazia()) {
@@ -77,7 +76,7 @@ class ArvoreGenealogica<T>: ArvoreGenealogicaDAO<T>{
         return null
     }
 
-    override fun remover(nomeNo: String): Boolean {
+    fun remover(nomeNo: String): Boolean {
         TODO("Not yet implemented")
     }
 }
