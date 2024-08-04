@@ -9,7 +9,7 @@ fun main() {
     println("6 - Limpar a árvore genealógica")
     println("7 - Sair")
     var escolha = readLine()!!.toInt()
-    val listaAux: ArvoreGenealogicaDAO<String> = ArvoreGenealogica()
+    val listaAux = ArvoreGenealogica<String>()
     when (escolha) {
         1 -> {
             println("Digite o nome da pessoa que irá ser a raiz: ")
@@ -20,7 +20,7 @@ fun main() {
             val morta = readLine()
             var dataFal: Int? = null
             if (morta == "S") {
-                println("Digite a data de falecimento da pessoa que irá ser a raiz(): ")
+                println("Digite o ano de falecimento da pessoa que irá ser a raiz(): ")
                 dataFal = readLine()!!.toInt()
             }
             listaAux.criarRaiz(raiz, dataNasc, dataFal)
