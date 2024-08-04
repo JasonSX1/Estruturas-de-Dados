@@ -17,7 +17,7 @@ class ArvoreGenealogica<T>: ArvoreGenealogicaDAO<T>{
         noGenitor.filhos?.anexar(novoNo)
     }
 
-    override fun criarRaiz(nomeNo: String, dataNasc: Int, dataFal: Int?) {
+    override fun criarRaiz(nomeNo: String?, dataNasc: Int, dataFal: Int?) {
         val dadosNo = Dados(nomeNo, dataNasc, dataFal)
         raiz = NoFamiliar(dadosNo)
     }
