@@ -28,6 +28,17 @@ fun main() {
         }
         2 -> {
             println("Digite o nome da pessoa que deseja adicionar:")
+            val nome = readLine()
+            println("Digite a data de nascimento da pessoa que deseja adicionar:")
+            val dataNasc = readLine()!!.toInt()
+            println("A pessoa está morta? (S/N)")
+            val morta = readLine()
+            var dataFal: Int? = null
+            if (morta == "S") {
+                println("Digite a data de falecimento da pessoa que irá ser a raiz(): ")
+                dataFal = readLine()!!.toInt()
+            }
+            listaAux.imprimir()
         }
         3 -> {
             println("Digite o nome da pessoa que deseja adicionar:")
