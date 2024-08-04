@@ -20,12 +20,14 @@ fun main() {
                 val dataNasc = readLine()!!.toInt()
                 println("A pessoa está morta? (S/N)")
                 val morta = readLine()
+
                 var dataFal: Int? = null
                 if (morta == "S" || morta == "s") {
                     println("Digite o ano de falecimento da pessoa que irá ser a raiz(): ")
                     dataFal = readLine()!!.toInt()
                 }
                 listaAux.criarRaiz(raiz, dataNasc, dataFal)
+                println("")
                 listaAux.imprimir()
             }
             "2" -> {
@@ -48,19 +50,35 @@ fun main() {
                 } else {
                     println("Genitor não encontrado.")
                 }
+                println("")
                 listaAux.imprimir()
             }
             "3" -> {
                 println("Digite o nome da pessoa que deseja remover:")
                 val nomeRemocao = readLine()!!
+
+// Remove o nó e obtém a lista de removidos
                 val removidos = listaAux.removerNo(nomeRemocao)
+
                 if (removidos.isNotEmpty()) {
-                    println("Nós removidos:")
-                    removidos.forEach { println(it.dado) }
+                    println("Nó(s) removido(s):")
+                    removidos.forEach { println(it.dado.nome) } // Imprime apenas o nome dos nós removidos
+
+                    // Verifica se a árvore está vazia após a remoção
+                    if (listaAux.obterRaiz() == null) {
+                        println("Árvore está vazia após a remoção.")
+                    } else {
+                        println("\nComo a árvore ficou após a remoção:")
+                        listaAux.imprimir() // Imprime a árvore atualizada
+                    }
                 } else {
-                    println("Pessoa não encontrada.")
+                    // Verifica se a árvore está vazia ou se a pessoa não foi encontrada
+                    if (listaAux.obterRaiz() == null) {
+                        println("Árvore está vazia.")
+                    } else {
+                        println("Pessoa não encontrada.")
+                    }
                 }
-                listaAux.imprimir()
             }
             "4" -> {
                 println("Digite o nome da pessoa que deseja buscar:")

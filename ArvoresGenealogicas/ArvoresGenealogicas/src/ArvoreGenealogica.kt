@@ -122,6 +122,7 @@ class ArvoreGenealogica<T>: ArvoreGenealogicaDAO<T>{
 
         return false
     }
+
     fun imprimirArvoreComRemovidos(no: NoFamiliar<T>?, prefixo: String = "", isUltimo: Boolean = true, removidos: List<NoFamiliar<T>>) {
         if (no == null) return
 
