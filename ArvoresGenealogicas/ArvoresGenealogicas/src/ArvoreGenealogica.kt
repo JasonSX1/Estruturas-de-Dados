@@ -26,7 +26,6 @@ class ArvoreGenealogica<T>: ArvoreGenealogicaDAO<T>{
         }
     }
 
-
     override fun criarConjuge(nomeNo: String, companheiro: String, dataNasc: Int, dataFal: Int?){
         val noCompanheiro = buscarNo(companheiro) ?: return
         val dadosNo = Dados(nomeNo, dataNasc, dataFal)
@@ -91,7 +90,7 @@ class ArvoreGenealogica<T>: ArvoreGenealogicaDAO<T>{
     }
 
     override fun removerNo(nome: String): List<NoFamiliar<T>> {
-        val removidos = mutableListOf<NoFamiliar<T>>()
+        val removidos = mutableListOf<NoFamiliar<T>>() //TODO: Verificar se é possível usar List<NoFamiliar<T>> ao invés de MutableList<NoFamiliar<T>>
         if (raiz == null) return removidos
 
         // Caso especial: remoção da raiz

@@ -24,13 +24,13 @@ class ListaFilhos : ListaFilhosDAO {
     }
 
     override fun apagarTodos(): Array<Any?> {
-        var dadosAux: Array<Any?> = selecionarTodos()
+        val dadosAux: Array<Any?> = selecionarTodos()
         limpar()
         return dadosAux
     }
 
     override fun selecionarTodos(): Array<Any?> {
-        var dadosAux: Array<Any?> = arrayOfNulls(quantidade)
+        val dadosAux: Array<Any?> = arrayOfNulls(quantidade)
         var ponteiroAuxiliar = ponteiroInicio
         for (i in 0 until quantidade) {
             dadosAux[i] = ponteiroAuxiliar?.dado

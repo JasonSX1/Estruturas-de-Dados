@@ -42,7 +42,7 @@ fun main() {
                     dataFal = readLine()!!.toInt()
                 }
                 do {
-                    println("Digite o nome da pessoa relacionada a pessoa que deseja adicionar:")
+                    println("Digite o nome da pessoa relacionada com ${nome}:")
                     val nomeRelacionado = readLine()!!
                     val verificacao = listaAux.buscarNo(nomeRelacionado)
                     if (nomeRelacionado == "0") {
@@ -52,7 +52,7 @@ fun main() {
                         do {
                             println("Qual a relação da pessoa adicionada com a escolhida?")
                             println("1 - Cônjuge")
-                            println("2 - Filho")
+                            println("2 - Filho(a)")
                             val escolhaRelacao = readLine()!!
                             if (escolhaRelacao == "1") {
                                 listaAux.criarConjuge(nome, nomeRelacionado, dataNasc, dataFal)
