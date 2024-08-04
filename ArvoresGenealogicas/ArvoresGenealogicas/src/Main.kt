@@ -20,7 +20,6 @@ fun main() {
                 val dataNasc = readLine()!!.toInt()
                 println("A pessoa está morta? (S/N)")
                 val morta = readLine()
-
                 var dataFal: Int? = null
                 if (morta == "S" || morta == "s") {
                     println("Digite o ano de falecimento da pessoa que irá ser a raiz(): ")
@@ -42,17 +41,6 @@ fun main() {
                     println("Digite a data de falecimento da pessoa que irá ser a raiz(): ")
                     dataFal = readLine()!!.toInt()
                 }
-<<<<<<< HEAD
-                println("Digite o nome do genitor da pessoa que deseja adicionar:")
-                val genitor = readLine()!!
-                val verificacao = listaAux.buscarNo(genitor)
-                if (verificacao != null) {
-                    listaAux.criarFilho(nome, genitor, dataNasc, dataFal)
-                } else {
-                    println("Genitor não encontrado.")
-                }
-                println("")
-=======
                 do {
                     println("Digite o nome da pessoa relacionada a pessoa que deseja adicionar:")
                     val nomeRelacionado = readLine()!!
@@ -80,7 +68,6 @@ fun main() {
                     }
                 }while (verificacao == null)
                 println(listaAux.obterRaiz())
->>>>>>> secundaria
                 listaAux.imprimir()
             }
             "3" -> {
