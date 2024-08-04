@@ -1,5 +1,7 @@
 fun main() {
     println("Bem-vindo ao sistema de árvores genealógicas!")
+    val listaAux = ArvoreGenealogica<String>()
+
     do {
         println("O que você deseja fazer?")
         println("1 - Criar uma nova árvore genealógica(uma por vez)")
@@ -10,7 +12,6 @@ fun main() {
         println("6 - Limpar a árvore genealógica")
         println("7 - Sair")
         val escolha = readLine()!!.toInt()
-        val listaAux = ArvoreGenealogica<String>()
         when (escolha) {
             1 -> {
                 println("Digite o nome da pessoa que irá ser a raiz: ")
