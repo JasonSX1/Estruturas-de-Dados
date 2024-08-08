@@ -112,3 +112,23 @@ Utilizamos calculo de fator de balanceamento dos nós, que é obtido pela altura
 Os valores permitidos para uma arvore balanceada ficam entre -1 e 1, considerando o 0,
 
 Fluxograma arvore avl - Adiciono ou removo - Calculo fatores de balanceamento - recalculo se necessario
+
+------------------------AULA 3 - 30/07/24 ---------------------------------------------------------------------
+
+Vimos - ABP - Arvore binária de pesquisa - Search Binary Tree
+Arvore AVL - Arvore binária balanceada - AVL TREE
+
+Método de inserção para árvores AVL
+
+ROTAÇÃO SIMPLES À ESQUERDA
+ROTAÇÃO SIMPLES À DIREITA
+ROTAÇÃO DUPLA À ESQUERDA
+    - ROTAÇÃO SIMPLES À DIREITA
+    - ROTAÇÃO SIMPLES À ESQUERDA
+
+ROTAÇÃO DUPLA À DIREITA
+    - ROTAÇÃO SIMPLES À ESQUERDA
+    - ROTAÇÃO SIMPLES À ESQUERDA
+
+Para o caso de dados mais ou menos aleatórios, uma arvore binária de pesquisa já atende bem;
+enquanto caso os dados estejam ordenados, uma árvore balanceada (avl) será mais eficiente
