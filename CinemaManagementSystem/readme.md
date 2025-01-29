@@ -3,13 +3,13 @@
 ---
 
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/4fc8b9f0-de42-40a2-be48-ab1b05a497b7" alt="Descrição da imagem">
+  <img src="https://github.com/user-attachments/assets/a145e4c2-bfb3-4764-879a-bad9fb7ee8d9" alt="Descrição da imagem">  
 </div>
 
 ---
 
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/a145e4c2-bfb3-4764-879a-bad9fb7ee8d9" alt="Descrição da imagem">
+  <img src="https://github.com/user-attachments/assets/4fc8b9f0-de42-40a2-be48-ab1b05a497b7" alt="Descrição da imagem">  
 </div>
 
 ---
