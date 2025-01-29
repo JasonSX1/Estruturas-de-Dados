@@ -116,7 +116,5 @@ Contribuições são bem-vindas! Para contribuir:
 
 ---
 
-## Licença
-
-Este projeto é licenciado sob a [MIT License](https://opensource.org/licenses/MIT).
+Você pode conferir mais detalhes desse projeto no link [a seguir](https://youtu.be/1iTB5wA9oBs).
 
