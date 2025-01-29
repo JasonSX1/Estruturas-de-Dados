@@ -22,6 +22,10 @@ O sistema simula a gestão de um cinema, permitindo aos usuários realizarem ope
 
 ---
 
+Você pode conferir mais detalhes desse projeto no link [a seguir](https://youtu.be/1iTB5wA9oBs).
+
+---
+
 ## Funcionalidades
 
 - **Cadastro de filmes**: Permite adicionar, editar e remover informações de filmes.
@@ -113,8 +117,3 @@ Contribuições são bem-vindas! Para contribuir:
 ## Autores
 
 - **JasonSX1** ([GitHub](https://github.com/JasonSX1))
-
----
-
-Você pode conferir mais detalhes desse projeto no link [a seguir](https://youtu.be/1iTB5wA9oBs).
-
